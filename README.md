@@ -47,7 +47,7 @@ macOS 上的注音輸入法，給打繁體中文（台灣）的人。
 
 ## 下載與安裝
 
-1. 到 [Releases 頁](https://github.com/kota449/zhuyintai/releases) 下載最新的 `TWKeyboard-<版本>.pkg`。
+1. 到 [Releases 頁](https://github.com/kota449/zhuyintai/releases) 下載最新的 `ZhuyinTai-<版本>.pkg`。
 2. 雙擊安裝。
 3. 安裝完成後，到「系統設定 → 鍵盤 → 輸入方式」按「＋」，把「注音台」加進去。**這一步安裝程式沒辦法代勞。**
 

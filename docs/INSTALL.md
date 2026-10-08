@@ -8,7 +8,7 @@
 
 ## 安裝
 
-1. 下載最新的 `TWKeyboard-<版本>.pkg`（[Releases 頁](https://github.com/kota449/zhuyintai/releases)）。
+1. 下載最新的 `ZhuyinTai-<版本>.pkg`（[Releases 頁](https://github.com/kota449/zhuyintai/releases)）。
 2. 雙擊 `.pkg`，照安裝程式的畫面一路按下去。安裝程式只會把注音台裝在**你自己的使用者資料夾**，不會動到系統。
 3. 安裝完成後的最後一步要**自己動手**：
 
