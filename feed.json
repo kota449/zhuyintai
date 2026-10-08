@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "releases": [
+    {
+      "version": "0.1.0-beta.1",
+      "build": 5,
+      "minimumMacOS": "14.0",
+      "downloadURL": "https://github.com/kota449/zhuyintai/releases/download/v0.1.0-beta.1/TWKeyboard-0.1.0-beta.1.pkg",
+      "notes": "第一個 Beta。",
+      "critical": false
+    }
+  ]
+}

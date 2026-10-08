@@ -1,0 +1,56 @@
+name: 回報問題或打字不順
+description: 哪個字排錯了、哪個詞找不到、哪裡不好用
+title: "[回報] "
+labels: ["beta-feedback"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ⚠️ **這裡是公開的**——任何人都看得到你貼的內容。
+        **請不要貼私人的打字內容**（對話、帳號、密碼、住址、公司資料）。
+        只需要告訴我們**那一個詞或那一句**，用中性的例句就好。
+        也**不要貼「匯出 log」的檔案**，裡面有你打的字。
+  - type: textarea
+    id: zhuyin
+    attributes:
+      label: 你打的注音
+      description: 照你按的順序，例如 ㄒㄧˋ ㄌㄧˋ（可以貼在這裡，這是注音不是私人內容）
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: 你想要的字或詞
+      description: 例如「想要『○○』」
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: 實際出現什麼
+      description: 例如「候選第三個才出現」「出現別的字」「完全沒有」
+    validations:
+      required: true
+  - type: input
+    id: app
+    attributes:
+      label: 在哪個 App 打的
+      description: 備忘錄、Safari、Chrome、VS Code…（有些 App 行為不一樣）
+    validations:
+      required: false
+  - type: input
+    id: version
+    attributes:
+      label: 版本資訊
+      description: 偏好設定 →「關於」→ 按「回報問題」會複製版本與 macOS 版本，直接貼上
+    validations:
+      required: true
+  - type: dropdown
+    id: chip
+    attributes:
+      label: 你的 Mac
+      options:
+        - Apple Silicon（M1 以後）
+        - Intel（這個版本不支援，但還是想讓我們知道）
+    validations:
+      required: false
