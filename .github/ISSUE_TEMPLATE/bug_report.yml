@@ -42,7 +42,7 @@ body:
     id: version
     attributes:
       label: 版本資訊
-      description: 偏好設定 →「關於」→ 按「回報問題」會複製版本與 macOS 版本，直接貼上
+      description: 偏好設定 →「關於」→ 按「回報問題」會開啟此頁並預填版本與 macOS 版本（也會複製一份到剪貼簿，沒預填就直接貼上）
     validations:
       required: true
   - type: dropdown

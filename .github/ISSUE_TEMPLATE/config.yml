@@ -1,2 +1,2 @@
-# 不關 Issues（使用者拍板用 Issues 當回報管道）；空白 Issue 也保留，但範本會先提醒。
+# 用 Issues 當回報管道；空白 Issue 也保留，但範本會先提醒。
 blank_issues_enabled: true
