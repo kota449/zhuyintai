@@ -7,8 +7,6 @@
 3. 刪掉輸入法本體：打開 Finder，按 ⇧⌘G，貼上 `~/Library/Input Methods`，把 `TWKeyboard.app` 丟進垃圾桶。
 4. 登出再登入一次（或重新開機），讓系統放掉它。
 
-懶得手動的話，Releases 頁附有 `uninstall.sh`（**【待確認】發佈時要附上**），在終端機執行 `bash uninstall.sh` 會做步驟 3，並提醒你做步驟 2。
-
 ## 你的資料在哪、要不要刪
 
 解除安裝**不會**刪你的資料。資料都在這個資料夾裡：
