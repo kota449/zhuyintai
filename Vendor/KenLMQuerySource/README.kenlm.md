@@ -5,7 +5,7 @@ Language model inference code by Kenneth Heafield (kenlm at kheafield.com)
 The website https://kheafield.com/code/kenlm/ has more documentation.  If you're a decoder developer, please download the latest version from there instead of copying from another decoder.
 
 ## Compiling
-Use cmake, see [BUILDING](BUILDING) for build dependencies and more detail.
+Use cmake, see [BUILDING](https://github.com/kpu/kenlm/blob/4cb443e60b7bf2c0ddf3c745378f76cb59e254e5/BUILDING) for build dependencies and more detail.
 ```bash
 mkdir -p build
 cd build
@@ -97,7 +97,7 @@ import kenlm
 model = kenlm.Model('lm/test.arpa')
 print(model.score('this is a sentence .', bos = True, eos = True))
 ```
-See [python/example.py](python/example.py) and [python/kenlm.pyx](python/kenlm.pyx) for more, including stateful APIs.  
+See [python/example.py](https://github.com/kpu/kenlm/blob/4cb443e60b7bf2c0ddf3c745378f76cb59e254e5/python/example.py) and [python/kenlm.pyx](https://github.com/kpu/kenlm/blob/4cb443e60b7bf2c0ddf3c745378f76cb59e254e5/python/kenlm.pyx) for more, including stateful APIs.  
 
 ### Building kenlm - Using vcpkg
 

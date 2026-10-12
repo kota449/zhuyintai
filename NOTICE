@@ -29,10 +29,10 @@ Copyright 2026 ZhuyinTai Contributors
 
 3. 威注音輸入法（vChewing）候選窗程式碼
    授權：木蘭寬鬆許可證第 2 版（MulanPSL-2.0）。
-   位置：MacIMESpike/CandidateUI/Upstream/。
+   位置：ZhuyinTai/CandidateUI/Upstream/。
    這些檔案保留原來的授權跟聲明。不要刪。
-   授權全文與聲明見 MacIMESpike/CandidateUI/LICENSE-MulanPSL-2.0.txt 與
-   MacIMESpike/CandidateUI/THIRD_PARTY_NOTICE.md。
+   授權全文與聲明見 ZhuyinTai/CandidateUI/LICENSE-MulanPSL-2.0.txt 與
+   ZhuyinTai/CandidateUI/THIRD_PARTY_NOTICE.md。
 
 4. Megrez 組字引擎（vChewing 專案）
    授權：GNU Lesser General Public License v3.0 or later（LGPL-3.0-or-later）。

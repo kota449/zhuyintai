@@ -1,4 +1,4 @@
-# Third-party notice — candidate window (`MacIMESpike/CandidateUI/`)
+# Third-party notice — candidate window (`ZhuyinTai/CandidateUI/`)
 
 The candidate-window user interface in `Upstream/` is derived from the
 **vChewing** macOS input method (`https://github.com/vChewing/vChewing-macOS`),

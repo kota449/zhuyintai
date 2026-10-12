@@ -6,7 +6,7 @@
 // （`tools/test_mac_candidate_mode.sh`）。
 //
 // 🔴 G5（標點）接線（mac-punct-lang，2026-09-22）：`.punctuation` 分支呼叫
-// `MacInputTables.lookup`（`MacIMESpike/InputTables/`，同一個 module、零 AppKit，
+// `MacInputTables.lookup`（`ZhuyinTai/InputTables/`，同一個 module、零 AppKit，
 // `tools/test_mac_candidate_mode.sh` 已把它加進編譯來源）。查表查得到才動作，查不到
 // （未確認／表外）一律維持原本的放行——這是回應 drift 稽核（PR #208）「PR #206 的
 // 737 個純函式檢查全綠，但在按鍵處理路徑上零引用」那個發現的接線本體。
@@ -410,7 +410,7 @@ public struct MacCandidateModeMachine {
     /// （`MacInputTables.PunctuationTable` 檔頭：查不到就是查不到）。
     ///
     /// 到這裡時 `language` 保證是 `.zh`（`handle(_:facts:)` 頂端已 guard），所以寫死 `.zh`；
-    /// `MacInputTables` 是 `MacIMESpike/InputTables/` 底下的純值型別（零 AppKit，同一個
+    /// `MacInputTables` 是 `ZhuyinTai/InputTables/` 底下的純值型別（零 AppKit，同一個
     /// module，不需要 import），`tools/test_mac_candidate_mode.sh` 已把它加進編譯來源。
     private func punctuationOutput(for symbol: Character) -> String? {
         guard let chord = MacInputTables.Chord(deliveredCharacter: symbol),

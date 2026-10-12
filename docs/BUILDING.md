@@ -10,10 +10,10 @@
 - Apple Silicon
 - Xcode 27.0（本樹的專案檔用 XcodeGen 2.45.4 產生；打開 `ZhuyinTai.xcodeproj` 不需要再裝 XcodeGen）
 
-若要依 `project.yml` 重新產生專案檔，系統上的 `xcodegen --version` 必須是 `2.45.4`，然後在本樹根目錄執行：
+若要依 `scripts/project.yml` 重新產生專案檔，系統上的 `xcodegen --version` 必須是 `2.45.4`，然後執行（從哪個目錄呼叫都可以，專案檔會寫回本樹根目錄）：
 
 ```sh
-bash generate_xcodeproj.sh
+bash scripts/generate_xcodeproj.sh
 ```
 
 版本不符時腳本會停下來，不會幫你安裝或升級。
@@ -24,7 +24,7 @@ bash generate_xcodeproj.sh
 2. 用 Xcode 打開本樹根目錄的 `ZhuyinTai.xcodeproj`。
 3. Scheme 選 **TWKeyboard**。
 
-專案裡有兩個 target：輸入法 app `TWKeyboard`，以及 `Megrez`。引擎實作在 `MacIMESpike/OpenCore/BasicEngine/`。`Tests/` 只給測試，不會編進 app。這些檔要在樹裡才編得過。
+專案裡有兩個 target：輸入法 app `TWKeyboard`，以及 `Megrez`。引擎實作在 `ZhuyinTai/OpenCore/BasicEngine/`。`Tests/` 只給測試，不會編進 app。這些檔要在樹裡才編得過。
 
 ## 怎麼編
 
@@ -76,18 +76,18 @@ cp -R build/DerivedData/Build/Products/Debug/TWKeyboard.app "$HOME/Library/Input
 
 貢獻者可改成自己的 bundle id（例如多人各自編一份）。**下面五處要一起改成同一個前綴**，少一處就會和別的版本撞名，或簽章後打不出字：
 
-1. `project.yml` 裡 TWKeyboard 的 `PRODUCT_BUNDLE_IDENTIFIER`（改完用 `generate_xcodeproj.sh` 重產專案檔）。
-2. `MacIMESpike/Info.plist` 的 `InputMethodConnectionName`（必須是 bundle id 加 `_Connection`）。
-3. `MacIMESpike/Info.plist` 的 `TISInputSourceID`、`ComponentInputModeDict` 底下的輸入模式 key 與 `tsVisibleInputModeOrderedArrayKey`。
-4. `MacIMESpike/MacIMESpike.entitlements` 的 `com.apple.security.temporary-exception.mach-register.global-name`（必須與第 2 項完全相同；沙盒 app 只能註冊 entitlement 列出的名字，這一處沒改，簽章後輸入法登得進去卻打不出字，而且 `CODE_SIGNING_ALLOWED=NO` 的建置完全看不出來）。
-5. `MacIMESpike/Base.lproj/InfoPlist.strings` 與 `MacIMESpike/zh-Hant.lproj/InfoPlist.strings` 裡輸入模式那一行的 key。
+1. `scripts/project.yml` 裡 TWKeyboard 的 `PRODUCT_BUNDLE_IDENTIFIER`（改完用 `scripts/generate_xcodeproj.sh` 重產專案檔）。
+2. `ZhuyinTai/Info.plist` 的 `InputMethodConnectionName`（必須是 bundle id 加 `_Connection`）。
+3. `ZhuyinTai/Info.plist` 的 `TISInputSourceID`、`ComponentInputModeDict` 底下的輸入模式 key 與 `tsVisibleInputModeOrderedArrayKey`。
+4. `ZhuyinTai/ZhuyinTai.entitlements` 的 `com.apple.security.temporary-exception.mach-register.global-name`（必須與第 2 項完全相同；沙盒 app 只能註冊 entitlement 列出的名字，這一處沒改，簽章後輸入法登得進去卻打不出字，而且 `CODE_SIGNING_ALLOWED=NO` 的建置完全看不出來）。
+5. `ZhuyinTai/Base.lproj/InfoPlist.strings` 與 `ZhuyinTai/zh-Hant.lproj/InfoPlist.strings` 裡輸入模式那一行的 key。
 
-在公開樹裡，`generate_xcodeproj.sh` 只重產 `.xcodeproj`，不會替你改上面第 2 到 5 項；這幾個檔直接編輯即可。
+在公開樹裡，`scripts/generate_xcodeproj.sh` 只重產 `.xcodeproj`，不會替你改上面第 2 到 5 項；這幾個檔直接編輯即可。
 
 ## 注意事項
 
 - 從原始碼建置的版本，選字結果可能與 Releases 的安裝包不同；要日常使用請下載 Releases 的安裝包。
 - 只支援 Apple Silicon 上的 macOS 14 或更新版本。
-- 引擎在 `MacIMESpike/OpenCore/BasicEngine/`。`Tests/` 不會編進 app。
+- 引擎在 `ZhuyinTai/OpenCore/BasicEngine/`。`Tests/` 不會編進 app。
 - 已知差異：隱私說明裡的日誌路徑仍寫死官方版容器 `~/Library/Containers/com.kota.xrich.inputmethod.TWKeyboard/Data/Library/Logs/TWKeyboard/`（`MacPrivacyCopy.swift`）。自編版實際寫在自己的容器，路徑裡的 id 是 `TWKeyboardOSS`。程式先不改。
 - 詞庫投稿的格式檢查是另一支工具，見 `tools/lexcheck/README.md`。

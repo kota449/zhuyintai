@@ -2,12 +2,12 @@
 # 規則：denylist 優先於本檔。判斷不了能不能公開 ⇒ 不要寫在這裡。
 
 # ── ⑤ Mac app 外殼（Apache-2.0）──
-MacIMESpike/**
-# S3' 公開版基本引擎（MacIMESpike/** 已含；這裡只點名本次新增的檔）
-MacIMESpike/OpenCore/BasicEngine/BasicEngine.swift
-MacIMESpike/OpenCore/BasicEngine/BasicComposerView.swift
-MacIMESpike/OpenCore/BasicEngine/McBopomofoLexicon.swift
-MacIMESpike/OpenCore/BasicEngine/Tests/BasicEngineTests.swift
+ZhuyinTai/**
+# S3' 公開版基本引擎（ZhuyinTai/** 已含；這裡只點名本次新增的檔）
+ZhuyinTai/OpenCore/BasicEngine/BasicEngine.swift
+ZhuyinTai/OpenCore/BasicEngine/BasicComposerView.swift
+ZhuyinTai/OpenCore/BasicEngine/McBopomofoLexicon.swift
+ZhuyinTai/OpenCore/BasicEngine/Tests/BasicEngineTests.swift
 
 # ── 外殼直接用的 Shared 檔 ──
 Shared/BopomofoSegmenter/**

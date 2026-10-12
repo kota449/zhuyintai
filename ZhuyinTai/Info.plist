@@ -139,7 +139,7 @@
       CFBundleIconFile，而是用 asset catalog（build setting
       ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon），產物才出現
       CFBundleIconFile、CFBundleIconName 與 AppIcon.icns。
-      圖檔在 MacIMESpike/Assets.xcassets，造型同一張「注」。
+      圖檔在 ZhuyinTai/Assets.xcassets，造型同一張「注」。
       不要再把 CFBundleIcon* 指到不存在的檔名。
     -->
     <key>tsInputMethodIconFileKey</key>

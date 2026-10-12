@@ -1,8 +1,9 @@
 # 公開樹的 Mac 輸入法專案。
-# 用 XcodeGen 2.45.4 產生 ZhuyinTai.xcodeproj（見 generate_xcodeproj.sh）。版本寫死，腳本不會安裝工具。
+# 用 XcodeGen 2.45.4 產生 ZhuyinTai.xcodeproj（見 scripts/generate_xcodeproj.sh）。版本寫死，腳本不會安裝工具。
 # 專案檔名用 ZhuyinTai，避免和 twkeyboard.xcodeproj 在不分大小寫的磁碟上撞名。
 # 目標：TWKeyboard（輸入法 app）與 Megrez。
-# 引擎在 MacIMESpike/OpenCore/BasicEngine/。Tests/ 不編進 app。
+# 本檔放在 scripts/，但下面所有路徑都相對於樹根目錄（腳本用 --project-root 指到根目錄）。
+# 引擎在 ZhuyinTai/OpenCore/BasicEngine/。Tests/ 不編進 app。
 name: ZhuyinTai
 options:
   bundleIdPrefix: com.kota.xrich
@@ -58,14 +59,14 @@ targets:
     type: application
     platform: macOS
     sources:
-      - path: MacIMESpike
+      - path: ZhuyinTai
         excludes:
           - ClosedCore/**
           - OpenCore/BasicEngine/Tests/**
           - Resources/DomainPacks.bundle/**
           - Resources/initial_reading_mask.bin
           - Info.plist
-          - MacIMESpike.entitlements
+          - ZhuyinTai.entitlements
           - "**/.DS_Store"
       - path: Shared/BopomofoSegmenter
       - path: Shared/CompositionCursorScrubSupport.swift
@@ -110,8 +111,8 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: com.kota.xrich.inputmethod.TWKeyboardOSS
         INFOPLIST_KEY_CFBundleDisplayName: "注音台（自編版）"
         INFOPLIST_KEY_CFBundleName: "注音台（自編版）"
-        INFOPLIST_FILE: MacIMESpike/Info.plist
-        CODE_SIGN_ENTITLEMENTS: MacIMESpike/MacIMESpike.entitlements
+        INFOPLIST_FILE: ZhuyinTai/Info.plist
+        CODE_SIGN_ENTITLEMENTS: ZhuyinTai/ZhuyinTai.entitlements
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         GENERATE_INFOPLIST_FILE: YES
         LD_RUNPATH_SEARCH_PATHS: "$(inherited) @executable_path/../Frameworks"

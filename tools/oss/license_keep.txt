@@ -1,9 +1,9 @@
 # tools/oss/license_keep.txt — 保留原授權、匯出時原封不動（不加 Apache SPDX 標頭）
 # 威注音候選窗（MulanPSL-2.0）：依 roadmap §4.1 ②
-MacIMESpike/CandidateUI/Upstream/**
-MacIMESpike/CandidateUI/LICENSE-MulanPSL-2.0.txt
-MacIMESpike/CandidateUI/LICENSE-MulanPSL-2.0-zh-Hant.txt
-MacIMESpike/CandidateUI/THIRD_PARTY_NOTICE.md
+ZhuyinTai/CandidateUI/Upstream/**
+ZhuyinTai/CandidateUI/LICENSE-MulanPSL-2.0.txt
+ZhuyinTai/CandidateUI/LICENSE-MulanPSL-2.0-zh-Hant.txt
+ZhuyinTai/CandidateUI/THIRD_PARTY_NOTICE.md
 # Megrez（LGPL-3.0-or-later＋作者附加許可）、KenLM 查詢碼（LGPL-2.1-or-later）
 Shared/Megrez/**
 Shared/KenLMQueryBridge.h

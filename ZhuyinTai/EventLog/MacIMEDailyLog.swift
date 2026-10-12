@@ -10,7 +10,7 @@
 //
 // 🔴 **不得 import AppKit／InputMethodKit，也不做任何 I/O。** 同 `MacIMEEventLog.swift`：
 // 這層用純 swiftc 測（`tools/test_mac_ime_event_log.sh`）。實際搬檔在
-// `MacIMESpike/CandidateWiring/MacIMEDailyLogFiles.swift`，那一層**從頭到尾沒有任何刪除呼叫**——
+// `ZhuyinTai/CandidateWiring/MacIMEDailyLogFiles.swift`，那一層**從頭到尾沒有任何刪除呼叫**——
 // 這個性質由 `tools/test_mac_ime_event_log.sh` 的 grep 檢查守住。
 //
 // 檔名（目錄 `…/Logs/TWKeyboard/`）：

@@ -5,7 +5,7 @@
 // mac target 沒有測試、加 test target 要改 pbxproj，唯一便宜的機械測法是純 swiftc
 // （`tools/test_mac_input_tables.sh`）。
 //
-// 型別全收進 `MacInputTables` 命名空間：`MacIMESpike/` 是 Xcode 同步群組，這裡的檔案會被編進
+// 型別全收進 `MacInputTables` 命名空間：`ZhuyinTai/` 是 Xcode 同步群組，這裡的檔案會被編進
 // 與 `CandidateMode/` 同一個 module。`mac-ime-wiring` 那條線已用了 `MacInputLanguage`／
 // `MacKeyEvent.punctuation` 等名字，用命名空間才不會在合併時撞名，也不必等它們先定案。
 //

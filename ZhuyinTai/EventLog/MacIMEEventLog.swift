@@ -11,7 +11,7 @@
 // ⇒ 寧可多印一個欄位，也不要在判讀時發現缺了關鍵的一格。
 //
 // 🔴 **不得 import AppKit／InputMethodKit，也不做任何 I/O。**
-// 檔案寫入在 `MacIMESpike/CandidateWiring/MacIMEEventLogSink.swift`。
+// 檔案寫入在 `ZhuyinTai/CandidateWiring/MacIMEEventLogSink.swift`。
 // 分兩層是為了讓這一層能用純 swiftc 測（`tools/test_mac_ime_event_log.sh`）——
 // sink 要在沙盒容器裡才驗得到，那是本輪驗不到的東西。
 //

@@ -864,5 +864,215 @@ class TestOverlayDenylistAndDryRunScan(Base):
             self.assertFalse(out.exists())
 
 
+class TestPathMap(Base):
+    """--path-map：匯出層把來源路徑對應成公開樹路徑（目錄改名、單檔改名、文字內容的路徑字樣）。
+
+    規則：allow／deny／license_keep 一律用「來源路徑」判斷（先判後改名，否則
+    denylist 擋不到改名後的檔）；overlay 已是公開樹佈局，不改名、不改內容，且蓋掉同一公開路徑的來源檔。
+    本檔會被匯出，所以這裡只用假名字（OldDir／NewDir）；真名字的測試在 test_check_lists.py。"""
+
+    MAP = [
+        "# 測試用對應表",
+        "path OldDir/OldDir.entitlements => NewDir/NewDir.entitlements",
+        "path OldDir/ => NewDir/",
+        "text OldDir.entitlements => NewDir.entitlements",
+        "text OldDir/ => NewDir/",
+        "skip-text Vendor/**",
+    ]
+
+    def _run(self, tmp, files, allow, deny=None, symbols=None, overlay_files=None,
+             map_lines=None, extra=(), keep=None):
+        src = self.make_src(tmp, files)
+        ap, dp, sp, kp = self.base_lists(tmp, allow=allow, deny=deny if deny is not None else [],
+                                         symbols=symbols if symbols is not None else [],
+                                         keep=keep if keep is not None else [])
+        mp = Path(tmp) / "pathmap.txt"
+        write_list(mp, map_lines if map_lines is not None else self.MAP)
+        out = Path(tmp) / "out"
+        args = ["--src", str(src), "--out", str(out),
+                "--allowlist", str(ap), "--denylist", str(dp),
+                "--deny-symbols", str(sp), "--license-keep", str(kp),
+                "--path-map", str(mp),
+                "--author", AUTHOR, "--date", DATE]
+        if overlay_files is not None:
+            ov = Path(tmp) / "overlay"
+            for rel, content in overlay_files.items():
+                write(ov / rel, content)
+            args += ["--overlay", str(ov)]
+        return out, run_tool(*args, *extra)
+
+    def _tracked(self, out):
+        r = subprocess.run(["git", "ls-files"], cwd=str(out), env=git_env_extra(),
+                           stdout=subprocess.PIPE, text=True)
+        return sorted(r.stdout.split())
+
+    def test_51_directory_prefix_is_renamed(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            out, r = self._run(tmp, {"OldDir/sub/a.txt": "x", "top.txt": "y"}, allow=["**/*.txt"])
+            self.assertEqual(r.returncode, 0, msg=r.stderr)
+            self.assertEqual(self._tracked(out), ["NewDir/sub/a.txt", "top.txt"])
+            self.assertFalse((out / "OldDir").exists())
+
+    def test_52_allow_and_deny_are_judged_on_source_paths(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            files = {"OldDir/a.txt": "x", "OldDir/closed/c.txt": "secret"}
+            out, r = self._run(tmp, files, allow=["OldDir/**"], deny=["OldDir/closed/**"])
+            self.assertEqual(r.returncode, 0, msg=r.stderr)
+            self.assertEqual(self._tracked(out), ["NewDir/a.txt"])
+            m = json.loads(manifest_for(out).read_text(encoding="utf-8"))
+            self.assertEqual(m["excluded_by_denylist"], ["OldDir/closed/c.txt"])
+        with tempfile.TemporaryDirectory() as tmp:
+            # 公開名字寫進 allowlist 不算數：來源裡沒有這個路徑，等於沒選到任何檔。
+            out, r = self._run(tmp, {"OldDir/a.txt": "x"}, allow=["NewDir/**"])
+            self.assertEqual(r.returncode, 2, msg=r.stderr)
+            self.assertFalse(out.exists())
+
+    def test_53_single_file_rule_beats_directory_rule(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            out, r = self._run(tmp, {"OldDir/OldDir.entitlements": "e", "OldDir/b.txt": "b"},
+                               allow=["OldDir/**"])
+            self.assertEqual(r.returncode, 0, msg=r.stderr)
+            self.assertEqual(self._tracked(out), ["NewDir/NewDir.entitlements", "NewDir/b.txt"])
+
+    def test_54_overlay_replaces_mapped_source_and_is_not_rewritten(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            files = {"OldDir/NewDir.plist": "official id=A OldDir/x", "OldDir/OldDir.entitlements": "official"}
+            overlay = {"NewDir/NewDir.plist": "oss id=B OldDir/literal",
+                       "NewDir/NewDir.entitlements": "oss"}
+            out, r = self._run(tmp, files, allow=["OldDir/**"], overlay_files=overlay)
+            self.assertEqual(r.returncode, 0, msg=r.stderr)
+            self.assertEqual((out / "NewDir/NewDir.plist").read_text(encoding="utf-8"), "oss id=B OldDir/literal")
+            self.assertEqual((out / "NewDir/NewDir.entitlements").read_text(encoding="utf-8"), "oss")
+            self.assertEqual(self._tracked(out), ["NewDir/NewDir.entitlements", "NewDir/NewDir.plist"])
+            m = json.loads(manifest_for(out).read_text(encoding="utf-8"))
+            by_path = {e["path"]: e for e in m["exported"]}
+            self.assertTrue(by_path["NewDir/NewDir.entitlements"]["from_overlay"])
+            self.assertEqual(m["overlay"], ["NewDir/NewDir.entitlements", "NewDir/NewDir.plist"])
+            self.assertEqual(m["text_rewritten"], [])   # 被 overlay 蓋掉的檔不算「改過內容」
+
+    def test_55_text_rule_rewrites_first_party_text_only(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            files = {
+                "OldDir/a.swift": "// see OldDir/b.swift and OldDir.entitlements\nlet x = 1\n",
+                "Vendor/up.txt": "upstream mentions OldDir/ verbatim\n",
+                "OldDir/blob.bin": b"\xff\xfeOldDir/\x00",
+            }
+            out, r = self._run(tmp, files, allow=["**/*"])
+            self.assertEqual(r.returncode, 0, msg=r.stderr)
+            body = (out / "NewDir/a.swift").read_text(encoding="utf-8")
+            self.assertEqual(
+                body,
+                "// SPDX-License-Identifier: Apache-2.0\n"
+                "// see NewDir/b.swift and NewDir.entitlements\nlet x = 1\n")
+            self.assertEqual((out / "Vendor/up.txt").read_text(encoding="utf-8"),
+                             "upstream mentions OldDir/ verbatim\n")
+            self.assertEqual((out / "NewDir/blob.bin").read_bytes(), b"\xff\xfeOldDir/\x00")
+            m = json.loads(manifest_for(out).read_text(encoding="utf-8"))
+            self.assertEqual(m["text_rewritten"], ["NewDir/a.swift"])
+            rec = {e["path"]: e for e in m["exported"]}["NewDir/a.swift"]
+            self.assertEqual(rec["sha256"], hashlib.sha256(body.encode("utf-8")).hexdigest())
+
+    def test_56_two_sources_mapping_to_one_path_is_an_error(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            files = {"OldDir/a.txt": "one", "NewDir/a.txt": "two"}
+            out, r = self._run(tmp, files, allow=["**/*.txt"])
+            self.assertEqual(r.returncode, 2, msg=r.stderr)
+            self.assertIn("NewDir/a.txt", r.stderr)
+            self.assertFalse(out.exists())
+
+    def test_57_manifest_records_the_mapping(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            out, r = self._run(tmp, {"OldDir/a.txt": "x", "top.txt": "y"}, allow=["**/*.txt"])
+            self.assertEqual(r.returncode, 0, msg=r.stderr)
+            m = json.loads(manifest_for(out).read_text(encoding="utf-8"))
+            self.assertEqual(m["path_map"], {"OldDir/a.txt": "NewDir/a.txt"})
+            self.assertEqual(m["text_rewritten"], [])
+
+    def test_58_deny_symbols_scan_the_mapped_output_in_dry_run_too(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            # 禁字是公開名字：只存在於改名後的輸出，乾跑也要抓到（乾跑綠＝真跑綠）。
+            out, r = self._run(tmp, {"OldDir/a.txt": "x"}, allow=["**/*.txt"],
+                               symbols=["NewDir"], extra=("--dry-run",))
+            self.assertEqual(r.returncode, 3, msg=r.stdout + r.stderr)
+            self.assertIn("NewDir/a.txt", r.stderr)
+            self.assertFalse(out.exists())
+        with tempfile.TemporaryDirectory() as tmp:
+            # 禁字是舊名字：改名＋改內容之後輸出裡一個都沒有，所以通過（用來鎖「舊名字＝0」）。
+            out, r = self._run(tmp, {"OldDir/a.txt": "see OldDir/a.txt"}, allow=["**/*.txt"],
+                               symbols=["OldDir"])
+            self.assertEqual(r.returncode, 0, msg=r.stderr)
+            self.assertEqual((out / "NewDir/a.txt").read_text(encoding="utf-8"), "see NewDir/a.txt")
+
+    def test_59_dry_run_lists_mapped_paths_and_writes_nothing(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            out, r = self._run(tmp, {"OldDir/a.txt": "x"}, allow=["**/*.txt"], extra=("--dry-run",))
+            self.assertEqual(r.returncode, 0, msg=r.stderr)
+            self.assertIn("NewDir/a.txt", r.stdout)
+            self.assertNotIn("\nOldDir/a.txt\n", r.stdout)
+            self.assertFalse(out.exists())
+            self.assertFalse(manifest_for(out).exists())
+
+    def test_60_bad_map_file_exits_2(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            out, r = self._run(tmp, {"a.txt": "x"}, allow=["*.txt"], map_lines=["path only-one-side"])
+            self.assertEqual(r.returncode, 2, msg=r.stderr)
+            self.assertFalse(out.exists())
+        with tempfile.TemporaryDirectory() as tmp:
+            out, r = self._run(tmp, {"a.txt": "x"}, allow=["*.txt"], map_lines=["path a/ => b"])
+            self.assertEqual(r.returncode, 2, msg=r.stderr)    # 目錄規則兩邊都要以 / 結尾
+        with tempfile.TemporaryDirectory() as tmp:
+            out, r = self._run(tmp, {"a.txt": "x"}, allow=["*.txt"], map_lines=["bogus a => b"])
+            self.assertEqual(r.returncode, 2, msg=r.stderr)
+        with tempfile.TemporaryDirectory() as tmp:
+            src = self.make_src(tmp, {"a.txt": "x"})
+            ap, dp, sp, kp = self.base_lists(tmp, allow=["*.txt"], deny=[], symbols=[], keep=[])
+            r = run_tool("--src", str(src), "--out", str(Path(tmp) / "out"),
+                         "--allowlist", str(ap), "--denylist", str(dp),
+                         "--deny-symbols", str(sp), "--license-keep", str(kp),
+                         "--path-map", str(Path(tmp) / "missing.txt"))
+            self.assertEqual(r.returncode, 2, msg=r.stderr)
+
+    def test_62_overlay_keep_exempts_only_the_listed_files_from_the_denylist(self):
+        """denylist 的規則錨定在「來源」根目錄（來源的 docs/** 是內部文件），而 overlay 已是公開樹佈局，
+        公開樹的 docs/BUILDING.md 會被誤擋。overlay-keep 只豁免列出的那個檔；同目錄其他 overlay 檔、
+        垃圾檔照擋（不是整個 overlay 不檢查）。"""
+        with tempfile.TemporaryDirectory() as tmp:
+            overlay = {"docs/KEEP.md": "public", "docs/OTHER.md": "still blocked",
+                       "docs/__pycache__/x.pyc": "junk"}
+            out, r = self._run(
+                tmp, {"top.txt": "x"}, allow=["*.txt"],
+                deny=["docs/**", "**/__pycache__/**"],
+                overlay_files=overlay,
+                map_lines=self.MAP + ["overlay-keep docs/KEEP.md"])
+            self.assertEqual(r.returncode, 0, msg=r.stderr)
+            self.assertEqual(self._tracked(out), ["docs/KEEP.md", "top.txt"])
+            m = json.loads(manifest_for(out).read_text(encoding="utf-8"))
+            self.assertEqual(sorted(m["overlay_excluded_by_denylist"]),
+                             ["docs/OTHER.md", "docs/__pycache__/x.pyc"])
+
+    def test_63_overlay_keep_takes_exact_paths_only(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            out, r = self._run(
+                tmp, {"top.txt": "x"}, allow=["*.txt"], deny=["docs/**"],
+                overlay_files={"docs/A.md": "a"}, map_lines=self.MAP + ["overlay-keep docs/**"])
+            self.assertEqual(r.returncode, 2, msg=r.stderr)    # 萬用字元會讓豁免範圍失控，不接受
+            self.assertFalse(out.exists())
+
+    def test_61_without_path_map_nothing_is_renamed(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            src = self.make_src(tmp, {"OldDir/a.txt": "see OldDir/b"})
+            ap, dp, sp, kp = self.base_lists(tmp, allow=["**/*.txt"], deny=[], symbols=[], keep=[])
+            out = Path(tmp) / "out"
+            r = run_tool("--src", str(src), "--out", str(out),
+                         "--allowlist", str(ap), "--denylist", str(dp),
+                         "--deny-symbols", str(sp), "--license-keep", str(kp),
+                         "--author", AUTHOR, "--date", DATE)
+            self.assertEqual(r.returncode, 0, msg=r.stderr)
+            self.assertEqual((out / "OldDir/a.txt").read_text(encoding="utf-8"), "see OldDir/b")
+            m = json.loads(manifest_for(out).read_text(encoding="utf-8"))
+            self.assertEqual(m["path_map"], {})
+            self.assertEqual(m["text_rewritten"], [])
+
+
 if __name__ == "__main__":
     unittest.main()

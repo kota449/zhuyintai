@@ -44,21 +44,21 @@ class TypecheckOpenTree(unittest.TestCase):
         self._tmp.cleanup()
 
     def test_clean_open_tree_passes(self):
-        make_tree(self.root, {"MacIMESpike/A.swift": "struct A { var x = 1 }\n"}, ["MacIMESpike/**"])
+        make_tree(self.root, {"Shell/A.swift": "struct A { var x = 1 }\n"}, ["Shell/**"])
         r = run_tool(self.root)
         self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
         self.assertIn("unexpected=0", r.stdout)
 
     def test_unresolved_symbol_is_reported_and_fails(self):
-        make_tree(self.root, {"MacIMESpike/A.swift": "struct A { var e = SecretCoreEngine() }\n"}, ["MacIMESpike/**"])
+        make_tree(self.root, {"Shell/A.swift": "struct A { var e = SecretCoreEngine() }\n"}, ["Shell/**"])
         r = run_tool(self.root)
         self.assertNotEqual(r.returncode, 0)
         self.assertIn("SecretCoreEngine", r.stdout)
         self.assertIn("unexpected=1", r.stdout)
 
     def test_allow_missing_tolerates_named_gap_only(self):
-        make_tree(self.root, {"MacIMESpike/A.swift": "struct A { var e = BasicEngine(); var f = OtherCore() }\n"},
-                  ["MacIMESpike/**"])
+        make_tree(self.root, {"Shell/A.swift": "struct A { var e = BasicEngine(); var f = OtherCore() }\n"},
+                  ["Shell/**"])
         r = run_tool(self.root, "--allow-missing", "BasicEngine")
         self.assertNotEqual(r.returncode, 0)
         self.assertIn("OtherCore", r.stdout)
@@ -69,15 +69,15 @@ class TypecheckOpenTree(unittest.TestCase):
         # denylist 內的檔不進開放樹，所以引用它的符號就是未解析（真實情況＝外殼還依賴被排除的檔）。
         make_tree(
             self.root,
-            {"MacIMESpike/A.swift": "struct A { var c = Core() }\n", "MacIMESpike/Closed/C.swift": "struct Core {}\n"},
-            ["MacIMESpike/**"], ["MacIMESpike/Closed/**"],
+            {"Shell/A.swift": "struct A { var c = Core() }\n", "Shell/Closed/C.swift": "struct Core {}\n"},
+            ["Shell/**"], ["Shell/Closed/**"],
         )
         r = run_tool(self.root)
         self.assertNotEqual(r.returncode, 0)
         self.assertIn("Core", r.stdout)
 
     def test_does_not_modify_source_tree(self):
-        make_tree(self.root, {"MacIMESpike/A.swift": "struct A {}\n"}, ["MacIMESpike/**"])
+        make_tree(self.root, {"Shell/A.swift": "struct A {}\n"}, ["Shell/**"])
         before = sorted(p.relative_to(self.root).as_posix() for p in self.root.rglob("*") if "_work" not in p.parts)
         run_tool(self.root)
         after = sorted(p.relative_to(self.root).as_posix() for p in self.root.rglob("*") if "_work" not in p.parts)

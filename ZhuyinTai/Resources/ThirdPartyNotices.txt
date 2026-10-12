@@ -13,9 +13,9 @@ ZhuyinTai 開放原始碼授權
 說明：McBopomofo 的多字詞表原出 libtabe tsi.src。此為 libtabe 鏡像。
 來源：https://github.com/kcwu/libtabe 的 COPYING（同 repo 有 tsi-src/tsi.src）。
 
-元件：威注音候選窗（MacIMESpike/CandidateUI，移植自 vChewing_CandidateWindow）
+元件：威注音候選窗（ZhuyinTai/CandidateUI，移植自 vChewing_CandidateWindow）
 授權：MulanPSL-2.0
-說明：英文與繁中授權全文都附於下方，來源分別是 MacIMESpike/CandidateUI/LICENSE-MulanPSL-2.0.txt 與 LICENSE-MulanPSL-2.0-zh-Hant.txt。
+說明：英文與繁中授權全文都附於下方，來源分別是 ZhuyinTai/CandidateUI/LICENSE-MulanPSL-2.0.txt 與 LICENSE-MulanPSL-2.0-zh-Hant.txt。
 
 元件：KenLM 語言模型查詢程式碼（Vendor/KenLMQuerySource）
 授權：LGPL-2.1-or-later（主體）；下列檔案有各自的授權

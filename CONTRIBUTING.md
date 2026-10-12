@@ -79,5 +79,5 @@ git rebase --signoff main
 
 ## 建置
 
-建置步驟見 [BUILDING.md](BUILDING.md)。
+建置步驟見 [BUILDING.md](docs/BUILDING.md)。
 從原始碼建置的版本，選字結果可能與 Releases 的安裝包不同；要日常使用請下載 Releases 的安裝包。

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 // 打字事件 log 的**寫入層**：路徑解析、背景批次 flush、換檔（每天一個檔）、失敗時的降級。
 //
-// 純邏輯（記錄格式、序號、檔名／換檔決策／啟動遷移計畫）在 `MacIMESpike/EventLog/`
+// 純邏輯（記錄格式、序號、檔名／換檔決策／啟動遷移計畫）在 `ZhuyinTai/EventLog/`
 // （`MacIMEEventLog.swift`、`MacIMEDailyLog.swift`），那一層用純 swiftc 測得到。真的搬檔在
 // `MacIMEDailyLogFiles.swift`（只有改名、**沒有任何刪除呼叫**）。這一層的狀態機
 // （flush → 換檔 → 寫入）可以注入目錄與時鐘，所以也在暫存目錄裡測過（`tools/test_mac_ime_event_log.sh`）；
@@ -22,7 +22,7 @@
 // 四條硬條件（維護者指定，也是最容易做壞的地方）：
 //
 // ① **路徑要實際可寫，不能用假設的。**
-//    app 是 sandboxed（`MacIMESpike.entitlements` 的 `com.apple.security.app-sandbox=true`）。
+//    app 是 sandboxed（`ZhuyinTai.entitlements` 的 `com.apple.security.app-sandbox=true`）。
 //    在 sandbox 裡 `FileManager.urls(for: .libraryDirectory, in: .userDomainMask)` 會**自動**
 //    指向容器內的 `…/Containers/<bundleid>/Data/Library`，那是 app 自己的目錄、不需要任何
 //    額外 entitlement。⇒ **不寫死路徑**，用這個 API 拿；並且第一筆記錄就把**實際解析到的路徑**
