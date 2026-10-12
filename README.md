@@ -147,7 +147,7 @@
 
 注音台目前是 Beta 測試版，免費使用。有些功能還不夠完善，歡迎踴躍[回報](docs/FEEDBACK.md)。
 
-原始碼已經放在這個 repo（建置見 [BUILDING.md](docs/BUILDING.md)）；詞庫以 MPL-2.0 開放，歡迎一起補詞。
+原始碼以 Apache-2.0 授權（見 [LICENSE](LICENSE)），詞庫以 MPL-2.0 授權（見 [LICENSES/MPL-2.0.txt](LICENSES/MPL-2.0.txt)），歡迎一起補詞。建置見 [BUILDING.md](docs/BUILDING.md)。
 
 注音台站在這些開源專案的肩膀上：
 

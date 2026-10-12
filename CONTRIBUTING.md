@@ -45,7 +45,6 @@
 ## 授權與簽署（DCO）
 
 程式碼用 Apache-2.0 授權（全文見 LICENSE），詞庫檔用 MPL-2.0 授權（全文見 LICENSES/MPL-2.0.txt）。你的貢獻照它所屬檔案的授權釋出。
-這兩種授權都允許商業使用，包含我們自己的官方安裝包。
 
 **不用簽任何額外的授權協議。** 我們用 DCO（Developer Certificate of Origin，開發者來源證明）。
 你要做的只有一件事：**PR 裡的每一個 commit 都要有一行 `Signed-off-by`**。
