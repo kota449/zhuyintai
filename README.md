@@ -113,12 +113,7 @@
 
 ## 已知問題
 
-這是 Beta，還有一些我們知道、正在改的地方：
-
-- **選字還不夠準**：有些詞的候選順序不理想，有些詞還找不到。遇到的話，歡迎附上你打的注音與你想要的字詞回報。
-- **「英」提示在部分 App 有時不會出現**：這時其實已經在英文模式，單押一下 Shift 就會切回中文。
-
-完整清單：[已知問題](docs/KNOWN_ISSUES.md)。
+這是 Beta 版，部分細節仍在持續調整，詳見[已知問題](docs/KNOWN_ISSUES.md)。
 
 ## 常見問題
 
@@ -136,28 +131,16 @@
 
 ## 接下來
 
-- 原始碼已經在這個 repo，建置方式見 [BUILDING.md](docs/BUILDING.md)；歡迎一起補詞、改進。
-- 全面提升介面與操作體驗：候選窗、偏好設定與日常操作的細節，貼近 macOS 最新的設計風格。
-- 持續補詞，並調整同音字與網路用語的候選順序。
-- 打錯注音的修正，繼續改進。
-- 讓游標旁的「英」提示在更多 App 裡都看得到。
-- 視需求評估 Windows 與 iOS 版本。
+- 介面與操作體驗持續優化
+- 詞庫與選字持續擴充
+- 更多平台支援評估中
+- ⋯⋯
 
 ## 授權與致謝
 
-注音台目前是 Beta 測試版，免費使用。有些功能還不夠完善，歡迎踴躍[回報](docs/FEEDBACK.md)。
+原始碼 Apache-2.0（[LICENSE](LICENSE)）・詞庫 MPL-2.0（[LICENSES/MPL-2.0.txt](LICENSES/MPL-2.0.txt)）・第三方元件見 [NOTICE](NOTICE)。
 
-原始碼以 Apache-2.0 授權（見 [LICENSE](LICENSE)），詞庫以 MPL-2.0 授權（見 [LICENSES/MPL-2.0.txt](LICENSES/MPL-2.0.txt)），歡迎一起補詞。建置見 [BUILDING.md](docs/BUILDING.md)。
-
-注音台站在這些開源專案的肩膀上：
-
-- [小麥注音](https://mcbopomofo.openvanilla.org/) 的詞庫（MIT）
-- libtabe 詞庫（BSD）
-- 威注音的候選窗（木蘭寬鬆許可證 2.0）與 Megrez 組字引擎（LGPL-3.0）
-- KenLM 語言模型程式庫（LGPL）
-- 國家教育研究院「[樂詞網](https://terms.naer.edu.tw/)」的學術名詞
-
-完整授權聲明：偏好設定 → 關於 →「開放原始碼授權…」。
+致謝：[小麥注音](https://mcbopomofo.openvanilla.org/)（MIT）、libtabe（BSD）、威注音候選窗（木蘭寬鬆許可證 2.0）、Megrez（LGPL-3.0）、KenLM（LGPL）、國家教育研究院[樂詞網](https://terms.naer.edu.tw/)。
 
 ## 原始碼與建置
 
