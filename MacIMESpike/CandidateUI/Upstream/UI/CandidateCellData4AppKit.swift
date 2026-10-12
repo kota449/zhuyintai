@@ -1,0 +1,363 @@
+// (c) 2022 and onwards The vChewing Project (MulanPSL-2.0 License).
+// ====================
+// This code is released under the SPDX-License-Identifier: `MulanPSL-2.0`.
+
+import AppKit
+import CoreText
+// [TWKeyboard] removed `import Shared`: merged into the app module (single-module target).
+
+// MARK: - TDK4AppKit.CandidateCellData4AppKit
+
+extension TDK4AppKit {
+  // MARK: - CandidateCellData
+
+  /// 用來管理選字窗內顯示的候選字的單位。用 struct 型別以取得值語義。
+  struct CandidateCellData4AppKit: Hashable {
+    // MARK: Lifecycle
+
+    init(
+      key: String, displayedText: String,
+      keyArray: [String] = [], segLength: Int? = nil,
+      isSelected: Bool = false
+    ) {
+      self.selectionKey = key
+      self.displayedText = displayedText
+      self.keyArray = keyArray
+      self.segLength = max(segLength ?? keyArray.count, 1)
+      self.isHighlighted = isSelected
+      self.textDimension = .init(
+        width: ceil(Self.unifiedCharDimension * 1.4),
+        height: Self.unifiedTextHeight
+      )
+      if displayedText.count > 1 {
+        textDimension.width = makeAttributedString().getBoundingDimension().width
+      }
+    }
+
+    // MARK: Internal
+
+    // MARK: - Basic NSAttributedString Components.
+
+    static let sharedParagraphStyle: NSParagraphStyle = {
+      let paraStyle = NSMutableParagraphStyle()
+      paraStyle.setParagraphStyle(NSParagraphStyle.default)
+      paraStyle.alignment = .natural
+      paraStyle.lineBreakMode = .byWordWrapping
+      return paraStyle
+    }()
+
+    static var internalPrefs = PrefMgr.sharedSansDidSetOps
+
+    static var unifiedSize: Double { .init(internalPrefs.candidateListTextSize) }
+
+    static var unifiedCharDimension: Double { ceil(unifiedSize * 1.0125 + 7) }
+    static var unifiedTextHeight: Double { ceil(unifiedSize * 19 / 16) }
+    static var plainTextColor: NSColor { absoluteTextColor.withAlphaComponent(0.85) }
+    static var absoluteTextColor: NSColor {
+      TDK4AppKit.CandidateAppearance.isDarkModeResolved ? .white : .black
+    }
+
+    static var menuHighlightedTextColor: NSColor {
+      if #available(macOS 10.14, *) {
+        let yellowHue = NSColor.systemYellow.usingColorSpace(
+          .deviceRGB
+        )?.hueComponent
+        let shitCellHue = CandidatePool4AppKit.shitCell.clientThemeColor?.usingColorSpace(
+          .deviceRGB
+        )?.hueComponent
+        guard let shitCellHue, let yellowHue else {
+          return .selectedMenuItemTextColor
+        }
+        if shitCellHue == yellowHue || (0.12 ... 0.182).contains(shitCellHue) {
+          return .black
+        }
+      }
+      return .selectedMenuItemTextColor
+    }
+
+    var visualDimension: CGSize = .zero
+    var visualOrigin: CGPoint = .zero
+
+    /// Pre-computed offsets to avoid per-frame ceil() in draw loops.
+    var headerDrawYOffset: CGFloat = 0
+    var headerDrawXOffset: CGFloat = 0
+    var phraseDrawXOffset: CGFloat = 0
+
+    var locale = ""
+    var selectionKey: String
+    let displayedText: String
+    private(set) var textDimension: CGSize
+    var segLength: Int
+    /// 該候選字詞的原始讀音鍵陣列，用於讀音 disambiguation 顯示。
+    let keyArray: [String]
+    var isHighlighted: Bool = false
+    var whichLine: Int = 0
+    // 該候選字詞在資料池內的總索引編號
+    var index: Int = 0
+    // 該候選字詞在當前行/列內的索引編號
+    var subIndex: Int = 0
+
+    var clientThemeColor: NSColor?
+
+    var size: Double { Self.unifiedSize }
+    var fontSizeCandidate: Double { size }
+    var fontSizeKey: Double { max(ceil(fontSizeCandidate * 0.6), 11) }
+
+    /// 選字鍵標籤之顯示區域：正方形，邊長取其自身之行高。
+    /// 該標籤的呈現盒本質上是「窄高」形（寬＝字寬、高＝行高）；若顯示區域只給到字寬那麼窄，
+    /// 則候選字字級越大、這個窄高的落差越顯眼。故一律以行高為邊長、給出正方形區域，
+    /// 候選字詞自該正方形之右緣起排、標籤水平居中於其內。
+    var keyLabelBoxSide: CGFloat {
+      let keyFont = selectionKeyFont()
+      return ceil(keyFont.ascender + abs(keyFont.descender) + keyFont.leading)
+    }
+
+    /// 標籤字串之墨跡盒（相對其繪製原點；`.useGlyphPathBounds` 即字形路徑之實墨，
+    /// 非 advance 盒——兩者不可混用，`[.useGlyphPathBounds, .useOpticalBounds]` 會回傳後者）。
+    var keyLabelInkBounds: CGRect {
+      let line = CTLineCreateWithAttributedString(makeAttributedStringHeader())
+      return CTLineGetBoundsWithOptions(line, .useGlyphPathBounds)
+    }
+
+    /// 標籤於其正方形區域內之橫向偏移：以**墨跡盒之中點**對齊區域中點。
+    /// 該值**不取整**：區域邊長（行高）與墨跡寬皆為分數，取整（無論 `ceil` 或 `rounded`）
+    /// 都會造成至多 ±1 點之兩側留白落差——舊制之 `ceil` 更是恆偏一側（實測落差可達 1.8 點，
+    /// 在十餘點寬的區域上肉眼可見「偏 center-trailing」）。文字以分數座標繪製本就正常。
+    /// 墨跡盒為空（如選字鍵為空白）時退回按 advance 居中。
+    var keyLabelHorizontalCenteringOffset: CGFloat {
+      let inkBounds = keyLabelInkBounds
+      let inkCenterX = inkBounds.isEmpty
+        ? makeAttributedStringHeader().size().width / 2
+        : inkBounds.midX
+      return keyLabelBoxSide / 2 - inkCenterX
+    }
+
+    var fontColorCandidate: NSColor {
+      isHighlighted ? Self.menuHighlightedTextColor : Self.plainTextColor
+    }
+
+    var fontColorKey: NSColor {
+      isHighlighted
+        ? Self.menuHighlightedTextColor.withAlphaComponent(0.9)
+        : Self.plainTextColor.withAlphaComponent(0.5)
+    }
+
+    var themeColorCocoa: NSColor {
+      switch locale {
+      case "zh-Hans": return .init(red: 255 / 255, green: 64 / 255, blue: 53 / 255, alpha: 0.85)
+      case "zh-Hant": return .init(red: 5 / 255, green: 127 / 255, blue: 255 / 255, alpha: 0.85)
+      case "ja": return .init(red: 167 / 255, green: 137 / 255, blue: 99 / 255, alpha: 0.85)
+      default: return .init(red: 5 / 255, green: 127 / 255, blue: 255 / 255, alpha: 0.85)
+      }
+    }
+
+    static func == (lhs: Self, rhs: Self) -> Bool {
+      lhs.selectionKey == rhs.selectionKey && lhs.displayedText == rhs.displayedText
+    }
+
+    /// 組合「選字鍵 + 候選字詞」屬性字串（含留白與高亮背景）。
+    /// 組件由呼叫端提供：cell 自身傳未快取版本，資料池傳池級快取版本。
+    static func assembleAttributedString(
+      for cell: Self,
+      header: NSAttributedString,
+      phrase: NSAttributedString,
+      noSpacePadding: Bool = true,
+      withHighlight: Bool = false
+    )
+      -> NSAttributedString {
+      let attrSpace: [NSAttributedString.Key: Any] = [
+        .kern: 0,
+        .font: cell.phraseFont(size: cell.size),
+        .paragraphStyle: Self.sharedParagraphStyle,
+      ]
+      let result: NSMutableAttributedString = {
+        if noSpacePadding {
+          let resultNeo = NSMutableAttributedString(string: " ", attributes: attrSpace)
+          resultNeo.insert(phrase, at: 1)
+          resultNeo.insert(header, at: 0)
+          return resultNeo
+        }
+        let resultNeo = NSMutableAttributedString(string: "   ", attributes: attrSpace)
+        resultNeo.insert(phrase, at: 2)
+        resultNeo.insert(header, at: 1)
+        return resultNeo
+      }()
+      if withHighlight, cell.isHighlighted {
+        result.addAttribute(
+          .backgroundColor, value: cell.themeColorCocoa,
+          range: NSRange(location: 0, length: result.string.utf16.count)
+        )
+      }
+      return result
+    }
+
+    /// 生成「選字鍵」的屬性字串。不帶快取；快取統一由資料池管理。
+    func makeAttributedStringHeader() -> NSAttributedString {
+      let attrKey: [NSAttributedString.Key: Any] = [
+        .kern: 0,
+        .font: selectionKeyFont(size: fontSizeKey),
+        .paragraphStyle: Self.sharedParagraphStyle,
+        .foregroundColor: fontColorKey,
+      ]
+      return NSAttributedString(string: selectionKey, attributes: attrKey)
+    }
+
+    func hash(into hasher: inout Hasher) {
+      hasher.combine(selectionKey)
+      hasher.combine(displayedText)
+    }
+
+    func cellLength(isMatrix: Bool = true) -> Double {
+      let factor: CGFloat = (Self.internalPrefs.minCellWidthForHorizontalMatrix == 0) ? 1.5 : 2
+      let minLength = ceil(Self.unifiedCharDimension * factor + size * 1.25)
+      if displayedText.count <= 1, isMatrix { return minLength }
+      return textDimension.width
+    }
+
+    /// 計算倍數化後的 cell 寬度。用於 horizontal matrix 模式，確保每個 cell 寬度是最低寬度的倍數。
+    /// - Parameter minCellWidth: 最小 cell 寬度（通常是 blankCell.cellLength()）。
+    /// - Returns: 倍數化後的寬度。
+    func cellWidthMultiplied(minCellWidth: Double) -> Double {
+      guard minCellWidth > 0 else { return textDimension.width }
+      // 對於短文字（≤1 字），使用最小寬度。
+      if displayedText.count <= 1 { return minCellWidth }
+      // 對於長文字，計算需要多少個最小寬度單位。
+      let multiplier = ceil(textDimension.width / minCellWidth)
+      return multiplier * minCellWidth
+    }
+
+    /// 生成組合後的屬性字串（選字鍵 + 候選字詞）。不帶快取；快取統一由資料池管理。
+    func makeAttributedString(
+      noSpacePadding: Bool = true, withHighlight: Bool = false, isMatrix: Bool = false
+    )
+      -> NSAttributedString {
+      Self.assembleAttributedString(
+        for: self,
+        header: makeAttributedStringHeader(),
+        phrase: makeAttributedStringPhrase(isMatrix: isMatrix),
+        noSpacePadding: noSpacePadding,
+        withHighlight: withHighlight
+      )
+    }
+
+    /// 生成「候選字詞」的屬性字串。不帶快取；快取統一由資料池管理。
+    func makeAttributedStringPhrase(isMatrix: Bool = false) -> NSAttributedString {
+      var attrCandidate: [NSAttributedString.Key: Any] = [
+        .kern: 0,
+        .font: phraseFont(size: size),
+        .paragraphStyle: Self.sharedParagraphStyle,
+        .foregroundColor: fontColorCandidate,
+      ]
+      if #available(macOS 12, *) {
+        attrCandidate[.languageIdentifier] = locale as AnyObject
+      }
+      let delta: String = (isMatrix && displayedText.count < 2) ? "  　" : ""
+      return NSAttributedString(
+        string: displayedText + delta, attributes: attrCandidate
+      )
+    }
+
+    func charDescriptions(shortened: Bool = false) -> [String] {
+      var result = displayedText
+      if displayedText.contains("("), displayedText.count > 2 {
+        result = displayedText.replacingOccurrences(of: "(", with: "")
+          .replacingOccurrences(of: ")", with: "")
+      }
+      return result.flatMap(\.unicodeScalars).compactMap {
+        let theName: String = $0.properties.name ?? ""
+        return shortened ? String(format: "U+%02X", $0.value) :
+          String(format: "U+%02X %@", $0.value, theName)
+      }
+    }
+
+    mutating func updateMetrics(pool thePool: CandidatePool4AppKit, origin currentOrigin: CGPoint) {
+      let padding = thePool.padding
+      var cellDimension = textDimension
+      if let givenWidth = thePool.cellWidth(self).min, displayedText.count <= 2 {
+        cellDimension.width = max(cellDimension.width + 4 * padding, givenWidth)
+      } else {
+        cellDimension.width += 4 * padding
+      }
+      cellDimension.width = ceil(cellDimension.width)
+      cellDimension.height = Self.unifiedTextHeight + 2 * padding
+      // 選字鍵標籤之正方形區域與候選字詞必須同時放得進該格：
+      // 標籤區域自 2 × padding 起算、候選字詞緊隨其右緣，故內容寬度 = 標籤盒 ＋ 候選字詞。
+      // （既有算式在極大字級下本就容不下「標籤 ＋ 字詞」，此處一併收緊。）
+      let keyAndPhraseWidth = keyLabelBoxSide
+        + makeAttributedStringPhrase(isMatrix: false).size().width
+      cellDimension.width = max(cellDimension.width, keyAndPhraseWidth + 2 * padding)
+      visualDimension = cellDimension
+      visualOrigin = currentOrigin
+      headerDrawYOffset = ceil(cellDimension.height * 0.2)
+      headerDrawXOffset = keyLabelHorizontalCenteringOffset
+      phraseDrawXOffset = keyLabelBoxSide
+    }
+
+    // MARK: - Fonts and NSColors.
+
+    func selectionKeyFont(size: CGFloat? = nil) -> NSFont {
+      let size: CGFloat = size ?? fontSizeKey
+      if #available(macOS 10.15, *) {
+        return NSFont.monospacedSystemFont(ofSize: fontSizeKey, weight: .regular)
+      }
+      return NSFont(name: "Courier New", size: size) ?? phraseFont(size: size)
+    }
+
+    /// FB10978412: Since macOS 11 Big Sur, CTFontCreateUIFontForLanguage cannot
+    /// distinguish zh-Hans and zh-Hant with correct adoptation of proper PingFang SC/TC variants.
+    /// Update: This has been fixed in macOS 13.
+    ///
+    /// [TWKeyboard] The upstream text here was a step-by-step reproduction written against the
+    /// upstream IME's own installer and preferences panel. Those steps do not apply to this
+    /// app and are removed (they also named the upstream product). The gist is unchanged:
+    /// render the same candidate (e.g. "骨") from a zh-Hans input mode and from a zh-Hant
+    /// input mode, and expect different glyphs (PingFang SC vs. PingFang TC).
+    /// Do NOT enable KangXi conversion or JIS conversion for the comparison.
+    func phraseFont(size: CGFloat? = nil) -> NSFont {
+      let size: CGFloat = size ?? fontSizeCandidate
+
+      let assignedName = Self.internalPrefs.candidateTextFontName
+
+      if !assignedName.isEmpty, let assignedFont = NSFont(name: assignedName, size: size) {
+        return assignedFont
+      }
+
+      //  暫時停用自訂字型回退機制，因為行高處理比較棘手。
+      //  有相關需求者請自行修改 macOS 10.9 - 10.12 的 DefaultFontFallbacks 和 CTPresetFallbacks 檔案。
+      //  var result: NSFont?
+      //  compatibility: if #unavailable(macOS 10.11) {
+      //    var fontIDs = [String]()
+      //    switch locale {
+      //    case "zh-Hans": fontIDs = ["PingFang SC", "Noto Sans CJK SC", "Hiragino Sans GB"]
+      //    case "zh-Hant": fontIDs = ["PingFang TC", "Noto Sans CJK TC", "LiHei Pro"]
+      //    case "ja": fontIDs = ["PingFang JA", "Noto Sans CJK JP", "Hiragino Kaku Gothic ProN W3"]
+      //    default: break compatibility
+      //    }
+      //    fallback: for psName in fontIDs {
+      //      result = NSFont(name: psName, size: size)
+      //      guard result == nil else { break compatibility }
+      //    }
+      //  }
+      let defaultResult: CTFont? = CTFontCreateUIFontForLanguage(.system, size, locale as CFString)
+      return defaultResult ?? NSFont.systemFont(ofSize: size)
+    }
+
+    func phraseFontEmphasized(size: CGFloat? = nil) -> NSFont {
+      // 該 Font 不自訂。
+      let size: CGFloat = size ?? fontSizeCandidate
+      let result: CTFont? = CTFontCreateUIFontForLanguage(.emphasizedSystem, size, locale as CFString)
+      return result ?? NSFont.systemFont(ofSize: size)
+    }
+  }
+} // extension TDK4AppKit
+
+// MARK: - Array Container Extension.
+
+extension Array where Element == TDK4AppKit.CandidateCellData4AppKit {
+  var hasHighlightedCell: Bool {
+    for neta in self {
+      if neta.isHighlighted { return true }
+    }
+    return false
+  }
+}

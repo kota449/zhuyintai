@@ -1,0 +1,35 @@
+// 注音台版本——**全專案唯一的版本來源，要改版號只改這個檔**。
+//
+// 誰會讀它：
+//   · Xcode：mac-spike 兩個 configuration 掛它當 baseConfigurationReference，
+//     產出 Info.plist 的 CFBundleShortVersionString／CFBundleVersion／TWKReleaseVersion。
+//   · tools/release/version.sh：印出 tag 名、pkg 檔名等給腳本用。
+//   · tools/beta_pkg/build_pkg.sh：包 pkg 前核對 .app 內的版號與本檔一致。
+// 一致性由 tools/release/test_version.sh 把關。
+//
+// 規則（Apple 一手文件，2026-10-06 查證）：
+//   · CFBundleShortVersionString 必須是「三段數字」、只能含 0-9 與句點 ⇒ 不能放 -beta.1。
+//   · CFBundleVersion 是機器讀的 build 號，一到三段數字；macOS 每次發包前必須遞增。
+//   · 完整 SemVer（含 -beta.N）放在自訂鍵 TWKReleaseVersion，更新檢查比較版本用它——
+//     若只用 0.1.0，依 SemVer 0.1.0 > 0.1.0-beta.N，裝了 beta 的人看不到下一個 beta。
+//
+// 發新 Beta 的步驟：只改下面三行（beta.1 → beta.2 時 BUILD 也要 +1，不重用）。
+// 正式版：TWK_PRERELEASE_SUFFIX 留空。
+
+TWK_VERSION_CORE = 0.1.0
+TWK_PRERELEASE_SUFFIX = -beta.1
+TWK_BUILD_NUMBER = 15
+
+// 發行 repo（只放發行物的公開 repo）的 slug。**這是集中常數**：更新檢查位址（編進 app）、
+// 所有文件與 feed 的網址都由它組。xcconfig 裡 `//` 是註解開頭，所以這裡只放 slug、不放完整網址。
+// 2026-10-06 使用者定英文名 ZhuyinTai ⇒ 發行 repo 為 kota449/zhuyintai（repo 尚未建立：app 現在請求會得 404，
+//    更新檢查吞掉錯誤、不影響使用）。若再改回佔位值（OWNER／RELEASE-REPO），app 不會發任何更新請求，
+//    `version.sh check-publish` 與 `build_pkg.sh --sign` 也都會拒絕。
+// 🔴 發出去之後就當它永久不變：beta.1 簽章出貨後，這個位址固定在每份安裝裡；
+//    repo 改名後 raw.githubusercontent.com 會不會轉址沒實測過，不要假設。
+TWK_RELEASE_REPO = kota449/zhuyintai
+
+// ---- 以下由上面推導，不要手改 ----
+MARKETING_VERSION = $(TWK_VERSION_CORE)
+CURRENT_PROJECT_VERSION = $(TWK_BUILD_NUMBER)
+TWK_RELEASE_VERSION = $(TWK_VERSION_CORE)$(TWK_PRERELEASE_SUFFIX)

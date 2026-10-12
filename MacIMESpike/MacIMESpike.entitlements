@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>com.apple.security.app-sandbox</key>
+    <true/>
+    <!-- 設定頁「匯出 log…」用 NSSavePanel：沙盒 app 沒有這個 entitlement 就寫不了使用者選的路徑。
+         只開「使用者在面板裡親自選的檔案」，不是任意檔案存取。 -->
+    <key>com.apple.security.files.user-selected.read-write</key>
+    <true/>
+    <!-- 只給「檢查新版」用（Packages/UpdateCheck，連 raw.githubusercontent.com 抓 feed.json）。
+         沒有這個 entitlement，沙盒 app 的請求會被擋（網路不通）；請求內容不含任何打字內容。 -->
+    <key>com.apple.security.network.client</key>
+    <true/>
+    <key>com.apple.security.temporary-exception.mach-register.global-name</key>
+    <string>com.kota.xrich.inputmethod.TWKeyboardOSS_Connection</string>
+</dict>
+</plist>

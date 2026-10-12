@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "releases": [
+    {
+      "version": "0.1.0-beta.1",
+      "build": 11,
+      "minimumMacOS": "14.0",
+      "publishedAt": "2026-10-18T10:00:00+08:00",
+      "downloadURL": "https://example.com/ZhuyinTai-0.1.0-beta.1.pkg",
+      "notes": "首個公開測試版。",
+      "critical": false
+    },
+    {
+      "version": "0.1.0-beta.2",
+      "build": 12,
+      "minimumMacOS": "14.0",
+      "publishedAt": "2026-10-20T10:00:00+08:00",
+      "downloadURL": "https://example.com/ZhuyinTai-0.1.0-beta.2.pkg",
+      "notes": "修正注音輸入問題並提升穩定性。",
+      "critical": false
+    }
+  ]
+}

@@ -1,0 +1,1131 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0190399FDF4EFF54619FEA5C /* 9_SwiftImpl_Internals.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C039CD8E9700EB50E62EFB /* 9_SwiftImpl_Internals.swift */; };
+		02F6B24BA14B144C49FDD0AE /* MacIMEAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413F94E8970B5EA4B3D4E8B8 /* MacIMEAppDelegate.swift */; };
+		050236DD69475ADB25275D29 /* SyllableSuccessorTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A962701EAB224107E71FAD22 /* SyllableSuccessorTable.swift */; };
+		0589430ABEA3EF834B07984A /* MacIMEEventLogSink.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0B67417E9CB97A073F97E23 /* MacIMEEventLogSink.swift */; };
+		07C53E6EE5CDF8F8E5DA2F85 /* SyllableData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118CDE9EE56BB945475ED00F /* SyllableData.swift */; };
+		0C4C11339834679AF35139C5 /* MacChoiceLearning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C65DB6153F31F5D18350433 /* MacChoiceLearning.swift */; };
+		0FB212C4A83E2BEF860CA0EE /* CandidateModeMachine.swift in Sources */ = {isa = PBXBuildFile; fileRef = B46F2601DF45B3F3DD2A863F /* CandidateModeMachine.swift */; };
+		0FFB99640ED454CBE34778D6 /* MacReadingPanelAnchor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66C7CE0C7463BFE7CAC80B7C /* MacReadingPanelAnchor.swift */; };
+		14398043D298B21BB53771DE /* MacIMELogExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FEF3059203184416D038B10 /* MacIMELogExport.swift */; };
+		147A21D291033FC35979051A /* MacUserPhraseReload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FD0422218ED6088D13AD41 /* MacUserPhraseReload.swift */; };
+		15142B2C6C92DFC4E9D44070 /* MacReleaseLinks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99E3267BB038A7C14347AE6A /* MacReleaseLinks.swift */; };
+		191A0427DFA46F61E789E500 /* heterophony1.list in Resources */ = {isa = PBXBuildFile; fileRef = ECBD82E4C86006F183798257 /* heterophony1.list */; };
+		1986A07C51FBC18E1434FB82 /* MacPreferencesTabs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D4CE0D1B33983184A5E63E /* MacPreferencesTabs.swift */; };
+		1D3FB8D29CF92E35A9CB2691 /* LanguageSwitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614C9E046F27D89B69E7F962 /* LanguageSwitch.swift */; };
+		1DA65CF7BD30454FDC543DF4 /* BPMFMappings.txt in Resources */ = {isa = PBXBuildFile; fileRef = 3520BB781D023AA79D6B55FF /* BPMFMappings.txt */; };
+		21D30252991D9D18079FB473 /* BPMFBase.txt in Resources */ = {isa = PBXBuildFile; fileRef = 91EDDBAF873F40B97C13C6B6 /* BPMFBase.txt */; };
+		22A2546321B58BABEB00D00B /* BopomofoSymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B544AA42BB3F048D638FF1 /* BopomofoSymbol.swift */; };
+		22E0F5E5E4D574E05702A4BE /* MacUpdateState.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1AD702C1408BFA182C831E /* MacUpdateState.swift */; };
+		25A1803209CDCE555CD01C1F /* LegalKeyGateRevision.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8A0E0C3FBEC0590585DEF90 /* LegalKeyGateRevision.swift */; };
+		289DD82DADB57A0F080E8E9A /* Broadcaster.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C0DE2079F36F06D69CA2001 /* Broadcaster.swift */; };
+		2901054221A69E0B3B6F7FC5 /* SyllableTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C781EF969651A7A030E3DC2E /* SyllableTable.swift */; };
+		2CABC2461547D4C3DE9D10DC /* MacDomainPackSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31CD32771E5B410C5B3536B /* MacDomainPackSection.swift */; };
+		2F756543747297A208A532A4 /* MacKeysTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA3132502CED3D14A2F29F2 /* MacKeysTab.swift */; };
+		328CEF911694337B4BF0CCBA /* McBopomofoLexicon.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E6058500ADA5AE891E7CC2 /* McBopomofoLexicon.swift */; };
+		33C2C4F95F2F32E99A8236CB /* MacReadingCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB01B330071C8654EC05EB6D /* MacReadingCatalog.swift */; };
+		36CCFF4CA607A4AFBBEFC2E2 /* MacNSEventKeyMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA82C7E1ECE27B61B9856752 /* MacNSEventKeyMapper.swift */; };
+		3C4F2F6A6B020F87B49EB637 /* MacInitialReadingMask.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3C1F25789CCFFBF5AC24CDF /* MacInitialReadingMask.swift */; };
+		3EAFEEDE6E55568FC489B1C3 /* MacZhuyinConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0043BB4FDB586C7BD7CBEAC /* MacZhuyinConstants.swift */; };
+		41C9F1FCF7B9890244F4271D /* MacReadingSlot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8116A75AAFBB35DF2249A3CE /* MacReadingSlot.swift */; };
+		457D599E1C3A9847D65C4DF3 /* phrase.occ in Resources */ = {isa = PBXBuildFile; fileRef = C51E700D4A46530C0C01AB4D /* phrase.occ */; };
+		461F043F70DB544AD4CA881E /* MacTypingKeyPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546BD906BC485D0B2399D9F6 /* MacTypingKeyPolicy.swift */; };
+		479272A61235E4E13A32CD52 /* MacPreferencesFrontApplier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83807406E051A6B75D965792 /* MacPreferencesFrontApplier.swift */; };
+		492BEEE297A024AA495A9637 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = BD806DE1630425952CF84EEE /* LICENSE */; };
+		4ADC6D957EDAA8C9B063104A /* MacEngineFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F130BB70144615E9EE87C627 /* MacEngineFactory.swift */; };
+		4B43B4C6CD4AEBB91867C955 /* MacComposerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6443061914EE6682489C5B /* MacComposerView.swift */; };
+		4CD8815BCDC28E9A1A9E9FFF /* MacPreferencesShowDiagnostics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF3DE3E63D0111E7DA5DF56 /* MacPreferencesShowDiagnostics.swift */; };
+		4E4CA5C248872C05DAA2B1C9 /* SwiftFoundationImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = C840E6709EFF85F959F2EB13 /* SwiftFoundationImpl.swift */; };
+		5058AE1E97CC8CE22F684AD4 /* THIRD_PARTY_NOTICE.md in Resources */ = {isa = PBXBuildFile; fileRef = 89B9E7C9D41DF43856C8B0E1 /* THIRD_PARTY_NOTICE.md */; };
+		520CA734C1CCC159FD7FA316 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7643CE6D3FAADAA32D55F54D /* InfoPlist.strings */; };
+		57EFAFEE18C4ADA1E21A17FA /* SwiftExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E862AF07777B3439E61030A /* SwiftExtension.swift */; };
+		58CFB19C54DCA9CFDD95E595 /* 2_PathFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80FB7D07BA6CD41EF867F4D0 /* 2_PathFinder.swift */; };
+		5B61D47BA1E78BC4899FFA43 /* AppKitImpl_Misc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E5B8F061E732CDA29DAB7B3 /* AppKitImpl_Misc.swift */; };
+		5E591C6D6A984AC016DD371D /* MacPreferencesWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0EBE3FFA978DB5D5101B4F8 /* MacPreferencesWindow.swift */; };
+		5E5B04F1A01FE2C52F830F7B /* MacZhuyinEnginePort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D080B856ADEEA4A32D98D4C /* MacZhuyinEnginePort.swift */; };
+		62F8012E3043447AA0627B90 /* MacUserPhrasesLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D07D88A032C9633772BC7EB /* MacUserPhrasesLocation.swift */; };
+		67C26F153573748C473F16A4 /* 7_Unigram.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73C14FEC684893C030DA4E8 /* 7_Unigram.swift */; };
+		6C1CAA6F4F13EC13F3B41033 /* MacPreferencesFrontEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 556463FE0AB5A78228CD1FA1 /* MacPreferencesFrontEngine.swift */; };
+		6D82010DBF0E7253556A0C3F /* 8_GramInPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD4A197BCB09558A0668F9A7 /* 8_GramInPath.swift */; };
+		6F51BFFE0CED6344263CACFB /* 6_LangModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3F94D0A769333890E9892B3 /* 6_LangModel.swift */; };
+		6F5C483D71CFDBB75FE4604D /* MacLexiconLookup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7823B8E27B170F76FD4E327A /* MacLexiconLookup.swift */; };
+		7AA87E73394E365DFA0FB87C /* BasicComposerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80A63C01E2F47D2BA716F27 /* BasicComposerView.swift */; };
+		7DC0051A428D90C37857C391 /* MacEnglishIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEAA1D7984E179ADA5AF1DEF /* MacEnglishIndicator.swift */; };
+		7F874704E038FC49F1F77242 /* MacEngineTuning.swift in Sources */ = {isa = PBXBuildFile; fileRef = A87D226C541A8D0D32CB5F2A /* MacEngineTuning.swift */; };
+		80117F4C8960B693A9867137 /* MacUsageLogCleaner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9242DCF688630AECC9B68092 /* MacUsageLogCleaner.swift */; };
+		827AEB0C37CF0625E931DF6C /* MacMarkedTextState.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB4DD6A9F67CDF50171AD5F0 /* MacMarkedTextState.swift */; };
+		82C3FDE70C973FD0C3210436 /* LegalKeyBackspacePlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0219DA26092A22121A87BCB /* LegalKeyBackspacePlan.swift */; };
+		83402E5F63F8EFFF829906AB /* heterophony2.list in Resources */ = {isa = PBXBuildFile; fileRef = BD5601C12F973B8CD750FDB0 /* heterophony2.list */; };
+		847C35E5E98C11F45B7C53F7 /* TWKeyboardMacSpikeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87ABDFE23479ABC2E42278FD /* TWKeyboardMacSpikeController.swift */; };
+		85F5FEFB22DB72EBE5325025 /* MacIMEDailyLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C553ECC86851ADF39419B9BD /* MacIMEDailyLog.swift */; };
+		881C2664DA7A194B3BEC3A20 /* MacIMEDailyLogFiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55C3F09CAA920F2F42444CC /* MacIMEDailyLogFiles.swift */; };
+		8A23D6AF18E9DA8435883607 /* PunctuationTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29387BE5CA212633DE9A687 /* PunctuationTable.swift */; };
+		8A372AFEDC089BEFBC722222 /* spike_icon.tiff in Resources */ = {isa = PBXBuildFile; fileRef = FC571BEDDDDFF4AF30272D6D /* spike_icon.tiff */; };
+		8DEC8B233FCB8AFEDFE5D27A /* LICENSE-MulanPSL-2.0.txt in Resources */ = {isa = PBXBuildFile; fileRef = 4C5AA790424357B93C893A1D /* LICENSE-MulanPSL-2.0.txt */; };
+		8ED45512FDF8EBECE7474D99 /* MacPrefsSchema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51624E0E95C59388E2181FBA /* MacPrefsSchema.swift */; };
+		8FE6965AF3A24DCD4244E405 /* 5_Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41EBAE87B36DDF89F2D2EFB1 /* 5_Node.swift */; };
+		915D1996876CC055FEEB77A7 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D516DE4A14A3B61BF40B0244 /* main.swift */; };
+		9166A2D45B8F5C24AFDB3CC2 /* CandidateUIShim.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22E15C7953654319ED6872A /* CandidateUIShim.swift */; };
+		920129357F318DDC88A7BC30 /* MacQuitPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 073D5A8C059F5DA7A28E970C /* MacQuitPolicy.swift */; };
+		92E975D8B14EF79F17BEAAB0 /* MacLogConsentViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = EECF24BABDAB1D47972B2BCA /* MacLogConsentViews.swift */; };
+		96E74906290932D2AE419BE2 /* _TDK4AppKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6BAD7071674D3A362509265 /* _TDK4AppKit.swift */; };
+		9BDE81F7A674AFB9F1DB2322 /* LatinKeyboardMappings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10CA09F1948CA7EDECCD0158 /* LatinKeyboardMappings.swift */; };
+		A00B2212FEBA954F105AD270 /* ThirdPartyNotices.txt in Resources */ = {isa = PBXBuildFile; fileRef = 5774B5C163B9B137897BB274 /* ThirdPartyNotices.txt */; };
+		A2EC73FBFAE87AC04461F369 /* MacIMELogConsent.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C408E5CAA9A1631A70E564 /* MacIMELogConsent.swift */; };
+		A468514C23D624EFBD5C4917 /* MacIssueReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6510A349152E45D52B6D2898 /* MacIssueReport.swift */; };
+		A4CCB56A4DE59694CEBFE11B /* LexiconLookup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55FF569A181413714002D101 /* LexiconLookup.swift */; };
+		A69BAAFC172B3BC63683A2D2 /* Megrez.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A07D9F078E2CDD60FA9ED233 /* Megrez.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		A78E23E57AA98D719682A483 /* CompositionCursorScrubSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 518159F14F7E0DE70BCBD3B7 /* CompositionCursorScrubSupport.swift */; };
+		A862D9046192C8DA0116DFA6 /* Megrez.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A07D9F078E2CDD60FA9ED233 /* Megrez.framework */; };
+		ACAB7CE456D14081F24187E3 /* MacCandidateWindowPresenting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E110F0808F2CB21B503F001 /* MacCandidateWindowPresenting.swift */; };
+		AE456B98647B5151D7F39FA0 /* MacLexiconTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3FA2237511C7381890A4A5 /* MacLexiconTab.swift */; };
+		B43B46619626080B9DA7FAA0 /* MacIMEEventLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85068FCDD7445C0A53BC6A58 /* MacIMEEventLog.swift */; };
+		B63B302F93CF7073073ABC95 /* CandidateModeTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA6D00E72487FED65815142E /* CandidateModeTypes.swift */; };
+		BF09E2832DEEB0A3E08D625C /* MacPreferencesFrontPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = D973434B92E036106574BDDF /* MacPreferencesFrontPolicy.swift */; };
+		C0F1624195B15237ED1D0688 /* UserCustomPhrasesStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A9B2B4D49DFB93793AF4194 /* UserCustomPhrasesStore.swift */; };
+		C6E2D611845430EE10FB2CA3 /* CtlCandidateGSI4AppKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952D719FB1E361BE0283C970 /* CtlCandidateGSI4AppKit.swift */; };
+		CB07F8F5C4204FDB4C92844A /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = F63E73FEE12897C3AA01F4B5 /* LICENSE.txt */; };
+		CB48B276782F93F59DB1214C /* MacKeyRescuePolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47DE1FD12BA06F6C8AC63591 /* MacKeyRescuePolicy.swift */; };
+		CB7153F2E23B2A6ADB2BC9C3 /* MacReadingPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7510BAFD04DBA24744C798 /* MacReadingPanel.swift */; };
+		CBB0F61A1BC87CCFC164DE24 /* CUSTOM_LGPLv3_EXCEPTION.md in Resources */ = {isa = PBXBuildFile; fileRef = 76C6B5C08ECE787E462DC862 /* CUSTOM_LGPLv3_EXCEPTION.md */; };
+		CC0A766E1E254E5DD4B0E37B /* NSMenuActionTrampoline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6B66FEFE651E7178B4D523 /* NSMenuActionTrampoline.swift */; };
+		D13CF8B97DA071E8003F3580 /* BasicEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D18245EEB03177C93BEA2F6 /* BasicEngine.swift */; };
+		D691FDB7B27651907D02E1BD /* MacClientSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1D5272D77755367867FAC82 /* MacClientSession.swift */; };
+		D74B29B78749DB1DFFE40D59 /* MacPrivacyCopy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9313CE8FA625F0F43B387F /* MacPrivacyCopy.swift */; };
+		D7615E9CC0852A8AB490F145 /* CandidateCellData4AppKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CB1A3184D6F042382A9F475 /* CandidateCellData4AppKit.swift */; };
+		D835C0C0ECB1B58CDB070FA2 /* CandidatePool4AppKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94CA39A0F80D8B7E3147D7DB /* CandidatePool4AppKit.swift */; };
+		D8BE3C3D6C0C9514FDB6B3F5 /* SyllableSuccessorData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E22D3873D273B4F0F7FBBF /* SyllableSuccessorData.swift */; };
+		DC8EEAEFA0136B47710061E2 /* MacUnfinishedZhuyin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FD8E26AD19981D65BF9379 /* MacUnfinishedZhuyin.swift */; };
+		DDEC1EA34D1CED6CC9D5E56E /* 0_Megrez.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C5A7CB2EE69914241971EA /* 0_Megrez.swift */; };
+		E5D6F5CC8C8B89AA470488A7 /* MacComposedSegmentBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DBAFF24388B40D7E3F4FF9A /* MacComposedSegmentBuilder.swift */; };
+		E697B094871061E07BC3AA62 /* MacEnglishIndicatorPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05B5502CA06F083EFA940BB8 /* MacEnglishIndicatorPanel.swift */; };
+		E927E492BFE8050C30456C73 /* MacDomainPackCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF80168578B18B2DEBADFCBF /* MacDomainPackCatalog.swift */; };
+		E95F51B540B17C91ED61CC09 /* heterophony3.list in Resources */ = {isa = PBXBuildFile; fileRef = 67247724253152F7EF0EF1A7 /* heterophony3.list */; };
+		EBC81411D4209D0A07C86BFA /* AppKitImpl_NSView_Extract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3388FDBAA816B5A509DEDDFC /* AppKitImpl_NSView_Extract.swift */; };
+		ED19EA5E900A58B904E8CC97 /* LegalKeySyllableComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E9B0B16736C3E329903C32 /* LegalKeySyllableComposer.swift */; };
+		ED2C4AC8843347F49D292340 /* VwrCandidateGSI4AppKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5D8CC3AD21D4EC3BB3849D /* VwrCandidateGSI4AppKit.swift */; };
+		EE170EB37A52344D369B437B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B9A944FD27A14D0A10FAE1DC /* Assets.xcassets */; };
+		EE510C53B2E2506ABDB7FCDA /* 3_KeyValuePaired.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59D80FEF5CEF8A69DCE3AA1E /* 3_KeyValuePaired.swift */; };
+		EE8139B9235576C9A8002E2F /* LICENSE-MulanPSL-2.0-zh-Hant.txt in Resources */ = {isa = PBXBuildFile; fileRef = A976FFD5D96FD2DCD5303EC3 /* LICENSE-MulanPSL-2.0-zh-Hant.txt */; };
+		F0F4FA589EF16227C2A16957 /* MacTypingTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66F35CAD56E7EE62A4C53238 /* MacTypingTab.swift */; };
+		F39E3EBBF0B1A9276A34124B /* MacUpdateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1CEE96436394F7B6B8F99F3 /* MacUpdateService.swift */; };
+		F505B24CC87CC1FADFADF1CA /* 1_Compositor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F4B16864C38BF69BDB7DDE7 /* 1_Compositor.swift */; };
+		F5D3C1AE867D827775872DC6 /* MacReadingPanelPreference.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A53A3E7BF07E3987810B8F /* MacReadingPanelPreference.swift */; };
+		F736175417B1B11553A6D5DD /* InputTableTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7855F0F81EDA4E8CBE6EC7B /* InputTableTypes.swift */; };
+		F81D412F887AE0173B0551D4 /* 4_Segment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36CC00DFBA24AED0F8B48AEC /* 4_Segment.swift */; };
+		F8A50624DDB97C7CDAB4354E /* UpdateCheck in Frameworks */ = {isa = PBXBuildFile; productRef = D5B221FA76E6EB1FD6FED3F3 /* UpdateCheck */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		39F224F00080D320134E503E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F6746E51C7589ADF56C0EBFB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 61A70C5D7893F2F102FB6EA5;
+			remoteInfo = Megrez;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		120BBD0F6048ACCA3ABD0DF5 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				A69BAAFC172B3BC63683A2D2 /* Megrez.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		05B5502CA06F083EFA940BB8 /* MacEnglishIndicatorPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacEnglishIndicatorPanel.swift; sourceTree = "<group>"; };
+		06C5A7CB2EE69914241971EA /* 0_Megrez.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = 0_Megrez.swift; sourceTree = "<group>"; };
+		073D5A8C059F5DA7A28E970C /* MacQuitPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacQuitPolicy.swift; sourceTree = "<group>"; };
+		0C0DE2079F36F06D69CA2001 /* Broadcaster.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Broadcaster.swift; sourceTree = "<group>"; };
+		0D080B856ADEEA4A32D98D4C /* MacZhuyinEnginePort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacZhuyinEnginePort.swift; sourceTree = "<group>"; };
+		0E862AF07777B3439E61030A /* SwiftExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftExtension.swift; sourceTree = "<group>"; };
+		10CA09F1948CA7EDECCD0158 /* LatinKeyboardMappings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LatinKeyboardMappings.swift; sourceTree = "<group>"; };
+		118CDE9EE56BB945475ED00F /* SyllableData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyllableData.swift; sourceTree = "<group>"; };
+		15FD0422218ED6088D13AD41 /* MacUserPhraseReload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacUserPhraseReload.swift; sourceTree = "<group>"; };
+		18E9B0B16736C3E329903C32 /* LegalKeySyllableComposer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegalKeySyllableComposer.swift; sourceTree = "<group>"; };
+		1A2D11CBF36FC4C8A4F9BC2A /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		2E9313CE8FA625F0F43B387F /* MacPrivacyCopy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacPrivacyCopy.swift; sourceTree = "<group>"; };
+		3388FDBAA816B5A509DEDDFC /* AppKitImpl_NSView_Extract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppKitImpl_NSView_Extract.swift; sourceTree = "<group>"; };
+		3520BB781D023AA79D6B55FF /* BPMFMappings.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = BPMFMappings.txt; sourceTree = "<group>"; };
+		36CC00DFBA24AED0F8B48AEC /* 4_Segment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = 4_Segment.swift; sourceTree = "<group>"; };
+		3B6B66FEFE651E7178B4D523 /* NSMenuActionTrampoline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSMenuActionTrampoline.swift; sourceTree = "<group>"; };
+		3C7510BAFD04DBA24744C798 /* MacReadingPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacReadingPanel.swift; sourceTree = "<group>"; };
+		3E5B8F061E732CDA29DAB7B3 /* AppKitImpl_Misc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppKitImpl_Misc.swift; sourceTree = "<group>"; };
+		413F94E8970B5EA4B3D4E8B8 /* MacIMEAppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacIMEAppDelegate.swift; sourceTree = "<group>"; };
+		41EBAE87B36DDF89F2D2EFB1 /* 5_Node.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = 5_Node.swift; sourceTree = "<group>"; };
+		47DE1FD12BA06F6C8AC63591 /* MacKeyRescuePolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacKeyRescuePolicy.swift; sourceTree = "<group>"; };
+		4A9B2B4D49DFB93793AF4194 /* UserCustomPhrasesStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCustomPhrasesStore.swift; sourceTree = "<group>"; };
+		4C5AA790424357B93C893A1D /* LICENSE-MulanPSL-2.0.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "LICENSE-MulanPSL-2.0.txt"; sourceTree = "<group>"; };
+		4CB1A3184D6F042382A9F475 /* CandidateCellData4AppKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CandidateCellData4AppKit.swift; sourceTree = "<group>"; };
+		4E110F0808F2CB21B503F001 /* MacCandidateWindowPresenting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacCandidateWindowPresenting.swift; sourceTree = "<group>"; };
+		4F4B16864C38BF69BDB7DDE7 /* 1_Compositor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = 1_Compositor.swift; sourceTree = "<group>"; };
+		51624E0E95C59388E2181FBA /* MacPrefsSchema.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacPrefsSchema.swift; sourceTree = "<group>"; };
+		518159F14F7E0DE70BCBD3B7 /* CompositionCursorScrubSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompositionCursorScrubSupport.swift; sourceTree = "<group>"; };
+		546BD906BC485D0B2399D9F6 /* MacTypingKeyPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacTypingKeyPolicy.swift; sourceTree = "<group>"; };
+		556463FE0AB5A78228CD1FA1 /* MacPreferencesFrontEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacPreferencesFrontEngine.swift; sourceTree = "<group>"; };
+		55FF569A181413714002D101 /* LexiconLookup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LexiconLookup.swift; sourceTree = "<group>"; };
+		5774B5C163B9B137897BB274 /* ThirdPartyNotices.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = ThirdPartyNotices.txt; sourceTree = "<group>"; };
+		59D80FEF5CEF8A69DCE3AA1E /* 3_KeyValuePaired.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = 3_KeyValuePaired.swift; sourceTree = "<group>"; };
+		5C65DB6153F31F5D18350433 /* MacChoiceLearning.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacChoiceLearning.swift; sourceTree = "<group>"; };
+		5D07D88A032C9633772BC7EB /* MacUserPhrasesLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacUserPhrasesLocation.swift; sourceTree = "<group>"; };
+		5DBAFF24388B40D7E3F4FF9A /* MacComposedSegmentBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacComposedSegmentBuilder.swift; sourceTree = "<group>"; };
+		5FA3132502CED3D14A2F29F2 /* MacKeysTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacKeysTab.swift; sourceTree = "<group>"; };
+		614C9E046F27D89B69E7F962 /* LanguageSwitch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageSwitch.swift; sourceTree = "<group>"; };
+		6510A349152E45D52B6D2898 /* MacIssueReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacIssueReport.swift; sourceTree = "<group>"; };
+		66C7CE0C7463BFE7CAC80B7C /* MacReadingPanelAnchor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacReadingPanelAnchor.swift; sourceTree = "<group>"; };
+		66F35CAD56E7EE62A4C53238 /* MacTypingTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacTypingTab.swift; sourceTree = "<group>"; };
+		67247724253152F7EF0EF1A7 /* heterophony3.list */ = {isa = PBXFileReference; path = heterophony3.list; sourceTree = "<group>"; };
+		6A5D8CC3AD21D4EC3BB3849D /* VwrCandidateGSI4AppKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VwrCandidateGSI4AppKit.swift; sourceTree = "<group>"; };
+		76C6B5C08ECE787E462DC862 /* CUSTOM_LGPLv3_EXCEPTION.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CUSTOM_LGPLv3_EXCEPTION.md; sourceTree = "<group>"; };
+		7823B8E27B170F76FD4E327A /* MacLexiconLookup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacLexiconLookup.swift; sourceTree = "<group>"; };
+		79FD8E26AD19981D65BF9379 /* MacUnfinishedZhuyin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacUnfinishedZhuyin.swift; sourceTree = "<group>"; };
+		80FB7D07BA6CD41EF867F4D0 /* 2_PathFinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = 2_PathFinder.swift; sourceTree = "<group>"; };
+		8116A75AAFBB35DF2249A3CE /* MacReadingSlot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacReadingSlot.swift; sourceTree = "<group>"; };
+		824B920A73C72BC296DF2C5C /* Version.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Version.xcconfig; sourceTree = "<group>"; };
+		83807406E051A6B75D965792 /* MacPreferencesFrontApplier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacPreferencesFrontApplier.swift; sourceTree = "<group>"; };
+		84B544AA42BB3F048D638FF1 /* BopomofoSymbol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BopomofoSymbol.swift; sourceTree = "<group>"; };
+		85068FCDD7445C0A53BC6A58 /* MacIMEEventLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacIMEEventLog.swift; sourceTree = "<group>"; };
+		87ABDFE23479ABC2E42278FD /* TWKeyboardMacSpikeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TWKeyboardMacSpikeController.swift; sourceTree = "<group>"; };
+		88D4CE0D1B33983184A5E63E /* MacPreferencesTabs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacPreferencesTabs.swift; sourceTree = "<group>"; };
+		89B9E7C9D41DF43856C8B0E1 /* THIRD_PARTY_NOTICE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = THIRD_PARTY_NOTICE.md; sourceTree = "<group>"; };
+		8D18245EEB03177C93BEA2F6 /* BasicEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicEngine.swift; sourceTree = "<group>"; };
+		8FEF3059203184416D038B10 /* MacIMELogExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacIMELogExport.swift; sourceTree = "<group>"; };
+		91EDDBAF873F40B97C13C6B6 /* BPMFBase.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = BPMFBase.txt; sourceTree = "<group>"; };
+		9242DCF688630AECC9B68092 /* MacUsageLogCleaner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacUsageLogCleaner.swift; sourceTree = "<group>"; };
+		94CA39A0F80D8B7E3147D7DB /* CandidatePool4AppKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CandidatePool4AppKit.swift; sourceTree = "<group>"; };
+		952D719FB1E361BE0283C970 /* CtlCandidateGSI4AppKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CtlCandidateGSI4AppKit.swift; sourceTree = "<group>"; };
+		96E22D3873D273B4F0F7FBBF /* SyllableSuccessorData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyllableSuccessorData.swift; sourceTree = "<group>"; };
+		99E3267BB038A7C14347AE6A /* MacReleaseLinks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacReleaseLinks.swift; sourceTree = "<group>"; };
+		9BF3DE3E63D0111E7DA5DF56 /* MacPreferencesShowDiagnostics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacPreferencesShowDiagnostics.swift; sourceTree = "<group>"; };
+		9D3FA2237511C7381890A4A5 /* MacLexiconTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacLexiconTab.swift; sourceTree = "<group>"; };
+		A0043BB4FDB586C7BD7CBEAC /* MacZhuyinConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacZhuyinConstants.swift; sourceTree = "<group>"; };
+		A0219DA26092A22121A87BCB /* LegalKeyBackspacePlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegalKeyBackspacePlan.swift; sourceTree = "<group>"; };
+		A07D9F078E2CDD60FA9ED233 /* Megrez.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Megrez.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A15DFF067B609D0496401892 /* TWKeyboard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TWKeyboard.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A3F94D0A769333890E9892B3 /* 6_LangModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = 6_LangModel.swift; sourceTree = "<group>"; };
+		A6BAD7071674D3A362509265 /* _TDK4AppKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _TDK4AppKit.swift; sourceTree = "<group>"; };
+		A87D226C541A8D0D32CB5F2A /* MacEngineTuning.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacEngineTuning.swift; sourceTree = "<group>"; };
+		A962701EAB224107E71FAD22 /* SyllableSuccessorTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyllableSuccessorTable.swift; sourceTree = "<group>"; };
+		A976FFD5D96FD2DCD5303EC3 /* LICENSE-MulanPSL-2.0-zh-Hant.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "LICENSE-MulanPSL-2.0-zh-Hant.txt"; sourceTree = "<group>"; };
+		AEAA1D7984E179ADA5AF1DEF /* MacEnglishIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacEnglishIndicator.swift; sourceTree = "<group>"; };
+		B0A48B12CFC0B30E9F30C3F5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		B22E15C7953654319ED6872A /* CandidateUIShim.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CandidateUIShim.swift; sourceTree = "<group>"; };
+		B2C408E5CAA9A1631A70E564 /* MacIMELogConsent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacIMELogConsent.swift; sourceTree = "<group>"; };
+		B45EA2092842124A394A47D4 /* UpdateCheck */ = {isa = PBXFileReference; lastKnownFileType = folder; name = UpdateCheck; path = Packages/UpdateCheck; sourceTree = SOURCE_ROOT; };
+		B46F2601DF45B3F3DD2A863F /* CandidateModeMachine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CandidateModeMachine.swift; sourceTree = "<group>"; };
+		B80A63C01E2F47D2BA716F27 /* BasicComposerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicComposerView.swift; sourceTree = "<group>"; };
+		B8E6058500ADA5AE891E7CC2 /* McBopomofoLexicon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = McBopomofoLexicon.swift; sourceTree = "<group>"; };
+		B9A944FD27A14D0A10FAE1DC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		BD5601C12F973B8CD750FDB0 /* heterophony2.list */ = {isa = PBXFileReference; path = heterophony2.list; sourceTree = "<group>"; };
+		BD806DE1630425952CF84EEE /* LICENSE */ = {isa = PBXFileReference; path = LICENSE; sourceTree = "<group>"; };
+		C1D5272D77755367867FAC82 /* MacClientSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacClientSession.swift; sourceTree = "<group>"; };
+		C51E700D4A46530C0C01AB4D /* phrase.occ */ = {isa = PBXFileReference; path = phrase.occ; sourceTree = "<group>"; };
+		C553ECC86851ADF39419B9BD /* MacIMEDailyLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacIMEDailyLog.swift; sourceTree = "<group>"; };
+		C781EF969651A7A030E3DC2E /* SyllableTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyllableTable.swift; sourceTree = "<group>"; };
+		C7855F0F81EDA4E8CBE6EC7B /* InputTableTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputTableTypes.swift; sourceTree = "<group>"; };
+		C840E6709EFF85F959F2EB13 /* SwiftFoundationImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftFoundationImpl.swift; sourceTree = "<group>"; };
+		CA6D00E72487FED65815142E /* CandidateModeTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CandidateModeTypes.swift; sourceTree = "<group>"; };
+		CA82C7E1ECE27B61B9856752 /* MacNSEventKeyMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacNSEventKeyMapper.swift; sourceTree = "<group>"; };
+		CD4A197BCB09558A0668F9A7 /* 8_GramInPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = 8_GramInPath.swift; sourceTree = "<group>"; };
+		CF1AD702C1408BFA182C831E /* MacUpdateState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacUpdateState.swift; sourceTree = "<group>"; };
+		D31CD32771E5B410C5B3536B /* MacDomainPackSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacDomainPackSection.swift; sourceTree = "<group>"; };
+		D516DE4A14A3B61BF40B0244 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		D8C039CD8E9700EB50E62EFB /* 9_SwiftImpl_Internals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = 9_SwiftImpl_Internals.swift; sourceTree = "<group>"; };
+		D973434B92E036106574BDDF /* MacPreferencesFrontPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacPreferencesFrontPolicy.swift; sourceTree = "<group>"; };
+		DB4DD6A9F67CDF50171AD5F0 /* MacMarkedTextState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacMarkedTextState.swift; sourceTree = "<group>"; };
+		E55C3F09CAA920F2F42444CC /* MacIMEDailyLogFiles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacIMEDailyLogFiles.swift; sourceTree = "<group>"; };
+		E73C14FEC684893C030DA4E8 /* 7_Unigram.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = 7_Unigram.swift; sourceTree = "<group>"; };
+		EB01B330071C8654EC05EB6D /* MacReadingCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacReadingCatalog.swift; sourceTree = "<group>"; };
+		ECBD82E4C86006F183798257 /* heterophony1.list */ = {isa = PBXFileReference; path = heterophony1.list; sourceTree = "<group>"; };
+		EE6443061914EE6682489C5B /* MacComposerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacComposerView.swift; sourceTree = "<group>"; };
+		EECF24BABDAB1D47972B2BCA /* MacLogConsentViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacLogConsentViews.swift; sourceTree = "<group>"; };
+		EF80168578B18B2DEBADFCBF /* MacDomainPackCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacDomainPackCatalog.swift; sourceTree = "<group>"; };
+		F0A53A3E7BF07E3987810B8F /* MacReadingPanelPreference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacReadingPanelPreference.swift; sourceTree = "<group>"; };
+		F0B67417E9CB97A073F97E23 /* MacIMEEventLogSink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacIMEEventLogSink.swift; sourceTree = "<group>"; };
+		F0EBE3FFA978DB5D5101B4F8 /* MacPreferencesWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacPreferencesWindow.swift; sourceTree = "<group>"; };
+		F130BB70144615E9EE87C627 /* MacEngineFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacEngineFactory.swift; sourceTree = "<group>"; };
+		F1CEE96436394F7B6B8F99F3 /* MacUpdateService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacUpdateService.swift; sourceTree = "<group>"; };
+		F29387BE5CA212633DE9A687 /* PunctuationTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PunctuationTable.swift; sourceTree = "<group>"; };
+		F3C1F25789CCFFBF5AC24CDF /* MacInitialReadingMask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacInitialReadingMask.swift; sourceTree = "<group>"; };
+		F63E73FEE12897C3AA01F4B5 /* LICENSE.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
+		F8A0E0C3FBEC0590585DEF90 /* LegalKeyGateRevision.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegalKeyGateRevision.swift; sourceTree = "<group>"; };
+		FC571BEDDDDFF4AF30272D6D /* spike_icon.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = spike_icon.tiff; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D2B1EA4048FF15C9DEB7812C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A862D9046192C8DA0116DFA6 /* Megrez.framework in Frameworks */,
+				F8A50624DDB97C7CDAB4354E /* UpdateCheck in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		081AFFDD9BA2094D1A0ABEFC /* CandidateUI */ = {
+			isa = PBXGroup;
+			children = (
+				49631A51C36D61FECFA85C53 /* Shim */,
+				E5B1A850D4D72DA7AE932374 /* Upstream */,
+				A976FFD5D96FD2DCD5303EC3 /* LICENSE-MulanPSL-2.0-zh-Hant.txt */,
+				4C5AA790424357B93C893A1D /* LICENSE-MulanPSL-2.0.txt */,
+				89B9E7C9D41DF43856C8B0E1 /* THIRD_PARTY_NOTICE.md */,
+			);
+			path = CandidateUI;
+			sourceTree = "<group>";
+		};
+		2E55AA70A6EE5042951C0D67 /* InputTables */ = {
+			isa = PBXGroup;
+			children = (
+				C7855F0F81EDA4E8CBE6EC7B /* InputTableTypes.swift */,
+				614C9E046F27D89B69E7F962 /* LanguageSwitch.swift */,
+				F29387BE5CA212633DE9A687 /* PunctuationTable.swift */,
+			);
+			path = InputTables;
+			sourceTree = "<group>";
+		};
+		30F716E6949069175E1DED4D /* UpdateWiring */ = {
+			isa = PBXGroup;
+			children = (
+				F1CEE96436394F7B6B8F99F3 /* MacUpdateService.swift */,
+				CF1AD702C1408BFA182C831E /* MacUpdateState.swift */,
+			);
+			path = UpdateWiring;
+			sourceTree = "<group>";
+		};
+		430A3A8D26E9EBEF485DCB5D /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				A6BAD7071674D3A362509265 /* _TDK4AppKit.swift */,
+				4CB1A3184D6F042382A9F475 /* CandidateCellData4AppKit.swift */,
+				94CA39A0F80D8B7E3147D7DB /* CandidatePool4AppKit.swift */,
+				952D719FB1E361BE0283C970 /* CtlCandidateGSI4AppKit.swift */,
+				6A5D8CC3AD21D4EC3BB3849D /* VwrCandidateGSI4AppKit.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		49631A51C36D61FECFA85C53 /* Shim */ = {
+			isa = PBXGroup;
+			children = (
+				B22E15C7953654319ED6872A /* CandidateUIShim.swift */,
+				3B6B66FEFE651E7178B4D523 /* NSMenuActionTrampoline.swift */,
+			);
+			path = Shim;
+			sourceTree = "<group>";
+		};
+		4B4E70117FA2625567FD2168 /* Preferences */ = {
+			isa = PBXGroup;
+			children = (
+				D31CD32771E5B410C5B3536B /* MacDomainPackSection.swift */,
+				413F94E8970B5EA4B3D4E8B8 /* MacIMEAppDelegate.swift */,
+				6510A349152E45D52B6D2898 /* MacIssueReport.swift */,
+				5FA3132502CED3D14A2F29F2 /* MacKeysTab.swift */,
+				7823B8E27B170F76FD4E327A /* MacLexiconLookup.swift */,
+				9D3FA2237511C7381890A4A5 /* MacLexiconTab.swift */,
+				EECF24BABDAB1D47972B2BCA /* MacLogConsentViews.swift */,
+				83807406E051A6B75D965792 /* MacPreferencesFrontApplier.swift */,
+				556463FE0AB5A78228CD1FA1 /* MacPreferencesFrontEngine.swift */,
+				D973434B92E036106574BDDF /* MacPreferencesFrontPolicy.swift */,
+				9BF3DE3E63D0111E7DA5DF56 /* MacPreferencesShowDiagnostics.swift */,
+				88D4CE0D1B33983184A5E63E /* MacPreferencesTabs.swift */,
+				F0EBE3FFA978DB5D5101B4F8 /* MacPreferencesWindow.swift */,
+				2E9313CE8FA625F0F43B387F /* MacPrivacyCopy.swift */,
+				073D5A8C059F5DA7A28E970C /* MacQuitPolicy.swift */,
+				99E3267BB038A7C14347AE6A /* MacReleaseLinks.swift */,
+				66F35CAD56E7EE62A4C53238 /* MacTypingTab.swift */,
+			);
+			path = Preferences;
+			sourceTree = "<group>";
+		};
+		4EB3BC47224388A27D25C9C1 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				5774B5C163B9B137897BB274 /* ThirdPartyNotices.txt */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		595058FB888620A307C72FE2 /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				C5AC40332796E07D2AA1675E /* SwiftExtension */,
+				3E5B8F061E732CDA29DAB7B3 /* AppKitImpl_Misc.swift */,
+				3388FDBAA816B5A509DEDDFC /* AppKitImpl_NSView_Extract.swift */,
+				0C0DE2079F36F06D69CA2001 /* Broadcaster.swift */,
+			);
+			path = Support;
+			sourceTree = "<group>";
+		};
+		732ECF7100852FD3E8BB6069 /* MacIMESpike */ = {
+			isa = PBXGroup;
+			children = (
+				C8CDBC05AE9C125EB112646C /* CandidateMode */,
+				081AFFDD9BA2094D1A0ABEFC /* CandidateUI */,
+				BAF9F4736E559BF32DC28087 /* CandidateWiring */,
+				AA71A8547502B39E5BA279C0 /* EventLog */,
+				7643CE6D3FAADAA32D55F54D /* InfoPlist.strings */,
+				2E55AA70A6EE5042951C0D67 /* InputTables */,
+				AE0653DE6119492E14729A25 /* OpenCore */,
+				4B4E70117FA2625567FD2168 /* Preferences */,
+				4EB3BC47224388A27D25C9C1 /* Resources */,
+				30F716E6949069175E1DED4D /* UpdateWiring */,
+				B9A944FD27A14D0A10FAE1DC /* Assets.xcassets */,
+				D516DE4A14A3B61BF40B0244 /* main.swift */,
+				FC571BEDDDDFF4AF30272D6D /* spike_icon.tiff */,
+				87ABDFE23479ABC2E42278FD /* TWKeyboardMacSpikeController.swift */,
+			);
+			path = MacIMESpike;
+			sourceTree = "<group>";
+		};
+		735372DA46217145AC7A8FC4 /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				B45EA2092842124A394A47D4 /* UpdateCheck */,
+			);
+			path = Packages;
+			sourceTree = "<group>";
+		};
+		7DD944F38CC5D2503962A361 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A07D9F078E2CDD60FA9ED233 /* Megrez.framework */,
+				A15DFF067B609D0496401892 /* TWKeyboard.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		810601E535584FE0618F1258 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				82A4E4D1122F0BA3642C7C68 /* BopomofoSegmenter */,
+				C599E57EF9C7643E150DFA2D /* Megrez */,
+				518159F14F7E0DE70BCBD3B7 /* CompositionCursorScrubSupport.swift */,
+				A0219DA26092A22121A87BCB /* LegalKeyBackspacePlan.swift */,
+				F8A0E0C3FBEC0590585DEF90 /* LegalKeyGateRevision.swift */,
+				18E9B0B16736C3E329903C32 /* LegalKeySyllableComposer.swift */,
+				55FF569A181413714002D101 /* LexiconLookup.swift */,
+				51624E0E95C59388E2181FBA /* MacPrefsSchema.swift */,
+				F0A53A3E7BF07E3987810B8F /* MacReadingPanelPreference.swift */,
+				8116A75AAFBB35DF2249A3CE /* MacReadingSlot.swift */,
+				9242DCF688630AECC9B68092 /* MacUsageLogCleaner.swift */,
+				4A9B2B4D49DFB93793AF4194 /* UserCustomPhrasesStore.swift */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		82A4E4D1122F0BA3642C7C68 /* BopomofoSegmenter */ = {
+			isa = PBXGroup;
+			children = (
+				84B544AA42BB3F048D638FF1 /* BopomofoSymbol.swift */,
+				118CDE9EE56BB945475ED00F /* SyllableData.swift */,
+				96E22D3873D273B4F0F7FBBF /* SyllableSuccessorData.swift */,
+				A962701EAB224107E71FAD22 /* SyllableSuccessorTable.swift */,
+				C781EF969651A7A030E3DC2E /* SyllableTable.swift */,
+			);
+			path = BopomofoSegmenter;
+			sourceTree = "<group>";
+		};
+		94205378ECC10BEF04DBC28E /* Vendor */ = {
+			isa = PBXGroup;
+			children = (
+				EBD6C4830732AC9FDC99126B /* McBopomofo */,
+			);
+			path = Vendor;
+			sourceTree = "<group>";
+		};
+		9F66638095350F83923D71EC /* BasicEngine */ = {
+			isa = PBXGroup;
+			children = (
+				B80A63C01E2F47D2BA716F27 /* BasicComposerView.swift */,
+				8D18245EEB03177C93BEA2F6 /* BasicEngine.swift */,
+				B8E6058500ADA5AE891E7CC2 /* McBopomofoLexicon.swift */,
+			);
+			path = BasicEngine;
+			sourceTree = "<group>";
+		};
+		A8C434AE46C3D08A24DC5BB3 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				B01799603B27B65CE6C64532 /* Data */,
+			);
+			path = Source;
+			sourceTree = "<group>";
+		};
+		AA71A8547502B39E5BA279C0 /* EventLog */ = {
+			isa = PBXGroup;
+			children = (
+				C553ECC86851ADF39419B9BD /* MacIMEDailyLog.swift */,
+				85068FCDD7445C0A53BC6A58 /* MacIMEEventLog.swift */,
+				B2C408E5CAA9A1631A70E564 /* MacIMELogConsent.swift */,
+				8FEF3059203184416D038B10 /* MacIMELogExport.swift */,
+			);
+			path = EventLog;
+			sourceTree = "<group>";
+		};
+		AB424DC7FEAE7F7092066DE9 /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				824B920A73C72BC296DF2C5C /* Version.xcconfig */,
+			);
+			path = Config;
+			sourceTree = "<group>";
+		};
+		AE0653DE6119492E14729A25 /* OpenCore */ = {
+			isa = PBXGroup;
+			children = (
+				9F66638095350F83923D71EC /* BasicEngine */,
+			);
+			path = OpenCore;
+			sourceTree = "<group>";
+		};
+		B01799603B27B65CE6C64532 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				91EDDBAF873F40B97C13C6B6 /* BPMFBase.txt */,
+				3520BB781D023AA79D6B55FF /* BPMFMappings.txt */,
+				ECBD82E4C86006F183798257 /* heterophony1.list */,
+				BD5601C12F973B8CD750FDB0 /* heterophony2.list */,
+				67247724253152F7EF0EF1A7 /* heterophony3.list */,
+				C51E700D4A46530C0C01AB4D /* phrase.occ */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		BAF9F4736E559BF32DC28087 /* CandidateWiring */ = {
+			isa = PBXGroup;
+			children = (
+				4E110F0808F2CB21B503F001 /* MacCandidateWindowPresenting.swift */,
+				5C65DB6153F31F5D18350433 /* MacChoiceLearning.swift */,
+				C1D5272D77755367867FAC82 /* MacClientSession.swift */,
+				5DBAFF24388B40D7E3F4FF9A /* MacComposedSegmentBuilder.swift */,
+				EE6443061914EE6682489C5B /* MacComposerView.swift */,
+				EF80168578B18B2DEBADFCBF /* MacDomainPackCatalog.swift */,
+				F130BB70144615E9EE87C627 /* MacEngineFactory.swift */,
+				A87D226C541A8D0D32CB5F2A /* MacEngineTuning.swift */,
+				AEAA1D7984E179ADA5AF1DEF /* MacEnglishIndicator.swift */,
+				05B5502CA06F083EFA940BB8 /* MacEnglishIndicatorPanel.swift */,
+				E55C3F09CAA920F2F42444CC /* MacIMEDailyLogFiles.swift */,
+				F0B67417E9CB97A073F97E23 /* MacIMEEventLogSink.swift */,
+				F3C1F25789CCFFBF5AC24CDF /* MacInitialReadingMask.swift */,
+				EB01B330071C8654EC05EB6D /* MacReadingCatalog.swift */,
+				3C7510BAFD04DBA24744C798 /* MacReadingPanel.swift */,
+				15FD0422218ED6088D13AD41 /* MacUserPhraseReload.swift */,
+				5D07D88A032C9633772BC7EB /* MacUserPhrasesLocation.swift */,
+				A0043BB4FDB586C7BD7CBEAC /* MacZhuyinConstants.swift */,
+				0D080B856ADEEA4A32D98D4C /* MacZhuyinEnginePort.swift */,
+			);
+			path = CandidateWiring;
+			sourceTree = "<group>";
+		};
+		C599E57EF9C7643E150DFA2D /* Megrez */ = {
+			isa = PBXGroup;
+			children = (
+				06C5A7CB2EE69914241971EA /* 0_Megrez.swift */,
+				4F4B16864C38BF69BDB7DDE7 /* 1_Compositor.swift */,
+				80FB7D07BA6CD41EF867F4D0 /* 2_PathFinder.swift */,
+				59D80FEF5CEF8A69DCE3AA1E /* 3_KeyValuePaired.swift */,
+				36CC00DFBA24AED0F8B48AEC /* 4_Segment.swift */,
+				41EBAE87B36DDF89F2D2EFB1 /* 5_Node.swift */,
+				A3F94D0A769333890E9892B3 /* 6_LangModel.swift */,
+				E73C14FEC684893C030DA4E8 /* 7_Unigram.swift */,
+				CD4A197BCB09558A0668F9A7 /* 8_GramInPath.swift */,
+				D8C039CD8E9700EB50E62EFB /* 9_SwiftImpl_Internals.swift */,
+				76C6B5C08ECE787E462DC862 /* CUSTOM_LGPLv3_EXCEPTION.md */,
+				BD806DE1630425952CF84EEE /* LICENSE */,
+			);
+			path = Megrez;
+			sourceTree = "<group>";
+		};
+		C5AC40332796E07D2AA1675E /* SwiftExtension */ = {
+			isa = PBXGroup;
+			children = (
+				10CA09F1948CA7EDECCD0158 /* LatinKeyboardMappings.swift */,
+				0E862AF07777B3439E61030A /* SwiftExtension.swift */,
+				C840E6709EFF85F959F2EB13 /* SwiftFoundationImpl.swift */,
+			);
+			path = SwiftExtension;
+			sourceTree = "<group>";
+		};
+		C8CDBC05AE9C125EB112646C /* CandidateMode */ = {
+			isa = PBXGroup;
+			children = (
+				B46F2601DF45B3F3DD2A863F /* CandidateModeMachine.swift */,
+				CA6D00E72487FED65815142E /* CandidateModeTypes.swift */,
+				47DE1FD12BA06F6C8AC63591 /* MacKeyRescuePolicy.swift */,
+				DB4DD6A9F67CDF50171AD5F0 /* MacMarkedTextState.swift */,
+				CA82C7E1ECE27B61B9856752 /* MacNSEventKeyMapper.swift */,
+				66C7CE0C7463BFE7CAC80B7C /* MacReadingPanelAnchor.swift */,
+				546BD906BC485D0B2399D9F6 /* MacTypingKeyPolicy.swift */,
+				79FD8E26AD19981D65BF9379 /* MacUnfinishedZhuyin.swift */,
+			);
+			path = CandidateMode;
+			sourceTree = "<group>";
+		};
+		E5B1A850D4D72DA7AE932374 /* Upstream */ = {
+			isa = PBXGroup;
+			children = (
+				595058FB888620A307C72FE2 /* Support */,
+				430A3A8D26E9EBEF485DCB5D /* UI */,
+			);
+			path = Upstream;
+			sourceTree = "<group>";
+		};
+		EBD6C4830732AC9FDC99126B /* McBopomofo */ = {
+			isa = PBXGroup;
+			children = (
+				A8C434AE46C3D08A24DC5BB3 /* Source */,
+				F63E73FEE12897C3AA01F4B5 /* LICENSE.txt */,
+			);
+			path = McBopomofo;
+			sourceTree = "<group>";
+		};
+		EE46F1C2829A7CE7B1684F56 = {
+			isa = PBXGroup;
+			children = (
+				AB424DC7FEAE7F7092066DE9 /* Config */,
+				732ECF7100852FD3E8BB6069 /* MacIMESpike */,
+				735372DA46217145AC7A8FC4 /* Packages */,
+				810601E535584FE0618F1258 /* Shared */,
+				94205378ECC10BEF04DBC28E /* Vendor */,
+				7DD944F38CC5D2503962A361 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		61A70C5D7893F2F102FB6EA5 /* Megrez */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8ABA71190B028D299A281AC8 /* Build configuration list for PBXNativeTarget "Megrez" */;
+			buildPhases = (
+				03CA15E632A097FFECAF97B1 /* Sources */,
+				1F286EA8DA562C7D7086EEDE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Megrez;
+			packageProductDependencies = (
+			);
+			productName = Megrez;
+			productReference = A07D9F078E2CDD60FA9ED233 /* Megrez.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		F04068A010BB10586E032B03 /* TWKeyboard */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 30B7F5F265BCC087325BC983 /* Build configuration list for PBXNativeTarget "TWKeyboard" */;
+			buildPhases = (
+				A6716FA24B759BCB561A3D60 /* Sources */,
+				9A7825B492148579622B8A88 /* Resources */,
+				D2B1EA4048FF15C9DEB7812C /* Frameworks */,
+				120BBD0F6048ACCA3ABD0DF5 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				4E81AE4AACA95CA25578FDD7 /* PBXTargetDependency */,
+			);
+			name = TWKeyboard;
+			packageProductDependencies = (
+				D5B221FA76E6EB1FD6FED3F3 /* UpdateCheck */,
+			);
+			productName = TWKeyboard;
+			productReference = A15DFF067B609D0496401892 /* TWKeyboard.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F6746E51C7589ADF56C0EBFB /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+				};
+			};
+			buildConfigurationList = 7A3540E9225195259CA2D7DE /* Build configuration list for PBXProject "ZhuyinTai" */;
+			developmentRegion = "zh-Hant";
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				"zh-Hant",
+			);
+			mainGroup = EE46F1C2829A7CE7B1684F56;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				D594EC6B045064EE7D839041 /* XCLocalSwiftPackageReference "Packages/UpdateCheck" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 7DD944F38CC5D2503962A361 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				61A70C5D7893F2F102FB6EA5 /* Megrez */,
+				F04068A010BB10586E032B03 /* TWKeyboard */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1F286EA8DA562C7D7086EEDE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CBB0F61A1BC87CCFC164DE24 /* CUSTOM_LGPLv3_EXCEPTION.md in Resources */,
+				492BEEE297A024AA495A9637 /* LICENSE in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9A7825B492148579622B8A88 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EE170EB37A52344D369B437B /* Assets.xcassets in Resources */,
+				21D30252991D9D18079FB473 /* BPMFBase.txt in Resources */,
+				1DA65CF7BD30454FDC543DF4 /* BPMFMappings.txt in Resources */,
+				520CA734C1CCC159FD7FA316 /* InfoPlist.strings in Resources */,
+				EE8139B9235576C9A8002E2F /* LICENSE-MulanPSL-2.0-zh-Hant.txt in Resources */,
+				8DEC8B233FCB8AFEDFE5D27A /* LICENSE-MulanPSL-2.0.txt in Resources */,
+				CB07F8F5C4204FDB4C92844A /* LICENSE.txt in Resources */,
+				5058AE1E97CC8CE22F684AD4 /* THIRD_PARTY_NOTICE.md in Resources */,
+				A00B2212FEBA954F105AD270 /* ThirdPartyNotices.txt in Resources */,
+				191A0427DFA46F61E789E500 /* heterophony1.list in Resources */,
+				83402E5F63F8EFFF829906AB /* heterophony2.list in Resources */,
+				E95F51B540B17C91ED61CC09 /* heterophony3.list in Resources */,
+				457D599E1C3A9847D65C4DF3 /* phrase.occ in Resources */,
+				8A372AFEDC089BEFBC722222 /* spike_icon.tiff in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		03CA15E632A097FFECAF97B1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DDEC1EA34D1CED6CC9D5E56E /* 0_Megrez.swift in Sources */,
+				F505B24CC87CC1FADFADF1CA /* 1_Compositor.swift in Sources */,
+				58CFB19C54DCA9CFDD95E595 /* 2_PathFinder.swift in Sources */,
+				EE510C53B2E2506ABDB7FCDA /* 3_KeyValuePaired.swift in Sources */,
+				F81D412F887AE0173B0551D4 /* 4_Segment.swift in Sources */,
+				8FE6965AF3A24DCD4244E405 /* 5_Node.swift in Sources */,
+				6F51BFFE0CED6344263CACFB /* 6_LangModel.swift in Sources */,
+				67C26F153573748C473F16A4 /* 7_Unigram.swift in Sources */,
+				6D82010DBF0E7253556A0C3F /* 8_GramInPath.swift in Sources */,
+				0190399FDF4EFF54619FEA5C /* 9_SwiftImpl_Internals.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A6716FA24B759BCB561A3D60 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5B61D47BA1E78BC4899FFA43 /* AppKitImpl_Misc.swift in Sources */,
+				EBC81411D4209D0A07C86BFA /* AppKitImpl_NSView_Extract.swift in Sources */,
+				7AA87E73394E365DFA0FB87C /* BasicComposerView.swift in Sources */,
+				D13CF8B97DA071E8003F3580 /* BasicEngine.swift in Sources */,
+				22A2546321B58BABEB00D00B /* BopomofoSymbol.swift in Sources */,
+				289DD82DADB57A0F080E8E9A /* Broadcaster.swift in Sources */,
+				D7615E9CC0852A8AB490F145 /* CandidateCellData4AppKit.swift in Sources */,
+				0FB212C4A83E2BEF860CA0EE /* CandidateModeMachine.swift in Sources */,
+				B63B302F93CF7073073ABC95 /* CandidateModeTypes.swift in Sources */,
+				D835C0C0ECB1B58CDB070FA2 /* CandidatePool4AppKit.swift in Sources */,
+				9166A2D45B8F5C24AFDB3CC2 /* CandidateUIShim.swift in Sources */,
+				A78E23E57AA98D719682A483 /* CompositionCursorScrubSupport.swift in Sources */,
+				C6E2D611845430EE10FB2CA3 /* CtlCandidateGSI4AppKit.swift in Sources */,
+				F736175417B1B11553A6D5DD /* InputTableTypes.swift in Sources */,
+				1D3FB8D29CF92E35A9CB2691 /* LanguageSwitch.swift in Sources */,
+				9BDE81F7A674AFB9F1DB2322 /* LatinKeyboardMappings.swift in Sources */,
+				82C3FDE70C973FD0C3210436 /* LegalKeyBackspacePlan.swift in Sources */,
+				25A1803209CDCE555CD01C1F /* LegalKeyGateRevision.swift in Sources */,
+				ED19EA5E900A58B904E8CC97 /* LegalKeySyllableComposer.swift in Sources */,
+				A4CCB56A4DE59694CEBFE11B /* LexiconLookup.swift in Sources */,
+				ACAB7CE456D14081F24187E3 /* MacCandidateWindowPresenting.swift in Sources */,
+				0C4C11339834679AF35139C5 /* MacChoiceLearning.swift in Sources */,
+				D691FDB7B27651907D02E1BD /* MacClientSession.swift in Sources */,
+				E5D6F5CC8C8B89AA470488A7 /* MacComposedSegmentBuilder.swift in Sources */,
+				4B43B4C6CD4AEBB91867C955 /* MacComposerView.swift in Sources */,
+				E927E492BFE8050C30456C73 /* MacDomainPackCatalog.swift in Sources */,
+				2CABC2461547D4C3DE9D10DC /* MacDomainPackSection.swift in Sources */,
+				4ADC6D957EDAA8C9B063104A /* MacEngineFactory.swift in Sources */,
+				7F874704E038FC49F1F77242 /* MacEngineTuning.swift in Sources */,
+				7DC0051A428D90C37857C391 /* MacEnglishIndicator.swift in Sources */,
+				E697B094871061E07BC3AA62 /* MacEnglishIndicatorPanel.swift in Sources */,
+				02F6B24BA14B144C49FDD0AE /* MacIMEAppDelegate.swift in Sources */,
+				85F5FEFB22DB72EBE5325025 /* MacIMEDailyLog.swift in Sources */,
+				881C2664DA7A194B3BEC3A20 /* MacIMEDailyLogFiles.swift in Sources */,
+				B43B46619626080B9DA7FAA0 /* MacIMEEventLog.swift in Sources */,
+				0589430ABEA3EF834B07984A /* MacIMEEventLogSink.swift in Sources */,
+				A2EC73FBFAE87AC04461F369 /* MacIMELogConsent.swift in Sources */,
+				14398043D298B21BB53771DE /* MacIMELogExport.swift in Sources */,
+				3C4F2F6A6B020F87B49EB637 /* MacInitialReadingMask.swift in Sources */,
+				A468514C23D624EFBD5C4917 /* MacIssueReport.swift in Sources */,
+				CB48B276782F93F59DB1214C /* MacKeyRescuePolicy.swift in Sources */,
+				2F756543747297A208A532A4 /* MacKeysTab.swift in Sources */,
+				6F5C483D71CFDBB75FE4604D /* MacLexiconLookup.swift in Sources */,
+				AE456B98647B5151D7F39FA0 /* MacLexiconTab.swift in Sources */,
+				92E975D8B14EF79F17BEAAB0 /* MacLogConsentViews.swift in Sources */,
+				827AEB0C37CF0625E931DF6C /* MacMarkedTextState.swift in Sources */,
+				36CCFF4CA607A4AFBBEFC2E2 /* MacNSEventKeyMapper.swift in Sources */,
+				479272A61235E4E13A32CD52 /* MacPreferencesFrontApplier.swift in Sources */,
+				6C1CAA6F4F13EC13F3B41033 /* MacPreferencesFrontEngine.swift in Sources */,
+				BF09E2832DEEB0A3E08D625C /* MacPreferencesFrontPolicy.swift in Sources */,
+				4CD8815BCDC28E9A1A9E9FFF /* MacPreferencesShowDiagnostics.swift in Sources */,
+				1986A07C51FBC18E1434FB82 /* MacPreferencesTabs.swift in Sources */,
+				5E591C6D6A984AC016DD371D /* MacPreferencesWindow.swift in Sources */,
+				8ED45512FDF8EBECE7474D99 /* MacPrefsSchema.swift in Sources */,
+				D74B29B78749DB1DFFE40D59 /* MacPrivacyCopy.swift in Sources */,
+				920129357F318DDC88A7BC30 /* MacQuitPolicy.swift in Sources */,
+				33C2C4F95F2F32E99A8236CB /* MacReadingCatalog.swift in Sources */,
+				CB7153F2E23B2A6ADB2BC9C3 /* MacReadingPanel.swift in Sources */,
+				0FFB99640ED454CBE34778D6 /* MacReadingPanelAnchor.swift in Sources */,
+				F5D3C1AE867D827775872DC6 /* MacReadingPanelPreference.swift in Sources */,
+				41C9F1FCF7B9890244F4271D /* MacReadingSlot.swift in Sources */,
+				15142B2C6C92DFC4E9D44070 /* MacReleaseLinks.swift in Sources */,
+				461F043F70DB544AD4CA881E /* MacTypingKeyPolicy.swift in Sources */,
+				F0F4FA589EF16227C2A16957 /* MacTypingTab.swift in Sources */,
+				DC8EEAEFA0136B47710061E2 /* MacUnfinishedZhuyin.swift in Sources */,
+				F39E3EBBF0B1A9276A34124B /* MacUpdateService.swift in Sources */,
+				22E0F5E5E4D574E05702A4BE /* MacUpdateState.swift in Sources */,
+				80117F4C8960B693A9867137 /* MacUsageLogCleaner.swift in Sources */,
+				147A21D291033FC35979051A /* MacUserPhraseReload.swift in Sources */,
+				62F8012E3043447AA0627B90 /* MacUserPhrasesLocation.swift in Sources */,
+				3EAFEEDE6E55568FC489B1C3 /* MacZhuyinConstants.swift in Sources */,
+				5E5B04F1A01FE2C52F830F7B /* MacZhuyinEnginePort.swift in Sources */,
+				328CEF911694337B4BF0CCBA /* McBopomofoLexicon.swift in Sources */,
+				CC0A766E1E254E5DD4B0E37B /* NSMenuActionTrampoline.swift in Sources */,
+				8A23D6AF18E9DA8435883607 /* PunctuationTable.swift in Sources */,
+				57EFAFEE18C4ADA1E21A17FA /* SwiftExtension.swift in Sources */,
+				4E4CA5C248872C05DAA2B1C9 /* SwiftFoundationImpl.swift in Sources */,
+				07C53E6EE5CDF8F8E5DA2F85 /* SyllableData.swift in Sources */,
+				D8BE3C3D6C0C9514FDB6B3F5 /* SyllableSuccessorData.swift in Sources */,
+				050236DD69475ADB25275D29 /* SyllableSuccessorTable.swift in Sources */,
+				2901054221A69E0B3B6F7FC5 /* SyllableTable.swift in Sources */,
+				847C35E5E98C11F45B7C53F7 /* TWKeyboardMacSpikeController.swift in Sources */,
+				C0F1624195B15237ED1D0688 /* UserCustomPhrasesStore.swift in Sources */,
+				ED2C4AC8843347F49D292340 /* VwrCandidateGSI4AppKit.swift in Sources */,
+				96E74906290932D2AE419BE2 /* _TDK4AppKit.swift in Sources */,
+				915D1996876CC055FEEB77A7 /* main.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		4E81AE4AACA95CA25578FDD7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 61A70C5D7893F2F102FB6EA5 /* Megrez */;
+			targetProxy = 39F224F00080D320134E503E /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		7643CE6D3FAADAA32D55F54D /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B0A48B12CFC0B30E9F30C3F5 /* Base */,
+				1A2D11CBF36FC4C8A4F9BC2A /* zh-Hant */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		0466D670D3688534A0BAB091 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGNING_REQUIRED = NO;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		129515BA21ED2D8CE96A1331 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 824B920A73C72BC296DF2C5C /* Version.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGNING_REQUIRED = NO;
+				CODE_SIGN_ENTITLEMENTS = MacIMESpike/MacIMESpike.entitlements;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MacIMESpike/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "注音台（自編版）";
+				INFOPLIST_KEY_CFBundleName = "注音台（自編版）";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.kota.xrich.inputmethod.TWKeyboardOSS;
+				PRODUCT_NAME = TWKeyboard;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = MEGREZ_DYNAMIC;
+			};
+			name = Release;
+		};
+		4040350007EC14D4501F8F50 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 824B920A73C72BC296DF2C5C /* Version.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGNING_REQUIRED = NO;
+				CODE_SIGN_ENTITLEMENTS = MacIMESpike/MacIMESpike.entitlements;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MacIMESpike/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "注音台（自編版）";
+				INFOPLIST_KEY_CFBundleName = "注音台（自編版）";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.kota.xrich.inputmethod.TWKeyboardOSS;
+				PRODUCT_NAME = TWKeyboard;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG MEGREZ_DYNAMIC";
+			};
+			name = Debug;
+		};
+		B38DA760FE32F678516E355B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGNING_REQUIRED = NO;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GENERATE_INFOPLIST_FILE = YES;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @loader_path/Frameworks";
+				MACH_O_TYPE = mh_dylib;
+				MARKETING_VERSION = 0.1;
+				OTHER_SWIFT_FLAGS = "$(inherited) -Xfrontend -disable-cmo";
+				PRODUCT_BUNDLE_IDENTIFIER = com.kota.xrich.TWKeyboard.Megrez;
+				PRODUCT_MODULE_NAME = Megrez;
+				PRODUCT_NAME = Megrez;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Release;
+		};
+		C7DA288B4D745E83126998DC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGNING_REQUIRED = NO;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		F61341B0B75A3B1B0B62CA80 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGNING_REQUIRED = NO;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GENERATE_INFOPLIST_FILE = YES;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @loader_path/Frameworks";
+				MACH_O_TYPE = mh_dylib;
+				MARKETING_VERSION = 0.1;
+				OTHER_SWIFT_FLAGS = "$(inherited) -Xfrontend -disable-cmo";
+				PRODUCT_BUNDLE_IDENTIFIER = com.kota.xrich.TWKeyboard.Megrez;
+				PRODUCT_MODULE_NAME = Megrez;
+				PRODUCT_NAME = Megrez;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		30B7F5F265BCC087325BC983 /* Build configuration list for PBXNativeTarget "TWKeyboard" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4040350007EC14D4501F8F50 /* Debug */,
+				129515BA21ED2D8CE96A1331 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		7A3540E9225195259CA2D7DE /* Build configuration list for PBXProject "ZhuyinTai" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C7DA288B4D745E83126998DC /* Debug */,
+				0466D670D3688534A0BAB091 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		8ABA71190B028D299A281AC8 /* Build configuration list for PBXNativeTarget "Megrez" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F61341B0B75A3B1B0B62CA80 /* Debug */,
+				B38DA760FE32F678516E355B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		D594EC6B045064EE7D839041 /* XCLocalSwiftPackageReference "Packages/UpdateCheck" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Packages/UpdateCheck;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		D5B221FA76E6EB1FD6FED3F3 /* UpdateCheck */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = UpdateCheck;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = F6746E51C7589ADF56C0EBFB /* Project object */;
+}

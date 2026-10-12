@@ -1,0 +1,50 @@
+# tools/oss/allowlist.txt — 開源樹要匯出的路徑（相對 repo 根；支援 **）
+# 規則：denylist 優先於本檔。判斷不了能不能公開 ⇒ 不要寫在這裡。
+
+# ── ⑤ Mac app 外殼（Apache-2.0）──
+MacIMESpike/**
+# S3' 公開版基本引擎（MacIMESpike/** 已含；這裡只點名本次新增的檔）
+MacIMESpike/OpenCore/BasicEngine/BasicEngine.swift
+MacIMESpike/OpenCore/BasicEngine/BasicComposerView.swift
+MacIMESpike/OpenCore/BasicEngine/McBopomofoLexicon.swift
+MacIMESpike/OpenCore/BasicEngine/Tests/BasicEngineTests.swift
+
+# ── 外殼直接用的 Shared 檔 ──
+Shared/BopomofoSegmenter/**
+Shared/CompositionCursorScrubSupport.swift
+Shared/UserCustomPhrasesStore.swift
+Shared/LegalKeySyllableComposer.swift
+Shared/LegalKeyBackspacePlan.swift
+Shared/LegalKeyGateRevision.swift
+Shared/LexiconLookup.swift
+Shared/MacPrefsSchema.swift
+Shared/MacReadingSlot.swift
+Shared/MacUsageLogCleaner.swift
+Shared/MacReadingPanelPreference.swift
+
+# ── 開放的 API 層（port protocol、跨界值型別、facade 協定）──
+TWKCoreAPI/**
+
+# ── LGPL：Megrez 與 KenLM 查詢碼（保留原授權；隨 app 附原始碼的義務）──
+Shared/Megrez/**
+Shared/KenLMQueryBridge.h
+Shared/KenLMQueryBridge.mm
+Vendor/KenLMQuerySource/**
+third_party/lgpl_source/**
+
+# ── 小麥注音上游資料（MIT；開放基本引擎的資料來源）──
+# 只放 6 個逐字上游檔＋授權全文；內容與 PIN.md 的 sha256 一致由 test_check_lists 鎖住。
+# 注意：phrase.occ 是上游自己公開的出現次數，不是我們的詞庫分數。
+Vendor/McBopomofo/Source/Data/*
+Vendor/McBopomofo/LICENSE.txt
+
+# ── ⑤ 更新檢查 ──
+Packages/UpdateCheck/**
+
+# ── 版本來源 ──
+Config/Version.xcconfig
+
+# ── 授權與外洩掃描 ──
+# （LICENSE／NOTICE／LICENSES/ 放 tools/oss/overlay/，匯出時疊到樹根目錄）
+tools/oss/**
+# tools/release/ 不匯出

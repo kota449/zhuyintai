@@ -1,0 +1,51 @@
+name: 補詞或讀音錯誤
+description: 想要的詞沒有、讀音錯了、同音字順序不對
+title: "[補詞] "
+labels: ["lexicon"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ⚠️ **這裡是公開的**——任何人都看得到你貼的內容。
+        **請不要貼私人的打字內容**（對話、帳號、密碼、住址、公司資料）。
+        只需要告訴我們**那一個詞**，用中性的例句就好。
+        也**不要貼「匯出 log」的檔案**，裡面有你打的字。
+  - type: textarea
+    id: word
+    attributes:
+      label: 想要的詞
+      description: 例如「想要『測試』」
+    validations:
+      required: true
+  - type: textarea
+    id: zhuyin
+    attributes:
+      label: 注音
+      description: 照你按的順序，例如 ㄘㄜˋ ㄕˋ（可以貼在這裡，這是注音不是私人內容）
+    validations:
+      required: true
+  - type: dropdown
+    id: category
+    attributes:
+      label: 類別
+      description: 選一個最接近的
+      options:
+        - 缺詞（打不出來）
+        - 讀音錯（注音不對）
+        - 同音字順序（排太後面）
+    validations:
+      required: true
+  - type: textarea
+    id: source
+    attributes:
+      label: 來源或用法例句
+      description: 字典、新聞、官方網站的網址都可以。寫例句請用中性的，不要貼私人的內容
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: 版本資訊
+      description: 偏好設定 →「關於」→ 按「回報問題」會開啟回報頁並預填版本與 macOS 版本（也會複製一份到剪貼簿，沒預填就直接貼上）
+    validations:
+      required: true

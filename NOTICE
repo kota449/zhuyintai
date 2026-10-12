@@ -1,0 +1,80 @@
+注音台 ZhuyinTai
+Copyright 2026 ZhuyinTai Contributors
+
+本專案以 Apache License 2.0 釋出，授權全文見 LICENSE。
+本 NOTICE 的內容只做說明用，不修改授權條款。
+
+第三方元件如下。用到就照原授權辦。原來的聲明都保留。
+
+1. 小麥注音輸入法（McBopomofo）詞庫資料
+   授權：MIT License。
+   上游：https://github.com/openvanilla/McBopomofo
+   commit：73d0379
+   本樹收錄該 commit 的 LICENSE.txt，以及 Source/Data 下 6 個原檔。
+   這 7 個檔保持上游原樣，不加任何標頭。散布時要完整保留版權聲明跟授權文字。
+   6 個資料檔的 sha256：
+
+   5916b2128627a63cb04138a0ee6dd8dcca18bb8726bd0554f12253725e5d3381  Vendor/McBopomofo/Source/Data/BPMFBase.txt
+   51715ee5c731f9994be3b168d7681ed9692b8c335ae6fc2e7cfd4af6fd0e0781  Vendor/McBopomofo/Source/Data/BPMFMappings.txt
+   7fddbb6a66022b1809181484c7627d79dee4231849cb2d3c8c8cd4578b3d22cb  Vendor/McBopomofo/Source/Data/heterophony1.list
+   4afd69a2702ae3af533cd01b755f81d77a430ace91311a8229319334aec24e37  Vendor/McBopomofo/Source/Data/heterophony2.list
+   8be3f37fe419744c3792df1bdfc67a0abdb215dbbb759c92204d4f8d68a32cd9  Vendor/McBopomofo/Source/Data/heterophony3.list
+   0fc51c5245a8820e1003e3fa3fb2759b0d1b502a71da81bbfa265e9ac6c9fb5a  Vendor/McBopomofo/Source/Data/phrase.occ
+
+   授權全文見 Vendor/McBopomofo/LICENSE.txt，並照抄於下方附錄。
+
+2. libtabe
+   授權：BSD 授權（三條款，BSD-3-Clause）。
+   拿來處理注音、字頻、詞彙相關功能跟詞庫資料。散布時要保留版權聲明、條件跟免責聲明。
+
+3. 威注音輸入法（vChewing）候選窗程式碼
+   授權：木蘭寬鬆許可證第 2 版（MulanPSL-2.0）。
+   位置：MacIMESpike/CandidateUI/Upstream/。
+   這些檔案保留原來的授權跟聲明。不要刪。
+   授權全文與聲明見 MacIMESpike/CandidateUI/LICENSE-MulanPSL-2.0.txt 與
+   MacIMESpike/CandidateUI/THIRD_PARTY_NOTICE.md。
+
+4. Megrez 組字引擎（vChewing 專案）
+   授權：GNU Lesser General Public License v3.0 or later（LGPL-3.0-or-later）。
+   我們有改過。有改的地方會標註。散布時照 LGPL-3.0 的規定辦。
+   位置：Shared/Megrez/。授權全文見 Shared/Megrez/LICENSE；
+   作者附加許可見 Shared/Megrez/CUSTOM_LGPLv3_EXCEPTION.md。
+
+5. KenLM 查詢程式碼
+   授權：GNU Lesser General Public License v2.1 or later（LGPL-2.1-or-later）。
+   位置：Vendor/KenLMQuerySource/、Shared/KenLMQueryBridge.{h,mm}。
+   個別檔案的例外（getopt、murmur_hash、double-conversion 等）見 Vendor/KenLMQuerySource/LICENSE。
+   散布時照 LGPL-2.1 的規定辦。
+
+6. LGPL 對應原始碼
+   Megrez 與 KenLM 查詢碼的對應原始碼與修改說明放在 third_party/lgpl_source/。
+   官方安裝包把它附在 Contents/Resources/lgpl_source/。
+
+7. 詞庫投稿檔
+   授權：Mozilla Public License 2.0（MPL-2.0）。
+   位置：contributions/。授權全文見 LICENSES/MPL-2.0.txt，適用聲明見 contributions/README.md。
+   本專案的程式碼不適用 MPL-2.0；程式碼用 Apache-2.0，見 LICENSE。
+
+附錄：McBopomofo 授權全文（與 Vendor/McBopomofo/LICENSE.txt 相同，逐字照抄）
+
+MIT License
+
+Copyright (c) 2011-2026 Mengjuei Hsieh et al.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.

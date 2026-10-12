@@ -127,7 +127,7 @@
 
 ## 接下來
 
-- 接下來幾天會開始把 app 介面、候選窗、詞庫與匯入／匯出工具的原始碼放上這個頁面，歡迎一起補詞、改進。
+- 原始碼已經在這個 repo，建置方式見 [BUILDING.md](BUILDING.md)；歡迎一起補詞、改進。
 - 全面提升介面與操作體驗：候選窗、偏好設定與日常操作的細節，貼近 macOS 最新的設計風格。
 - 持續補詞，並調整同音字與網路用語的候選順序。
 - 打錯注音的修正，繼續改進。
@@ -138,7 +138,7 @@
 
 注音台目前是 Beta 測試版，免費使用。有些功能還不夠完善，歡迎踴躍[回報](docs/FEEDBACK.md)。
 
-接下來幾天會開始把原始碼放上這個頁面；詞庫會以 MPL-2.0 開放，歡迎一起補詞。
+原始碼已經放在這個 repo（建置見 [BUILDING.md](BUILDING.md)）；詞庫以 MPL-2.0 開放，歡迎一起補詞。
 
 注音台站在這些開源專案的肩膀上：
 
@@ -149,5 +149,15 @@
 - 國家教育研究院「[樂詞網](https://terms.naer.edu.tw/)」的學術名詞
 
 完整授權聲明：偏好設定 → 關於 →「開放原始碼授權…」。
+
+## 原始碼與建置
+
+這個 repo 放注音台 Mac 版的原始碼。程式碼用 Apache-2.0 授權，詞庫投稿檔用 MPL-2.0。
+
+- [BUILDING.md](BUILDING.md)：從原始碼建置、裝到自己的電腦
+- [CONTRIBUTING.md](CONTRIBUTING.md)：怎麼參與（補詞、回報、改程式）與 DCO 簽署
+- [LICENSE](LICENSE)：Apache-2.0 全文；第三方元件的授權見 [NOTICE](NOTICE)
+
+從原始碼建置的版本，選字結果可能與 [Releases](https://github.com/kota449/zhuyintai/releases/latest) 的安裝包不同；要日常使用請下載 Releases 的安裝包。
 
 © 注音台

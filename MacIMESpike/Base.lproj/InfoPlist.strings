@@ -1,0 +1,6 @@
+/* 公開樹的顯示名稱（fallback）。輸入模式的 key 沿用 Info.plist 裡的 TISInputSourceID。 */
+
+"CFBundleName" = "注音台（自編版）";
+"CFBundleDisplayName" = "注音台（自編版）";
+
+"com.kota.xrich.inputmethod.TWKeyboardOSS.zhuyin" = "注音台（自編版）";

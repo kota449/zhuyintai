@@ -1,0 +1,858 @@
+// (c) 2022 and onwards The vChewing Project (MulanPSL-2.0 License).
+// ====================
+// This code is released under the SPDX-License-Identifier: `MulanPSL-2.0`.
+
+import Foundation
+
+#if canImport(Musl)
+  @_exported import Musl
+#elseif canImport(Glibc)
+  @_exported import Glibc
+#elseif canImport(Darwin)
+  @_exported import Darwin
+#elseif canImport(ucrt)
+  @_exported import ucrt
+#endif
+
+#if canImport(OSLog)
+  import OSLog
+#endif
+
+extension Process {
+  nonisolated public static func consoleLog<S: StringProtocol>(_ msg: S) {
+    let msgStr = msg.description
+    #if canImport(Darwin)
+      if #available(macOS 26.0, *) {
+        #if canImport(OSLog)
+          // [TWKeyboard] os.Logger subsystem renamed to this app's bundle id (was the upstream product name).
+          let logger = Logger(subsystem: "com.kota.xrich.inputmethod.TWKeyboard", category: "Log")
+          logger.log(level: .default, "\(msgStr, privacy: .public)")
+          return
+        #endif
+      }
+
+      // 兼容旧系统
+      NSLog(msgStr)
+    #else
+      print(msgStr)
+    #endif
+  }
+}
+
+// MARK: - Real Home Dir for Sandboxed Apps
+
+extension FileManager {
+  nonisolated public static let realHomeDir: URL = {
+    // Avoid relativeTo: parameter (10.11+) to stay compatible with 10.9.
+    #if canImport(Darwin) || canImport(Glibc) || canImport(Musl)
+      let url = URL(fileURLWithPath: String(cString: getpwuid(getuid()).pointee.pw_dir))
+      return url.standardizedFileURL
+    #else
+      // Windows (or other non-POSIX platforms): try environment vars then fall back to Foundation API
+      if let userProfile = ProcessInfo.processInfo.environment["USERPROFILE"] {
+        return URL(fileURLWithPath: userProfile).standardizedFileURL
+      } else if let home = ProcessInfo.processInfo.environment["HOME"] {
+        return URL(fileURLWithPath: home).standardizedFileURL
+      } else {
+        // This one has potential bugs plagued in the implementation of Foundation on Windows.
+        return FileManager.default.homeDirectoryForCurrentUser.standardizedFileURL
+      }
+    #endif
+  }()
+}
+
+// MARK: - Check whether current date is the given date.
+
+extension Date {
+  /// Check whether current date is the given date.
+  /// - Parameter dateDigits: `yyyyMMdd`, 8-digit integer. If only `MMdd`, then the year will be the current year.
+  /// - Returns: The result. Will return false if the given dateDigits is invalid.
+  nonisolated public static func isTodayTheDate(from dateDigits: Int) -> Bool {
+    let currentYear = Self.currentYear
+    var dateDigits = dateDigits
+    let strDateDigits = dateDigits.description
+    switch strDateDigits.count {
+    case 3, 4: dateDigits = currentYear * 10_000 + dateDigits
+    case 8:
+      if let theHighest = strDateDigits.first, "12".contains(theHighest) { break }
+      return false
+    default: return false
+    }
+    let formatter = Self.dateFormaterAs4Y2M2D
+    var calendar = NSCalendar.current
+    calendar.timeZone = TimeZone.current
+    let components = calendar.dateComponents([.day, .month, .year], from: Date())
+    let a = calendar.date(from: components)
+    let b = formatter.date(from: dateDigits.description)
+    if let a, let b, a == b {
+      return true
+    }
+    return false
+  }
+
+  nonisolated private static let dateFormaterAs4Y2M2D: DateFormatter = {
+    let formatter = DateFormatter()
+    formatter.dateFormat = "yyyyMMdd"
+    return formatter
+  }()
+
+  nonisolated public static var currentYear: Int {
+    let formatter = DateFormatter()
+    formatter.dateFormat = "yyyy"
+    return Int(formatter.string(from: Date())) ?? 1_970
+  }
+}
+
+// MARK: - NSRange Extension
+
+extension NSRange {
+  nonisolated public static let zero = NSRange(location: 0, length: 0)
+  nonisolated public static let notFound = NSRange(location: NSNotFound, length: NSNotFound)
+}
+
+// MARK: - String.i18n extension
+
+extension StringLiteralType {
+  nonisolated public var i18n: String { NSLocalizedString(description, comment: "") }
+}
+
+// MARK: - Root Extensions (classDeduplicated)
+
+// Extend the RangeReplaceableCollection to allow it clean duplicated characters.
+// Ref: https://stackoverflow.com/questions/25738817/
+extension RangeReplaceableCollection where Element: Hashable {
+  /// 使用 NSOrderedSet 處理 class 陣列的「去重複化」。
+  nonisolated public var classDeduplicated: Self {
+    NSOrderedSet(array: Array(self)).compactMap { $0 as? Element.Type } as? Self ?? self
+    // 下述方法有 Bug 會在處理 KeyValuePaired 的時候崩掉，暫時停用。
+    // var set = Set<Element>()
+    // return filter { set.insert($0).inserted }
+  }
+}
+
+// MARK: - String Tildes Expansion Extension
+
+extension String {
+  nonisolated public var expandingTildeInPath: String {
+    (self as NSString).expandingTildeInPath
+  }
+}
+
+// MARK: - String + LocalizedError
+
+#if hasFeature(RetroactiveAttribute)
+  extension String: @retroactive LocalizedError {}
+#else
+  extension String: LocalizedError {}
+#endif
+
+extension String {
+  nonisolated public var errorDescription: String? {
+    self
+  }
+}
+
+// MARK: - CharCode printability check for UniChar (CoreFoundation)
+
+extension UInt16 {
+  nonisolated public var isPrintableUniChar: Bool {
+    Unicode.Scalar(UInt32(self)) != nil
+  }
+
+  nonisolated public var isPrintableASCII: Bool {
+    (32 ... 126).contains(self)
+  }
+}
+
+// MARK: - User Defaults Storage
+
+extension UserDefaults {
+  nonisolated public static var pendingUnitTests: Bool {
+    get { _pendingUnitTests.value }
+    set { _pendingUnitTests.value = newValue }
+  }
+
+  nonisolated public static var unitTests: UserDefaults? {
+    get { _unitTests.value }
+    set { _unitTests.value = newValue }
+  }
+
+  nonisolated public static var current: UserDefaults {
+    pendingUnitTests ? (unitTests ?? .standard) : .standard
+  }
+
+  // MARK: - Private
+
+  nonisolated private static let _pendingUnitTests = NSMutex(false)
+  nonisolated private static let _unitTests: NSMutex<UserDefaults?> = .init(
+    UserDefaults(suiteName: "UnitTests")
+  )
+}
+
+// MARK: - AppProperty
+
+// Ref: https://www.avanderlee.com/swift/property-wrappers/
+
+@propertyWrapper
+public struct AppProperty<Value: Sendable>: Sendable {
+  // MARK: Lifecycle
+
+  public init(key: String, defaultValue: Value) {
+    self.key = key
+    self.defaultValue = defaultValue
+    if container.object(forKey: key) == nil {
+      container.set(defaultValue, forKey: key)
+    }
+  }
+
+  // MARK: Public
+
+  public let key: String
+  public let defaultValue: Value
+
+  public var container: UserDefaults { .current }
+  public var wrappedValue: Value {
+    get {
+      container.object(forKey: key) as? Value ?? defaultValue
+    }
+    nonmutating set {
+      container.set(newValue, forKey: key)
+    }
+  }
+}
+
+// MARK: - String RegReplace Extension
+
+// Ref: https://stackoverflow.com/a/40993403/4162914 && https://stackoverflow.com/a/71291137/4162914
+extension String {
+  nonisolated public mutating func regReplace(pattern: String, replaceWith: String = "") {
+    do {
+      let regex = try Self.cachedRegex(for: pattern)
+      let range = NSRange(startIndex..., in: self)
+      self = regex.stringByReplacingMatches(
+        in: self, options: [], range: range, withTemplate: replaceWith
+      )
+    } catch { return }
+  }
+
+  nonisolated private static func cachedRegex(for pattern: String) throws -> NSRegularExpression {
+    try regexCache.withLock { cache in
+      if let cached = cache[pattern] as? NSRegularExpression {
+        return cached
+      }
+      let regex = try NSRegularExpression(
+        pattern: pattern, options: [.caseInsensitive, .anchorsMatchLines]
+      )
+      cache[pattern] = regex
+      return regex
+    }
+  }
+
+  // MARK: Private
+
+  // MARK: - 快取已編譯的 NSRegularExpression
+
+  /// 以 pattern 為 key 快取已編譯的正規表示式，避免每次呼叫重新編譯。
+  nonisolated private static let regexCache: NSMutex<NSMutableDictionary> = .init(.init())
+}
+
+// MARK: - Localized String Extension for Integers and Floats
+
+extension BinaryFloatingPoint {
+  nonisolated public func i18n(loc: String) -> String {
+    let formatter = NumberFormatter()
+    formatter.locale = Locale(identifier: loc)
+    formatter.numberStyle = .spellOut
+    return formatter.string(from: NSDecimalNumber(string: "\(self)")) ?? ""
+  }
+}
+
+extension BinaryInteger {
+  nonisolated public func i18n(loc: String) -> String {
+    let formatter = NumberFormatter()
+    formatter.locale = Locale(identifier: loc)
+    formatter.numberStyle = .spellOut
+    return formatter.string(from: NSDecimalNumber(string: "\(self)")) ?? ""
+  }
+}
+
+// MARK: - Version Comparer.
+
+extension String {
+  /// ref: https://sarunw.com/posts/how-to-compare-two-app-version-strings-in-swift/
+  nonisolated public func versionCompare(_ otherVersion: String) -> ComparisonResult {
+    let versionDelimiter = "."
+
+    var versionComponents = components(separatedBy: versionDelimiter) // <1>
+    var otherVersionComponents = otherVersion.components(separatedBy: versionDelimiter)
+
+    let zeroDiff = versionComponents.count - otherVersionComponents.count // <2>
+
+    // <3> Compare normally if the formats are the same.
+    guard zeroDiff != 0 else { return compare(otherVersion, options: .numeric) }
+
+    let zeros = Array(repeating: "0", count: abs(zeroDiff)) // <4>
+    if zeroDiff > 0 {
+      otherVersionComponents.append(contentsOf: zeros) // <5>
+    } else {
+      versionComponents.append(contentsOf: zeros)
+    }
+    return versionComponents.joined(separator: versionDelimiter)
+      .compare(otherVersionComponents.joined(separator: versionDelimiter), options: .numeric) // <6>
+  }
+}
+
+// MARK: - Async Task
+
+// 本節的三個 API 以 compiler flag 分隔為兩套寫法：
+//
+// - **Swift 6.2 以上**（本倉 6.2 manifest 之 target 帶 `defaultIsolation(MainActor.self)`）：
+//   closure 參數須標 `@MainActor @Sendable`，同步路徑須以 `MainActor.assumeIsolated` 承接，
+//   否則過不了 Swift 6 的隔離檢查。
+// - **Swift 6.2 以下**：採上游 legacy 分支的寫法——closure 參數不帶 actor 標註、同步路徑
+//   直接呼叫。該寫法在 5.10 側之所以必要：`@MainActor` 與 `MainActor.assumeIsolated` 皆被標為 macOS
+//   10.15 起可用，而本側部署目標是 10.9——`@MainActor` 一寫進簽名，即無條件觸發 availability 錯誤
+//   （`'MainActor' is only available in macOS 10.15 or newer`）。
+//
+// 兩套寫法唯一的行為差異在延遲版本：legacy 於 `#available(macOS 12.0, *)` 那一支改用
+// `Task { @MainActor in … }`，本側則不分系統版本一律走 `DispatchQueue.main`。理由與上面同一條——
+// `Task` 屬 concurrency 執行期，一引用就把 `@rpath/libswift_Concurrency.dylib` 記進每一份 `.a`
+// 的未定符號表，10.9 上的 `.app` 便只能靠同捆副本兜住；而 `DispatchQueue.main` 就是主執行緒，
+// 這兩個 API 的語意在此與 MainActor 執行器等價。
+#if compiler(>=6.2)
+  nonisolated public func asyncOnMain(
+    bypassAsync: Bool = false,
+    execute work: @MainActor @escaping @Sendable @convention(block) () -> ()
+  ) {
+    guard !bypassAsync else {
+      MainActor.assumeIsolated { work() }
+      return
+    }
+    if #unavailable(macOS 12) {
+      DispatchQueue.main.async { work() }
+    } else {
+      Task { @MainActor in
+        work()
+      }
+    }
+  }
+#else
+  public func asyncOnMain(
+    bypassAsync: Bool = false,
+    execute work: @escaping @convention(block) () -> ()
+  ) {
+    guard !bypassAsync else {
+      work()
+      return
+    }
+    DispatchQueue.main.async { work() }
+  }
+#endif
+
+#if compiler(>=6.2)
+  nonisolated public func asyncOnMain(
+    after delayInterval: TimeInterval,
+    bypassAsync: Bool = false,
+    execute work: @MainActor @escaping @Sendable @convention(block) () -> ()
+  ) {
+    guard !bypassAsync else {
+      MainActor.assumeIsolated { work() }
+      return
+    }
+    let delayInterval = Swift.max(0, delayInterval)
+    if #unavailable(macOS 12) {
+      DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + delayInterval) {
+        work()
+      }
+    } else {
+      Task { @MainActor in
+        if delayInterval > 0 {
+          let delay = UInt64(delayInterval * 1_000_000_000)
+          try? await Task<Never, Never>.sleep(nanoseconds: delay)
+        }
+        work()
+      }
+    }
+  }
+#else
+  public func asyncOnMain(
+    after delayInterval: TimeInterval,
+    bypassAsync: Bool = false,
+    execute work: @escaping @convention(block) () -> ()
+  ) {
+    guard !bypassAsync else {
+      work()
+      return
+    }
+    let delayInterval = Swift.max(0, delayInterval)
+    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + delayInterval) {
+      work()
+    }
+  }
+#endif
+
+// MARK: - Main-queue identity
+
+/// 呼叫端是否已在主佇列上（無論驅動該佇列者是否為主執行緒）。
+///
+/// 為何不能只看 `Thread.isMainThread`：在 swift-corelibs 平台（Linux／Windows）上，主佇列的工作可能由
+/// dispatch worker 執行——此時 `Thread.isMainThread` 為假，但該執行緒已持有主佇列之 drain 鎖；再對主佇列
+/// 下一次 `sync` 即構成遞迴 sync，libdispatch 視為用戶端錯誤而直接崩潰（`__DISPATCH_WAIT_FOR_QUEUE__`
+/// 之「`dispatch_sync called on queue already owned by current thread`」；Darwin 上編成 SIGTRAP、
+/// Linux／Windows 上編成 ud2＝SIGILL）。`getSpecific` 問的是「當前正在執行的佇列」而非執行緒身分，
+/// 故兩平台皆能正確命中；在 macOS 上兩者恆等價（主佇列跑在主執行緒），故該查詢幾乎不會被走到。
+///
+/// 兩點實作約束：一是本函式須為 `nonisolated`——Swift 6.2 以上側以 `-default-isolation MainActor`
+/// 編譯本檔，不標則本函式自身即成為 MainActor 隔離，反而無法自 `nonisolated` 的 `mainSync` 呼叫；
+/// 二是 `DispatchSpecificKey` 與其註冊動作須為函式內之區域型別之成員——置於檔案層級會被 `-default-isolation`
+/// 收歸 MainActor 隔離（`nonisolated(unsafe)` 可解，但 6.4 會對其發出「對 Sendable 常數為多餘」之
+/// 錯誤診斷），而區域型別不受檔案層級的預設隔離影響。
+///
+/// 本函式雖僅服務 `mainSync` 之判斷，仍刻意公開：`LXAssembly.withFileHandleQueueSync` 亦須在**進入
+/// `fileHandleQueue.sync` 之前**問同一件事（見該處 `- Note:`）——內層的 `mainSync` 問不出來，因為
+/// `fileHandleQueue.sync` 通常就地在呼叫端執行，屆時「當前佇列」已成了 `fileHandleQueue`。
+public nonisolated func isOnMainQueue() -> Bool {
+  enum MainQueueIdentity {
+    static let key = DispatchSpecificKey<UInt8>()
+    /// 註冊僅需一次；`static let` 之延遲初始化自帶執行緒安全。回傳 `Bool` 僅為避開
+    /// 「型別標註寫 `Void`」與「不標註而被推為 `()`」兩種噪音——此值本身無語意。
+    static let registration = {
+      DispatchQueue.main.setSpecific(key: key, value: 1)
+      return true
+    }()
+  }
+  _ = MainQueueIdentity.registration
+  return Thread.isMainThread || DispatchQueue.getSpecific(key: MainQueueIdentity.key) != nil
+}
+
+#if compiler(>=6.2)
+  @discardableResult
+  nonisolated public func mainSync<T>(execute work: @MainActor () throws -> T) rethrows -> T {
+    if isOnMainQueue() {
+      // safe: we are on the main queue, which is the MainActor executor
+      return try withoutActuallyEscaping(work) { fn in
+        typealias Erased = () throws -> T
+        return try (unsafeBitCast(fn, to: Erased.self))()
+      }
+    }
+    return try DispatchQueue.main.sync(execute: work)
+  }
+#else
+  @discardableResult
+  public func mainSync<T>(execute work: () throws -> T) rethrows -> T {
+    if isOnMainQueue() {
+      return try work()
+    }
+    return try DispatchQueue.main.sync(execute: work)
+  }
+#endif
+
+// MARK: - Total RAM Size.
+
+extension Process {
+  nonisolated public static let totalMemoryGiB: Int = {
+    let rawBytes = Double(ProcessInfo.processInfo.physicalMemory)
+    return Int((rawBytes / pow(1_024.0, 3)).rounded(.down))
+  }()
+
+  nonisolated public static let isAppleSilicon: Bool = {
+    #if canImport(Darwin) || canImport(Glibc) || canImport(Musl)
+      var systeminfo = utsname()
+      uname(&systeminfo)
+      let machine = withUnsafeBytes(of: &systeminfo.machine) { bufPtr -> String in
+        let data = Data(bufPtr)
+        if let lastIndex = data.lastIndex(where: { $0 != 0 }) {
+          return String(data: data[0 ... lastIndex], encoding: .isoLatin1) ?? "x86_64"
+        } else {
+          return String(data: data, encoding: .isoLatin1) ?? "x86_64"
+        }
+      }
+      return machine == "arm64"
+    #else
+      // On platforms without uname/utsname (e.g., Windows), assume not Apple Silicon
+      return false
+    #endif
+  }()
+}
+
+// MARK: - Debouncer
+
+/// Debouncer 就職能來講哪怕釘死在 MainActor 上也是無所謂的。
+public final class Debouncer: @unchecked Sendable {
+  // MARK: Lifecycle
+
+  public init(delay: TimeInterval, queue: DispatchQueue) {
+    self.delay = delay
+    self.queue = queue
+  }
+
+  deinit {
+    mainSync {
+      invalidate()
+    }
+  }
+
+  // MARK: Public
+
+  public func schedule(_ block: @escaping () -> ()) {
+    lock.withLock {
+      let previousTimer = timer
+      let newTimer = DispatchSource.makeTimerSource(queue: queue)
+      newTimer.schedule(deadline: .now() + delay)
+      let timerID = UUID()
+      activeTimerID = timerID
+      newTimer.setEventHandler { [weak self] in
+        block()
+        self?.completeActiveTimer(id: timerID)
+      }
+      timer = newTimer
+      previousTimer?.cancel()
+      newTimer.resume()
+    }
+  }
+
+  public func invalidate() {
+    lock.withLock {
+      timer?.cancel()
+      timer = nil
+      activeTimerID = nil
+    }
+  }
+
+  // MARK: Private
+
+  private let delay: TimeInterval
+  private let queue: DispatchQueue
+  private var timer: DispatchSourceTimer?
+  private var activeTimerID: UUID?
+  private let lock = NSLock()
+
+  private func completeActiveTimer(id: UUID) {
+    lock.withLock {
+      if activeTimerID == id {
+        timer = nil
+        activeTimerID = nil
+      }
+    }
+  }
+}
+
+// MARK: - NSMutex
+
+/// A simple NSMutex implementation using NSLock for macOS 10.9+ compatibility.
+/// Provides thread-safe access to a wrapped value.
+
+#if compiler(>=6.2)
+  nonisolated public final class NSMutex<Value>: @unchecked Sendable {
+    // MARK: Lifecycle
+
+    public init(_ value: Value) {
+      self.storedValue = value
+    }
+
+    // MARK: Private
+
+    nonisolated(unsafe) private var storedValue: Value
+    private let lock = NSLock()
+  }
+#else
+  public final class NSMutex<Value>: @unchecked Sendable {
+    // MARK: Lifecycle
+
+    public init(_ value: Value) {
+      self.storedValue = value
+    }
+
+    // MARK: Private
+
+    nonisolated(unsafe) private var storedValue: Value
+    private let lock = NSLock()
+  }
+#endif
+
+extension NSMutex {
+  // MARK: Public
+
+  nonisolated public var value: Value {
+    get {
+      withLock { $0 }
+    }
+    set {
+      withLock { $0 = newValue }
+    }
+  }
+
+  /// Access the value with exclusive access (read and write).
+  nonisolated public func withLock<Result>(_ body: (inout Value) throws -> Result) rethrows -> Result {
+    try lock.withLock { try body(&storedValue) }
+  }
+
+  /// Read the value with exclusive access (read-only).
+  nonisolated public func withLockRead<Result>(_ body: (Value) throws -> Result) rethrows -> Result {
+    try lock.withLock { try body(storedValue) }
+  }
+}
+
+// MARK: - CRC32
+
+public enum CRC32 {
+  // MARK: Public
+
+  nonisolated public static func checksum(data: Data) -> UInt32 {
+    var crc: UInt32 = 0xFFFFFFFF
+    data.forEach { byte in
+      let index = Int((crc ^ UInt32(byte)) & 0xFF)
+      crc = (crc >> 8) ^ table[index]
+    }
+    return crc ^ 0xFFFFFFFF
+  }
+
+  // MARK: Private
+
+  nonisolated private static let table: [UInt32] = {
+    var table = [UInt32](repeating: 0, count: 256)
+    let polynomial: UInt32 = 0xEDB88320
+
+    for i in 0 ..< 256 {
+      var crc = UInt32(i)
+      for _ in 0 ..< 8 {
+        if crc & 1 == 1 {
+          crc = (crc >> 1) ^ polynomial
+        } else {
+          crc >>= 1
+        }
+      }
+      table[i] = crc
+    }
+    return table
+  }()
+}
+
+// MARK: - HSBA
+
+/// 一個簡單的顏色結構體，用於跨平台（包括 Linux）承載 HSBA 顏色值。
+/// 每個分量均為 Double 類型，範圍 0.0 ~ 1.0。
+#if compiler(>=6.2)
+  nonisolated public struct HSBA: Sendable {
+    // MARK: Lifecycle
+
+    /// 初期化 HSBA 顏色。
+    public init(hue: Double, saturation: Double, brightness: Double, alpha: Double = 1.0) {
+      self.hue = max(0.0, min(1.0, hue))
+      self.saturation = max(0.0, min(1.0, saturation))
+      self.brightness = max(0.0, min(1.0, brightness))
+      self.alpha = max(0.0, min(1.0, alpha))
+    }
+
+    // MARK: Public
+
+    public var hue: Double
+    public var saturation: Double
+    public var brightness: Double
+    public var alpha: Double
+  }
+#else
+  public struct HSBA: Sendable {
+    // MARK: Lifecycle
+
+    /// 初期化 HSBA 顏色。
+    public init(hue: Double, saturation: Double, brightness: Double, alpha: Double = 1.0) {
+      self.hue = max(0.0, min(1.0, hue))
+      self.saturation = max(0.0, min(1.0, saturation))
+      self.brightness = max(0.0, min(1.0, brightness))
+      self.alpha = max(0.0, min(1.0, alpha))
+    }
+
+    // MARK: Public
+
+    public var hue: Double
+    public var saturation: Double
+    public var brightness: Double
+    public var alpha: Double
+  }
+#endif
+
+// MARK: - FileHandle Backports (current-file only)
+
+// Apple artificially gated the modern FileHandle API names behind macOS 10.15 / 10.15.4.
+// Use @backDeployed to provide fallbacks on older Darwin via the legacy names.
+extension FileHandle {
+  nonisolated public final func read(upTo count: Int) throws -> Data? {
+    if #unavailable(macOS 10.15.4) {
+      let data = readData(ofLength: count)
+      return data.isEmpty ? nil : data
+    } else {
+      return try read(upToCount: count)
+    }
+  }
+
+  nonisolated public final func seek(to offset: UInt64) throws {
+    if #unavailable(macOS 10.15.4) {
+      seek(toFileOffset: offset)
+    } else {
+      try seek(toOffset: offset)
+    }
+  }
+
+  nonisolated public final func readToEndOfFile() throws -> Data? {
+    if #unavailable(macOS 10.15.4) {
+      let data = readDataToEndOfFile()
+      return data.isEmpty ? nil : data
+    } else {
+      return try readToEnd()
+    }
+  }
+
+  nonisolated public final func seekToEOF() throws -> UInt64 {
+    if #unavailable(macOS 10.15.4) {
+      return seekToEndOfFile()
+    } else {
+      return try seekToEnd()
+    }
+  }
+
+  nonisolated public final func writeData(_ data: Data) throws {
+    if #unavailable(macOS 10.15.4) {
+      return write(data)
+    } else {
+      return try write(contentsOf: data)
+    }
+  }
+
+  nonisolated public final func closeTheFile() throws {
+    if #unavailable(macOS 10.15) {
+      closeFile()
+    } else {
+      try close()
+    }
+  }
+}
+
+// MARK: - ByteLineIterator
+
+/// 以位元組為單位對檔案內容逐行迭代的迭代器。
+/// 以所有 Unicode 換行字元斷行（對齊 `CharacterSet.newlines`：U+000A–U+000D、U+0085、U+2028、U+2029；
+/// CRLF 視為單一斷行）；每行以 `ArraySlice<UInt8>` 零拷貝切片的形式回傳，不含斷行符號。
+#if compiler(>=6.2)
+  nonisolated public final class ByteLineIterator {
+    // MARK: Lifecycle
+
+    nonisolated public init(file: FileHandle, chunkSize: Int = 4_096) {
+      self.fileHandle = file
+      self.chunkSize = chunkSize
+    }
+
+    // MARK: Private
+
+    private let fileHandle: FileHandle
+    private let chunkSize: Int
+    private var buffer: [UInt8] = []
+    private var consumed = 0
+    private var atEof = false
+
+    /// 擷取 `[consumed, lineEnd)` 作為一行，並將已消費位置推過斷行符。
+    private func harvestLine(upTo lineEnd: Int, consuming delimiterLength: Int) -> ArraySlice<UInt8> {
+      let line = buffer[consumed ..< lineEnd]
+      consumed = lineEnd + delimiterLength
+      if consumed == buffer.count {
+        buffer.removeAll(keepingCapacity: true)
+        consumed = 0
+      }
+      return line
+    }
+  }
+#else
+  public final class ByteLineIterator {
+    // MARK: Lifecycle
+
+    nonisolated public init(file: FileHandle, chunkSize: Int = 4_096) {
+      self.fileHandle = file
+      self.chunkSize = chunkSize
+    }
+
+    // MARK: Private
+
+    private let fileHandle: FileHandle
+    private let chunkSize: Int
+    private var buffer: [UInt8] = []
+    private var consumed = 0
+    private var atEof = false
+
+    /// 擷取 `[consumed, lineEnd)` 作為一行，並將已消費位置推過斷行符。
+    private func harvestLine(upTo lineEnd: Int, consuming delimiterLength: Int) -> ArraySlice<UInt8> {
+      let line = buffer[consumed ..< lineEnd]
+      consumed = lineEnd + delimiterLength
+      if consumed == buffer.count {
+        buffer.removeAll(keepingCapacity: true)
+        consumed = 0
+      }
+      return line
+    }
+  }
+#endif
+
+// MARK: - ByteLineIterator + Sequence
+
+extension ByteLineIterator: Sequence {
+  nonisolated public func makeIterator() -> AnyIterator<ArraySlice<UInt8>> {
+    AnyIterator {
+      self.nextLine()
+    }
+  }
+
+  /// 取出下一行（不含斷行符號）；EOF 時回傳 nil。
+  nonisolated public func nextLine() -> ArraySlice<UInt8>? {
+    var scan = consumed
+    while true {
+      scanLoop: while scan < buffer.count {
+        switch buffer[scan] {
+        case 0x0A, 0x0B, 0x0C:
+          return harvestLine(upTo: scan, consuming: 1)
+        case 0x0D:
+          if scan + 1 < buffer.count {
+            // CRLF 視為單一斷行。
+            return harvestLine(upTo: scan, consuming: buffer[scan + 1] == 0x0A ? 2 : 1)
+          }
+          if atEof { return harvestLine(upTo: scan, consuming: 1) }
+          break scanLoop // CR 位於緩衝末端，需更多資料以確認是否為 CRLF。
+        case 0xC2:
+          // NEL（U+0085，UTF-8：C2 85）。
+          if scan + 2 <= buffer.count {
+            if buffer[scan + 1] == 0x85 { return harvestLine(upTo: scan, consuming: 2) }
+            scan += 1
+          } else if atEof {
+            scan += 1
+          } else {
+            break scanLoop // 前導位元組位於緩衝末端，需更多資料以確認。
+          }
+        case 0xE2:
+          // LS（U+2028，UTF-8：E2 80 A8）與 PS（U+2029，UTF-8：E2 80 A9）。
+          if scan + 3 <= buffer.count {
+            if buffer[scan + 1] == 0x80, buffer[scan + 2] == 0xA8 || buffer[scan + 2] == 0xA9 {
+              return harvestLine(upTo: scan, consuming: 3)
+            }
+            scan += 1
+          } else if atEof {
+            scan += 1
+          } else {
+            break scanLoop // 前導位元組位於緩衝末端，需更多資料以確認。
+          }
+        default:
+          scan += 1
+        }
+      }
+      // 緩衝區已掃描完畢（或尾端有待確認的斷行前導位元組）：需要更多資料。
+      if atEof {
+        guard consumed < buffer.count else { return nil }
+        // 緩衝區內剩餘的內容是未被斷行符號終結的最後一行。
+        return harvestLine(upTo: buffer.count, consuming: 0)
+      }
+      // 讀取下一個資料塊；讀取失敗或讀到空內容時視為 EOF。
+      guard let nextChunk = try? fileHandle.read(upTo: chunkSize), !nextChunk.isEmpty else {
+        atEof = true
+        continue
+      }
+      buffer.append(contentsOf: nextChunk)
+    }
+  }
+}

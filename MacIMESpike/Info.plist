@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  本檔的鍵集以 vChewing-macOS 的 Sources/vChewingIME_macOS/Resources/Info.plist 為範本補齊。
+  vChewing macOS 外殼授權：MulanPSL-2.0，© 2021 and onwards The vChewing Project。
+  （其核心引擎模組 Homa 為 LGPLv3，本專案未採用——我們用自己的 Shared/Megrez。）
+
+  🔴 真正的根因不在這個檔裡，在 bundle identifier（2026-09-19 受控實驗確認）
+  ------------------------------------------------------------------------
+  **macOS Text Input Sources 只收錄 CFBundleIdentifier 含 `.inputmethod.` 這一段的
+  輸入法 bundle。** 我們原本是 `com.kota.xrich.keyboard.twkeyboard.mac-spike`，沒有那
+  一段，所以 TIS 從頭到尾就沒看過它。
+
+  怎麼確認的（用 ensan-hcl/macOS_IMKitSample_2021 這支最小範例，同源碼／同憑證／同機器／
+  同時安裝，只改 bundle id 一個變數）：
+    dev.ensan.inputmethod.IMKitSampleA                        → TIS 收錄 ✅
+    com.kota.xrich.keyboard.twkeyboard.armb                   → 0     ❌
+    com.kota.xrich.keyboard.twkeyboard.inputmethod.armc       → TIS 收錄 ✅
+  後兩者前綴完全相同、只差 `.inputmethod.` ⇒ 子字串本身就是閘。
+  該範例的 README 第一步也明寫「bundle identifier 要含 `.inputmethod.`」。
+
+  ⚠️ 這一版先前（2026-09-19 稍早）以為是「少了 vChewing 有的那些頂層鍵」，**該假設已被
+  推翻**：把本檔整份搬到最小範例的 bundle 上，它照樣能登錄（連 ComponentInputModeDict
+  的 .zhuyin 子模式都一起出現，共 2 筆）⇒ 下面補的鍵都不是必要條件，只是與參考實作對齊。
+  同批被推翻的還有：完整登出／登入週期、沙箱、bundle 結構、Hardened Runtime、公證、
+  明示呼叫 TISRegisterInputSource()。
+
+  ⚠️ 證據等級（我自己踩過一次，寫下來）：有判別力的排除，是在**乾淨路徑**上做的對照——
+  ArmD（範例 binary ＋ 我們整份 plist）、ArmE（我們的 binary ＋ 43MB resources）、
+  ArmF／Arm-G（連字號）、以及在能動的 ArmD 上單變數改 NSPrincipalClass。
+  我另外做過兩次「移除 get-task-allow／移除 CFBundleIconFile 後仍 0」的測量，**那兩次沒有
+  判別力**——當時測的是已被沾黏的舊路徑，任何改動結果都會是 0。icon 兩鍵真正的排除證據是
+  ArmH（**帶著**那兩鍵照樣登錄 2 筆）；get-task-allow 則只證明了「沒有它也能動」，
+  **沒有證明「有它也能動」**——Xcode Release build 預設會注入它，下一棒若直接
+  build-and-install 而沒重簽，這個變數仍是未測的。
+
+  ⚠️ 量測紀律：TIS 登錄是非同步的，實測可延遲 30–60 秒以上。判「沒登錄」前至少輪詢 2 分鐘，
+  否則會把「還沒好」誤判成「壞掉」（我犯過一次）。
+
+  🔴 改 bundle id 或 .app 檔名之前必讀（2026-09-19 受控重現）
+  ------------------------------------------------------------------------
+  **用無效 id 註冊過的安裝路徑會永久沾黏**，就地把 id 改對救不回來：全新路徑 + 無效 id → 0；
+  同一個路徑就地換成有效 id → 輪詢 100 秒仍 0；同一份 bundle 改裝到全新路徑 → 25 秒內出現。
+  `lsregister -u`、刪除等 30 秒重裝、`lsregister -f -R` 都清不掉；`lsregister -kill` 在
+  macOS 26 已被移除。**唯一解是換一個 .app 檔名。**
+  ⇒ **每個 .app 檔名在這台機器上只有一次機會。改名前先把 id 確定好，不要邊裝邊試。**
+  已報廢的路徑：`~/Library/Input Methods/twkeyboard-mac-spike.app`。
+
+  ⚠️ 四個 InputMethodServer*/SessionController 鍵用 $(PRODUCT_MODULE_NAME) 而非寫死——
+  PRODUCT_MODULE_NAME 由 PRODUCT_NAME 推導，改產品名時會一起變。寫死會造成
+  「TIS 登錄成功但打不出字」這種看起來像新 bug 的半殘狀態。**改名後要拿 build 出來的
+  Info.plist 實際 grep 一次確認展開值**，不要只信推導規則。
+
+  ⚠️ 刻意與 vChewing 不同的兩處：
+    1. InputMethodServerControllerClass 仍指我們自己的 TWKeyboardMacSpikeController
+       （vChewing 用系統的 IMKInputSessionController 並在別處掛自己的 controller；
+       我們的 controller 就是進入點，直接指過去）。
+    2. 不帶 UpdateInfo* 那一組（那是 vChewing 自己的更新檢查端點）。
+-->
+<plist version="1.0">
+<dict>
+    <key>CFBundleDevelopmentRegion</key>
+    <string>zh-Hant</string>
+    <key>CFBundleExecutable</key>
+    <string>$(EXECUTABLE_NAME)</string>
+    <key>CFBundleIdentifier</key>
+    <string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+    <key>CFBundleInfoDictionaryVersion</key>
+    <string>6.0</string>
+    <key>CFBundleName</key>
+    <string>$(PRODUCT_NAME)</string>
+    <key>CFBundlePackageType</key>
+    <string>APPL</string>
+    <key>CFBundleSignature</key>
+    <string>TWKB</string>
+    <!-- 版號的唯一來源是 Config/Version.xcconfig（改版號只改那個檔）。
+         ShortVersionString 必須是三段數字、不含 -beta（Apple 規定）；完整 SemVer 放在
+         TWKReleaseVersion，更新檢查拿它比較。一致性見 tools/release/test_version.sh。 -->
+    <key>CFBundleShortVersionString</key>
+    <string>$(MARKETING_VERSION)</string>
+    <key>CFBundleVersion</key>
+    <string>$(CURRENT_PROJECT_VERSION)</string>
+    <key>TWKReleaseVersion</key>
+    <string>$(TWK_RELEASE_VERSION)</string>
+    <!-- 發行 repo slug（更新檢查 feed 由它組）。佔位值時 app 不發任何更新請求。 -->
+    <key>TWKReleaseRepo</key>
+    <string>$(TWK_RELEASE_REPO)</string>
+    <key>CFBundleSupportedPlatforms</key>
+    <array>
+        <string>MacOSX</string>
+    </array>
+
+    <key>LSMinimumSystemVersion</key>
+    <string>14.0</string>
+    <key>LSUIElement</key>
+    <true/>
+    <key>LSApplicationCategoryType</key>
+    <string>public.app-category.utilities</string>
+    <key>LSHasLocalizedDisplayName</key>
+    <true/>
+
+    <key>NSPrincipalClass</key>
+    <string>NSApplication</string>
+    <key>NSRequiresAquaSystemAppearance</key>
+    <false/>
+    <key>NSSupportsSuddenTermination</key>
+    <false/>
+    <key>NSHumanReadableCopyright</key>
+    <string>ZhuyinTai — Info.plist adapted from vChewing-macOS (MulanPSL-2.0, © The vChewing Project).</string>
+
+    <key>InputMethodConnectionName</key>
+    <string>com.kota.xrich.inputmethod.TWKeyboardOSS_Connection</string>
+    <key>InputMethodServerControllerClass</key>
+    <string>$(PRODUCT_MODULE_NAME).TWKeyboardMacSpikeController</string>
+    <key>InputMethodServerDelegateClass</key>
+    <string>$(PRODUCT_MODULE_NAME).TWKeyboardMacSpikeController</string>
+    <key>InputMethodServerDataSourceClass</key>
+    <string>$(PRODUCT_MODULE_NAME).TWKeyboardMacSpikeController</string>
+    <key>InputMethodSessionController</key>
+    <string>$(PRODUCT_MODULE_NAME).TWKeyboardMacSpikeController</string>
+
+    <key>TISInputSourceID</key>
+    <string>com.kota.xrich.inputmethod.TWKeyboardOSS</string>
+    <key>TISIconIsTemplate</key>
+    <true/>
+    <key>TISParticipatesInTouchBar</key>
+    <false/>
+    <key>TICapsLockLanguageSwitchCapable</key>
+    <true/>
+
+    <!--
+      選單圖示是多解析度 TIFF。1x 為 16px／72 dpi，2x 為 32px／144 dpi
+      （tiffutil -cathidpicheck，較大那張的檔名必須是 *@2x.png 才會寫成 144 dpi）。
+      系統繁體注音、vChewing、McBopomofo 的選單 TIFF 都是這個比例。
+      先前的 spike_icon.tiff 兩張都是 72 dpi，點尺寸對不上。
+      圖案沿用黑色「注」。TISIconIsTemplate 在輸入法層與輸入模式層都要保留，
+      選單列才會隨深淺色變色。
+      系統設定清單還會看 bundle icon。vChewing／McBopomofo 沒有在這份 plist 手寫
+      CFBundleIconFile，而是用 asset catalog（build setting
+      ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon），產物才出現
+      CFBundleIconFile、CFBundleIconName 與 AppIcon.icns。
+      圖檔在 MacIMESpike/Assets.xcassets，造型同一張「注」。
+      不要再把 CFBundleIcon* 指到不存在的檔名。
+    -->
+    <key>tsInputMethodIconFileKey</key>
+    <string>spike_icon.tiff</string>
+    <key>tsInputMethodCharacterRepertoireKey</key>
+    <array>
+        <string>Hant</string>
+        <string>Hani</string>
+        <string>Hanb</string>
+        <string>Han</string>
+    </array>
+
+    <key>ComponentInputModeDict</key>
+    <dict>
+        <key>tsInputModeListKey</key>
+        <dict>
+            <key>com.kota.xrich.inputmethod.TWKeyboardOSS.zhuyin</key>
+            <dict>
+                <key>TISInputSourceID</key>
+                <string>com.kota.xrich.inputmethod.TWKeyboardOSS.zhuyin</string>
+                <key>TISIntendedLanguage</key>
+                <string>zh-Hant</string>
+                <key>TISIconLabels</key>
+                <dict>
+                    <key>Primary</key>
+                    <string>注音</string>
+                </dict>
+                <key>tsInputModeCharacterRepertoireKey</key>
+                <array>
+                    <string>Hant</string>
+                    <string>Hani</string>
+                    <string>Hanb</string>
+                    <string>Han</string>
+                </array>
+                <key>tsInputModePrimaryInScriptKey</key>
+                <false/>
+                <key>tsInputModeIsVisibleKey</key>
+                <true/>
+                <key>tsInputModeScriptKey</key>
+                <string>smUnicode</string>
+                <!-- 選單列顯示的是輸入模式的圖示；只在輸入法層級標 template 不夠，模式這層也要標，
+                     系統才會隨深淺色自動變色（圖檔是純黑＋alpha）。 -->
+                <key>TISIconIsTemplate</key>
+                <true/>
+                <key>tsInputModeMenuIconFileKey</key>
+                <string>spike_icon.tiff</string>
+                <key>tsInputModeAlternateMenuIconFileKey</key>
+                <string>spike_icon.tiff</string>
+                <key>tsInputModePaletteIconFileKey</key>
+                <string>spike_icon.tiff</string>
+            </dict>
+        </dict>
+        <key>tsVisibleInputModeOrderedArrayKey</key>
+        <array>
+            <string>com.kota.xrich.inputmethod.TWKeyboardOSS.zhuyin</string>
+        </array>
+    </dict>
+</dict>
+</plist>
