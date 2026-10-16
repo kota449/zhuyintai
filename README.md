@@ -140,6 +140,8 @@
 
 原始碼 Apache-2.0（[LICENSE](LICENSE)）・詞庫 MPL-2.0（[LICENSES/MPL-2.0.txt](LICENSES/MPL-2.0.txt)）・第三方元件見 [NOTICE](NOTICE)。
 
+安裝與使用注音台請見[使用條款](docs/EULA.md)。
+
 致謝：[小麥注音](https://mcbopomofo.openvanilla.org/)（MIT）、libtabe（BSD）、威注音候選窗（木蘭寬鬆許可證 2.0）、Megrez（LGPL-3.0）、KenLM（LGPL）、國家教育研究院[樂詞網](https://terms.naer.edu.tw/)。
 
 ## 原始碼與建置
