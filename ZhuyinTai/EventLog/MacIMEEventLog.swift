@@ -65,7 +65,7 @@ public enum MacIMELogRotation {
 
 // MARK: - 一筆記錄
 
-/// 確認候選字（`confirm(at:)`）之後**引擎到底有沒有套用**的證據（loop C，2026-09-30）。
+/// 確認候選字（`confirm(at:)`）之後**引擎到底有沒有套用**的證據。
 /// `applied`：這一輪唯一一次 `getComposedText()`（`updateMarkedText`）是否含所選字；`engineValueAtIndex`：
 /// 引擎 `activeCandidatePairs[index]` 的值（跟窗的快照不同就是 index 錯位）；`overrideApplied`：
 /// `Megrez.overrideCandidate` 的回傳（`nil` ⇒ 沒走到）。
@@ -135,7 +135,7 @@ public struct MacIMEEventRecord {
 
     // MARK: 計算欄位（機械哨兵）
     //
-    // 🔴 稽核 #2（`mac-model-drift`）的核心指摘：舊版 `dump_mac_ime_log.sh` 裡那句
+    // 🔴 稽核的核心指摘：舊版 `dump_mac_ime_log.sh` 裡那句
     // 「同一個音節同時出現在兩邊＝bug 回來了」**只是一行給人讀的註解**，沒有任何欄位在判它，
     // 而且肉眼也比不出來（`comp` 是漢字、`buf` 是注音，不會出現同字串）。
     // 以下是把它變成真的機械判斷。
@@ -207,8 +207,8 @@ public struct MacIMEEventRecord {
         candidateCount: Int,
         candidatePreview: [String],
         durationMicroseconds: Int,
-        /// Z5（日用 log 驗證器，`m1_guardrails_20260926.md` §五）：`lifecycle` 已經有 pid，
-        /// 按鍵事件本來沒有——兩個 process 交錯寫進同一份物理檔案時（mem0 `78792eb8`），
+        /// 日用 log 驗證器：`lifecycle` 已經有 pid，
+        /// 按鍵事件本來沒有——兩個 process 交錯寫進同一份物理檔案時，
         /// 沒有 pid 就不能安全做跨行核對。預設值讓既有呼叫端不用逐一補這個參數。
         processID: Int32 = Int32(ProcessInfo.processInfo.processIdentifier),
         /// Z5：確認候選字（`confirmHighlightedCandidate`／`confirmCandidateAtSelectionKey`）
@@ -216,14 +216,14 @@ public struct MacIMEEventRecord {
         /// **不是驗證器重算的**，重算會跟自己的答案互相印證，等於沒驗。
         /// `nil` ⇒ 這一行不是確認事件，不印這個欄位（欄位存在與否本身就是訊號）。
         chosenCandidate: String? = nil,
-        /// B4（loop B，2026-09-26，`g1_commit_mismatch_20260926.md`）：`composed` 參數
+        /// `composed` 參數
         /// （`comp` 欄位）是上一鍵 `updateMarkedText()` 留下的快照——`.enter` 從不呼叫
         /// `updateMarkedText()`，所以 commit 那一行的 `comp` 不是這一行真正送給
         /// `client.insertText()` 的字串。這個值直接是 `commitComposedText()` 裡另外
         /// 呼叫一次 `getComposedText()` 算出來、實際送出去的那個字串——**不是重算的**，
         /// 同 `chosenCandidate` 的道理。`nil` ⇒ 這一行沒有 commit，不印這個欄位。
         committedText: String? = nil,
-        /// loop C：確認候選字那一行才有值——引擎套用成功與否的直接證據，見 `ConfirmApplyOutcome`。
+        /// 確認候選字那一行才有值——引擎套用成功與否的直接證據，見 `ConfirmApplyOutcome`。
         confirmApply: ConfirmApplyOutcome? = nil,
         /// 選字學習：這一鍵讓引擎自動套用了幾段「記住的選字」（`engine.learnedChoicesAppliedTotal`
         /// 的差值）。0 ⇒ 不印——功能關掉或沒命中時 log 與舊版逐字相同。
@@ -292,7 +292,7 @@ public struct MacIMEEventRecord {
     /// 它順便回答 R4d：實機 log 中途冒出第二筆 `kind=startup`，到底是 IMK 正常行為還是 crash。
     /// - Parameter processID: `ProcessInfo.processInfo.processIdentifier`。
     ///
-    /// 🔴 加這個欄位的理由是 log 會說謊的**第三種形態**（維護者指名，drift 的 D8 系列）：
+    /// 🔴 加這個欄位的理由是 log 會說謊的**第三種形態**：
     /// 前兩種是欄位語意錯（`candLag` 是會漂移的累加器、`cand` 欄其實是上一鍵的），
     /// 這一種是**來源混同**——輸入法重裝時，舊 process 收尾與新 process 啟動的 lifecycle 行
     /// 可能交錯寫進同一份物理 log 檔（`MacIMEEventLogSink.shared` 是 process-wide 單例，
@@ -361,8 +361,8 @@ public struct MacIMEEventRecord {
         processID: Int32,
         clientBundleID: String,
         chosenCandidate: String,
-        /// loop C：確認**之後**的畫面（`updateMarkedText()` 之後的 `lastDisplayedMarkedText`）。
-        /// G2 驗證器新口徑「確認後那一行的 `disp` 含 chosen」對滑鼠路徑需要它；`nil` ⇒ 不印
+        /// 確認**之後**的畫面（`updateMarkedText()` 之後的 `lastDisplayedMarkedText`）。
+        /// 日用 log 驗證器新口徑「確認後那一行的 `disp` 含 chosen」對滑鼠路徑需要它；`nil` ⇒ 不印
         /// （舊呼叫端）。欄位名與 `forKeyEvent` 一致。
         displayedMarkedText: String? = nil,
         composed: String? = nil,
@@ -388,7 +388,7 @@ public struct MacIMEEventRecord {
 
     /// G7 觀察模式：偵測到宿主游標離開組字區，但**不**送 `.clientCursorMoved`。
     ///
-    /// 真 app 回報的 range 可能不準（PR #246 review）。先把「若啟用會定案」記下來，
+    /// 真 app 回報的 range 可能不準。先把「若啟用會定案」記下來，
     /// 等實機看誤判率再決定要不要打開。`markedRange`／`selectedRange` 是 `location,length`。
     public static func cursorMovedWouldFire(
         seq: Int,

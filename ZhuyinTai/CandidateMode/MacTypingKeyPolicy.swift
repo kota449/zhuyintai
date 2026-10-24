@@ -224,13 +224,13 @@ enum MacTypingPreferences {
             raw: UserDefaults.standard.string(forKey: cursorAfterSelectionDefaultsKey))
     }
 
-    /// 沒拼完的注音怎麼處理。預設 `.keep`（使用者 2026-10-04 拍板，給打注音文的人）。
+    /// 沒拼完的注音怎麼處理。預設 `.keep`（給打注音文的人）。
     static var unfinishedZhuyin: MacUnfinishedZhuyinPolicy {
         MacUnfinishedZhuyinPolicy.from(
             raw: UserDefaults.standard.string(forKey: unfinishedZhuyinDefaultsKey))
     }
 
-    /// 單押 Shift 切中／英。預設開（使用者 2026-10-04 拍板）。
+    /// 單押 Shift 切中／英。預設開。
     static var shiftTapSwitchesToEnglish: Bool {
         if UserDefaults.standard.object(forKey: shiftTapSwitchesToEnglishDefaultsKey) == nil { return true }
         return UserDefaults.standard.bool(forKey: shiftTapSwitchesToEnglishDefaultsKey)

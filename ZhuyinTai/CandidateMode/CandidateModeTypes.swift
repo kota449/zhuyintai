@@ -66,7 +66,7 @@ public enum MacKeyEvent: Equatable {
     /// 放行的話宿主會用 ABC 排列去翻譯，使用者按 Option+1 會打出 `¡`、Option+2 打出 `™`。
     /// 中文輸入法裡 Option＋鍵的正確語意是**一次性 ASCII 逃逸**——那是使用者在中文模式下
     /// 打數字、`@`、網址的方法（Apple 自己的鍵盤層與 vChewing 文件都是如此；
-    /// 來源：`mac-punct-lang` 查 Apple 鍵盤層第一手輸出，PR #206）。
+    /// 來源：Apple 鍵盤層第一手輸出）。
     ///
     /// 完整的 ASCII 逃逸實作屬於 **G5，不在本輪範圍**；這裡先把格子留成「吃掉」，
     /// 免得在 G5 接上之前就讓使用者打出 `¡`。
@@ -134,7 +134,7 @@ public struct MacEngineFacts: Equatable {
     /// 游標前面那個 key（`keys[cursor - 1]`）。
     ///
     /// 🔴 **不是 `keys.last`**。`Megrez.Compositor.dropKey(direction:.rear)`／`insertKey()`
-    /// 都是游標相對的，砍的是 `keys[cursor - 1]`。Q9 拍板要做 `←→` ⇒ 游標偏離尾端是
+    /// 都是游標相對的，砍的是 `keys[cursor - 1]`。支援 `←→` ⇒ 游標偏離尾端是
     /// **保證會發生**的狀態。用 `keys.last` 算 plan、引擎卻動到游標前那個音節 ⇒ 砍錯字。
     /// （iOS 2026-08-08 Bug A 的根因，見 `ZhuyinActionHandler.handleLegalKeyBackspace`。）
     public var cursorAdjacentKey: String? {
@@ -200,16 +200,15 @@ public enum MacIMEEffect: Equatable {
     case candidateHighlightPrevious
     case candidateNextPage
     case candidatePreviousPage
-    /// 多行模式下移動**一行**（spec §8.2 原本標「v1 不用」；使用者 2026-09-21 要求
-    /// 「選字可以一次顯示多一點比較多的行數嗎」之後才用上）。
+    /// 多行模式下移動**一行**（第一版原本不用，多行顯示加入後才用上）。
     ///
     /// 🔴 一行**最多** `selectionKeys.count` 個（9 個→10-01 起 6 個；橫排按寬度排行，多字詞多時更少）
-    /// ＝ **原本單行模式的一整頁**，所以把 ↑↓ 接到這裡才維持得住使用者原本的手感；接到
+    /// ＝ **原本單行模式的一整頁**，所以把 ↑↓ 接到這裡才維持得住原本的手感；接到
     /// `candidateNextPage` 會一次跳 4 行。10-01 起開窗是收合 1 行，↓ 先展開再移一行。
     case candidateNextLine
     case candidatePreviousLine
 
-    // MARK: 確認（唯一會寫引擎的候選操作，Q1 拍板 (a)）
+    // MARK: 確認（唯一會寫引擎的候選操作）
 
     /// 確認窗目前高亮的那一格。index 只有窗知道（`highlightedIndex`），
     /// 所以由轉接層讀出來再呼叫 `engine.setHighlightedCandidate(index:)`。

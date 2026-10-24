@@ -6,8 +6,8 @@
 // （`tools/test_mac_input_tables.sh`）。
 //
 // 型別全收進 `MacInputTables` 命名空間：`ZhuyinTai/` 是 Xcode 同步群組，這裡的檔案會被編進
-// 與 `CandidateMode/` 同一個 module。`mac-ime-wiring` 那條線已用了 `MacInputLanguage`／
-// `MacKeyEvent.punctuation` 等名字，用命名空間才不會在合併時撞名，也不必等它們先定案。
+// 與 `CandidateMode/` 同一個 module。狀態機那邊已用了 `MacInputLanguage`／
+// `MacKeyEvent.punctuation` 等名字，用命名空間才不會撞名。
 //
 // 和弦（`Chord`）用「實體鍵＋修飾鍵」而不是「IMK 給的字串」建模，理由有兩個：
 //   1. `inputText:client:` 給的字串已被 Shift／Option 翻譯過（ABC 排列的 Option+1 是「¡」、
@@ -22,7 +22,7 @@
 import Foundation
 
 public enum MacInputTables {
-    /// 中／英模式。與 `mac-ime-wiring` 的 `MacInputLanguage` 語意相同（`en` 時一律放行）；
+    /// 中／英模式。與狀態機的 `MacInputLanguage` 語意相同（`en` 時一律放行）；
     /// 接線時做一次 1:1 對映即可。
     public enum Language: Equatable {
         case zh
@@ -64,7 +64,7 @@ public enum MacInputTables {
         ///
         /// 為什麼有這個：現行 controller 的入口只拿得到「被 Shift 翻譯過的字元」（Shift+, → `<`）。
         /// G5 的 confirmed／corroborated 格子全都只靠 Shift／無修飾，所以**字串入口就夠接線**，
-        /// 不必等 `mac-ime-wiring` 決定要不要換成 keyCode 入口。
+        /// 不必等狀態機決定要不要換成 keyCode 入口。
         /// ⚠️ 涵蓋不到 Option／Ctrl／數字鍵盤（Option+1 交付的是 `¡`、Ctrl+; 是控制字元）⇒ 那些需要 keyCode。
         public init?(deliveredCharacter c: Character) {
             guard let (key, shift) = MacInputTables.usBaseKey(ofDelivered: c) else { return nil }

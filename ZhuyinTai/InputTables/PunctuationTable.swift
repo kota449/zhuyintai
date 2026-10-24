@@ -25,7 +25,7 @@
 //   • `.corroborated`  — Apple 鍵盤層只給 ASCII；≥2 個非 Apple 實作一致地把它轉成**全形對應字元**
 //                        （純寬度轉換，不是重新指派按鍵）。**Apple 內建注音實際是否如此：請實機核對。**
 //   • `.unconfirmed`   — 其他一切：來源互相矛盾、只有非 Apple 來源支持的「重新指派」、或根本找不到和弦。
-//                        **`lookup` 不給輸出值**；答案列進 spec 的拍板清單。
+//                        **`lookup` 不給輸出值**；答案列進 spec 的待決清單。
 
 import Foundation
 
@@ -58,7 +58,7 @@ extension MacInputTables {
         case placementNotVerifiedByApple
         /// 沒有任何來源給出直接和弦（只能靠候選選字、符號選單或面板）。
         case noChordFoundInAnySource
-        /// 半形模式本身還沒拍板，`.half` 下表內每一格都是這個原因。
+        /// 半形模式本身還沒決定，`.half` 下表內每一格都是這個原因。
         case halfWidthUndecided
     }
 
@@ -233,7 +233,7 @@ extension MacInputTables {
                 chewing("\u{FF09}", "')' 對映 U+FF09"),
             ], note: "請實機用 Apple 內建注音按 Shift+0 核對。"),
 
-        // ── unconfirmed：不給輸出值，列進 spec 的拍板清單 ─────────────────────────────
+        // ── unconfirmed：不給輸出值，列進 spec 的待決清單 ─────────────────────────────
         Cell(
             id: "dun-at-apostrophe", glyph: "\u{3001}",  // 、
             chord: Chord(key: "'"), status: .unconfirmed(.sourcesConflict),

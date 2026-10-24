@@ -5,11 +5,10 @@
 // 規格（兩張轉換表 §4.3／§4.4、六條不變式 §4.1）由本檔實作；測試是 `MacCandidateModeCLIProbe/main.swift`
 // （`tools/test_mac_candidate_mode.sh`）。
 //
-// 🔴 G5（標點）接線（mac-punct-lang，2026-09-22）：`.punctuation` 分支呼叫
+// 🔴 G5（標點）接線（2026-09-22）：`.punctuation` 分支呼叫
 // `MacInputTables.lookup`（`ZhuyinTai/InputTables/`，同一個 module、零 AppKit，
 // `tools/test_mac_candidate_mode.sh` 已把它加進編譯來源）。查表查得到才動作，查不到
-// （未確認／表外）一律維持原本的放行——這是回應 drift 稽核（PR #208）「PR #206 的
-// 737 個純函式檢查全綠，但在按鍵處理路徑上零引用」那個發現的接線本體。
+// （未確認／表外）一律維持原本的放行——這是把查表純函式接上按鍵處理路徑的接線本體。
 //
 // 🔴 **引擎餵食模型＝iOS 模型，不是原 spike 模型。**
 // 原 spike（143 行那版）只有聲調鍵／空白鍵才 `engine.input`，注音鍵只動緩衝區。
@@ -152,10 +151,10 @@ public struct MacCandidateModeMachine {
         // 真的會擋下來，不是臆測）。改用跟 G5 標點同一條路：`Idle` 直接插入，不進組字、
         // 不動 composer、不動引擎，狀態留在 `Idle`。
         //
-        // `Typing/settled`（PR #218 已改的那格）刻意**不**套用同一招：那格的 buffer 空但
+        // `Typing/settled`（已另行調整過的那格）刻意**不**套用同一招：那格的 buffer 空但
         // `engine.keys` 非空（前面還有沒 commit 的句子），要插入符號勢必得先
         // `.commitComposedText` 才能維持不變式——等於「意外多按一次聲調鍵」會強制把整句送出，
-        // 比嗶一聲的副作用大得多，也會弄壞 PR #218 scenario 17 最後一條斷言（吃掉之後
+        // 比嗶一聲的副作用大得多，也會弄壞既有情境測試最後一條斷言（吃掉之後
         // 後續音節仍正常組字）。維持 `.beep`（見 `handleTyping` 的 `.tone` 分支）。
         case .tone(let tone):
             return [.insertText(String(tone))]
@@ -195,7 +194,7 @@ public struct MacCandidateModeMachine {
             // `MacClientSession.dispatch` 判定 `consumed=false`，IMK 因此把聲調鍵的**原始
             // 實體鍵字元**（3/4/6/7）直接交給宿主，在組字途中的文件裡憑空冒出一個數字
             // （實機 log seq=85→86／1664→1665：兩個音節各自收尾後緊接著再按一次聲調鍵）——
-            // 使用者原話「打聲調會變數字」。這也是「字被吃掉」其中一種成因：seq=1665 漏出的
+            // 症狀是「打聲調會變數字」。這也是「字被吃掉」其中一種成因：seq=1665 漏出的
             // 數字之後，使用者按 ⌫ 想刪掉它，但 IME 仍在 settled，⌫ 吃掉的是僅有的那個音節，
             // 誤冒出的數字反而留在文件裡。
             // 對齊本檔既有的「reject 只嗶，不動引擎也不動緩衝」模式（`pressZhuyin` 的
@@ -223,7 +222,7 @@ public struct MacCandidateModeMachine {
             // 「空白＝一聲」是硬約束。
             // settled（緩衝空、組字區非空）：2026-10-01 產品決策「跟威注音一樣」——
             // 威注音預設 `SpaceKeyBehaviorAgainstICB=1`（`callCandidateState`）＝開選字窗，
-            // 跟 ↓ 同一條路。原本放行（spec §4.3 Q8 附註）會讓宿主在 marked text 還在畫面上
+            // 跟 ↓ 同一條路。原本放行會讓宿主在 marked text 還在畫面上
             // 時插入空白，落在組字區前面。
             guard isPartial else {
                 guard facts.candidateCount > 0 else { return [.beep] }
@@ -265,7 +264,7 @@ public struct MacCandidateModeMachine {
             return handleBackspace(facts: facts)
 
         case .moveLeft, .moveRight:
-            // Q9 拍板 v1 就做。`partial` 時不動游標（spec §4.3）。
+            // 第一版就支援 `←→`。`partial` 時不動游標（spec §4.3）。
             // R4a：**至少要嗶**——實機 log seq=41/42/43 顯示這幾格是 `fx=[]`（完全無聲），
             // 使用者的體感就是「我按了它沒反應」，跟當機分不開。
             guard !isPartial else { return [.beep] }
@@ -273,9 +272,8 @@ public struct MacCandidateModeMachine {
             return [.engineScrubCursor(by: offset), .updateMarkedText]
 
         case .moveDown:
-            // Q8：`partial` 不開窗——不替使用者補一個他沒按的聲調。
-            // R4a：同樣補嗶聲。**「要不要改成先補一聲再開窗」是規格問題，已寫成一題給使用者**
-            // （當初訂「不補」的理由是不要偷偷加聲調；現在有真實體感了，值得重問）。
+            // `partial` 不開窗——不替使用者補一個他沒按的聲調。
+            // 同樣補嗶聲。「要不要改成先補一聲再開窗」屬規格問題（當初訂「不補」的理由是不要偷偷加聲調）。
             guard !isPartial else { return [.beep] }
             guard facts.candidateCount > 0 else { return [.beep] }
             state = .selecting
@@ -356,7 +354,7 @@ public struct MacCandidateModeMachine {
             //
             // 🔴 位置用 **`facts.cursor`** 而不是 `keys.count`。`previous` 就是 `keys[cursor-1]`，
             // 它的 1-based 位置因此等於 `cursor`。兩者只有在「游標在尾端」時才相等——
-            // 而 Q9 的 `←→` 讓句中補打字成為 v1 就可達的狀態。
+            // 而 `←→` 讓句中補打字成為第一版就可達的狀態。
             // 用 `keys.count` 的後果：記錄位置比真實位置大，而查詢端
             //（`keyBeforeCursorAdjacent` / `isSealed`）是游標相對的 ⇒ 對不上 ⇒
             // A9 認不出「這個音節沒收尾過」，`.dropTailAndReopenPrevious` 退化成 `.dropTail`；
@@ -437,7 +435,7 @@ public struct MacCandidateModeMachine {
     private mutating func handleBackspace(facts: MacEngineFacts) -> [MacIMEEffect] {
         // 🔴 Bug A（2026-08-08）：`engineTail` 必須是游標相對的 `keys[cursor-1]`，
         // 不是 `keys.last`。`Megrez.Compositor` 的 `dropKey(.rear)`／`insertKey` 都是
-        // 游標相對的，而 Q9 拍板做 `←→` ⇒ 游標偏離尾端是保證會發生的狀態。
+        // 游標相對的，而 `←→` 已支援 ⇒ 游標偏離尾端是保證會發生的狀態。
         let engineTail = facts.cursorAdjacentKey
         let previousEngineTail = facts.keyBeforeCursorAdjacent
         let previousKeyCount = facts.keyCountOfKeyBeforeCursorAdjacent
@@ -505,7 +503,7 @@ public struct MacCandidateModeMachine {
             // 🔴 **不可以只看 plan。** `plan` 判成這一格的條件是「`engineTail == nil`」，
             // 而 `cursorAdjacentKey` 在 `cursor == 0` 就回 `nil`——**即使 keys 非空**。
             // 舊模型下「engineTail==nil ⇔ 組字區已空」成立（沒有 `←→`，游標永遠在尾端）；
-            // Q9 把 `←→` 加進 v1、`CompositionCursorMovementPlan` 允許游標夾到 0 之後就不成立了。
+            // 第一版加入 `←→`、`CompositionCursorMovementPlan` 允許游標夾到 0 之後就不成立了。
             //
             // 兩條都不能做：
             // 1. 放行給宿主 —— 會刪到組字區前面已經上屏的字。
@@ -562,14 +560,14 @@ public struct MacCandidateModeMachine {
     ) -> [MacIMEEffect] {
         switch event {
         // 🔴 不變式 3：導覽絕不碰引擎。`false` 的越界回傳值只拿來決定要不要嗶
-        // （由轉接層判斷，Q7 要「停住」），**不可**直接當成 IMK 的「有沒有吃掉」回傳。
+        // （由轉接層判斷，設計上要「停住」），**不可**直接當成 IMK 的「有沒有吃掉」回傳。
         case .moveRight:
             return [.candidateHighlightNext]
         case .moveLeft:
             return [.candidateHighlightPrevious]
-        // 🔴 ↑↓ 移動**一行**，不是翻一整頁（R2，使用者 2026-09-21 要求多行顯示之後）。
+        // 🔴 ↑↓ 移動**一行**，不是翻一整頁（多行顯示之後的行為）。
         // 一行最多 `selectionKeys.count` 個（09-21 版 9、10-01 起 6）＝ 原本單行模式的一整頁 ⇒
-        // 這樣才維持得住使用者按 ↓ 原本的手感；接 `candidateNextPage` 會變成一次跳 4 行。
+        // 這樣才維持得住按 ↓ 原本的手感；接 `candidateNextPage` 會變成一次跳 4 行。
         // 10-01 起開窗是收合 1 行：↓／↑ 由窗先展開再移行；Space／PageDown 收合時只展開、不翻頁
         // （上游 `flipPage`，狀態機不知道展開與否，事件表不變）。
         // 翻整頁留給 PageUp／PageDown 與 Space／Shift-Space。
@@ -582,7 +580,7 @@ public struct MacCandidateModeMachine {
         case .pageUp, .shiftSpace:
             return [.candidatePreviousPage]
 
-        // Q1 拍板 (a)：確認**進組字**，不是整句上屏。Enter 才整句上屏。
+        // 設計決定：確認**進組字**，不是整句上屏。Enter 才整句上屏。
         case .enter:
             state = .typing
             return [.confirmHighlightedCandidate, .closeCandidateWindow, .updateMarkedText]
@@ -594,12 +592,12 @@ public struct MacCandidateModeMachine {
                 .updateMarkedText,
             ]
 
-        // Q6：Esc 與 Backspace 都只關窗，什麼都不改（第二下才是 G4 的刪除）。
+        // Esc 與 Backspace 都只關窗，什麼都不改（第二下才是刪除）。
         case .escape, .backspace, .deleteForward:
             state = .typing
             return [.closeCandidateWindow]
 
-        // Q6 (c)：按到非選字鍵＝「先 Esc 再打字」。可預測，不會偷偷確認沒選的字。
+        // 按到非選字鍵＝「先 Esc 再打字」。可預測，不會偷偷確認沒選的字。
         case .zhuyinSymbol, .tone, .punctuation, .otherCharacter:
             state = .typing
             return [.closeCandidateWindow] + handleTyping(event, facts: facts)
