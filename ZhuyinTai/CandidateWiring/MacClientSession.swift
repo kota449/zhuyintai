@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
-// per-client session：狀態機、組音緩衝、候選窗轉接層，全部收在這裡（Q13 產品決策）。
+// per-client session：狀態機、組音緩衝、候選窗轉接層，全部收在這裡（產品決策）。
 //
 // 🔴 **為什麼是 per-client 而不是掛在 controller 上的 process-wide 可變狀態**
 // （spec §7／§8 缺口③）：`IMKServer` 會替**每一個 client app** 建一個
@@ -64,8 +64,8 @@ enum MacIMEPerfTuning {
     static let neuralScoreMemoCapacity = 512
 
     /// 關閉逃生口：`defaults write com.kota.xrich.inputmethod.TWKeyboard TWKDisablePerfTuning -bool YES`
-    /// 然後重啟輸入法（登出入或 `killall TWKeyboard`）。**Mac 輸入法預設是開的**（維護者 2026-09-30：
-    /// 預設關的話使用者裝上去不會變快）；萬一發現任何行為差異，用這條立刻退回改前的路徑而不必重裝。
+    /// 然後重啟輸入法（登出入或 `killall TWKeyboard`）。**Mac 輸入法預設是開的**（預設關的話
+    /// 使用者裝上去不會變快）；萬一發現任何行為差異，用這條立刻退回改前的路徑而不必重裝。
     static let disableDefaultsKey = "TWKDisablePerfTuning"
 
     static func apply() {
@@ -77,8 +77,8 @@ enum MacIMEPerfTuning {
 /// Mac 輸入法專用、**會改變輸出**的行為開關（與上面「輸出不變」的 `MacIMEPerfTuning` 分開）。
 /// 出貨 json 是 iOS／Mac 共用的，iOS 沒量過 ⇒ 開關不放 json，由 Mac 輸入法啟動時打開。
 ///
-/// 目前只有一項：單鍵＋左文空時同音字改看詞庫排序（嗎≠媽，loop A mafix 2026-10-07），
-/// **只對終端機宿主開**（使用者 10-07：「終端機這算是特例可以這樣解決，其他地方要修好就可以」）。
+/// 目前只有一項：單鍵＋左文空時同音字改看詞庫排序（嗎≠媽），
+/// **只對終端機宿主開**（終端機是特例，其他 app 應從根本修好）。
 /// 終端機回報游標＝0、讀不到上文，與真句首同一個訊號，所以只能看 bundle id；真句首與其他 app 維持原行為。
 /// 關閉逃生口：`defaults write com.kota.xrich.inputmethod.TWKeyboard TWKDisableLoneKeyHomophoneOrder -bool YES`
 /// 然後重啟輸入法。反過來「不分宿主一律開」：`TWKLoneKeyHomophoneOrderAllHosts -bool YES`（出貨預設關）。
@@ -120,7 +120,7 @@ final class MacClientSession: NSObject, CtlCandidateDelegate {
     /// 預設觀察模式。劇本 21a–21d 在開場改成 `.enabled`。
     static var cursorLeavePolicy: MacG7CursorLeavePolicy = .observe
 
-    /// 「接上文」的關閉逃生口（維護者 2026-09-30 同意，比照 `MacIMEPerfTuning.disableDefaultsKey`）：
+    /// 「接上文」的關閉逃生口（比照 `MacIMEPerfTuning.disableDefaultsKey`）：
     /// `defaults write com.kota.xrich.inputmethod.TWKeyboard TWKDisableLeftContext -bool YES`
     /// 然後重啟輸入法（登出入或 `killall TWKeyboard`）。**預設＝開**。設了就**完全不讀 client、不餵引擎**
     /// （Mac 回到接線前的行為）——離線量測 EPUB 偏負、真宿主可能丟 NSException 時，這是不必重裝就能退回的路。
@@ -172,7 +172,7 @@ final class MacClientSession: NSObject, CtlCandidateDelegate {
 
     /// 最後一個被啟用的 session（行程唯一）。英文模式浮標只聽它的：IMK 的 deactivate 可能晚到，
     /// 這時舊 session 手上若還有排程中的位置更新，不得把新 session 的浮標搶回去
-    ///（擁有者檢查只擋 hide，擋不住 show；PR #377 review ⑤）。
+    ///（擁有者檢查只擋 hide，擋不住 show）。
     private static weak var latestActivated: MacClientSession?
 
     // MARK: 偏好（可注入，劇本用）
@@ -237,7 +237,7 @@ final class MacClientSession: NSObject, CtlCandidateDelegate {
     /// 而且 **McBopomofo 在 `deactivate` 時正是 commit 給該 client**，做法與我相反。
     /// 另外 IMK 標頭說 controller 是 **per input session（不是 per app）**，
     /// 且 `activate`／`deactivate` **沒有時序保證**。
-    /// ⇒ 哪一種對是 **G8 Q2 要產品決策的**，不是我能定的。R7 的生命週期 log 上機之後
+    /// ⇒ 哪一種對是 **需要產品決策的**。生命週期 log 上機之後
     /// 就能實測（`sinceDeact_ms`、`ctrl` 的 `ObjectIdentifier`）。
     func deactivate() {
         isActive = false
@@ -248,8 +248,8 @@ final class MacClientSession: NSObject, CtlCandidateDelegate {
         logLifecycle("deactivateServer")
         lastDeactivateAt = Date()
         reportedFirstKeySinceDeactivate = false
-        // N8 (2)：「丟掉」的處理要在 `.deactivate` 之前——machine 轉狀態之後再送 ⌫ 可能被忽略。
-        // 候選窗開著時第一個 ⌫ 只關窗（Q6），迴圈會再送一次真正拿掉殘段的 ⌫。
+        // 「丟掉」的處理要在 `.deactivate` 之前——machine 轉狀態之後再送 ⌫ 可能被忽略。
+        // 候選窗開著時第一個 ⌫ 只關窗，迴圈會再送一次真正拿掉殘段的 ⌫。
         dropTrailingFragmentOnDeactivateIfDiscarding()
         dispatch(.deactivate)
         // 不變式 1 的兜底：即使狀態機認為沒窗（例如狀態已在 typing），也強制關一次。
@@ -285,7 +285,7 @@ final class MacClientSession: NSObject, CtlCandidateDelegate {
     /// 上一次更新是不是拿得到游標位置（只在翻轉時寫 log，免得英文連打每鍵一行）。
     private var englishIndicatorHadCaretRect: Bool?
 
-    /// 英文模式每鍵／點擊之後更新浮標位置。三個設計（PR #377 review ①②）：
+    /// 英文模式每鍵／點擊之後更新浮標位置。三個設計：
     /// - **放行之後才做**：位置查詢是跨行程呼叫，同步做會把成本加在每一鍵送到宿主之前（G9）。
     /// - **等宿主插入字元**（`englishIndicatorSettleDelay`）：放行之後宿主還要一點時間把字插進去，
     ///   太早查拿到的是插字前的游標，浮標會落後一格。連續打字最久等 `englishIndicatorMaxWait`，不被無限往後推。
@@ -399,7 +399,7 @@ final class MacClientSession: NSObject, CtlCandidateDelegate {
     }
 
     /// 點走（`commitComposition`／滑鼠按下）flush 進行中：一律當「留著注音」，不讀設定也不讀劇本 override。
-    /// 使用者 2026-10-04 14:27 拍板：實機證實 `commitComposition` 時宿主已不回應這個 client，
+    /// 設計決定：實機證實 `commitComposition` 時宿主已不回應這個 client，
     /// 『丟掉』『補一聲』送出的文字落不了地，與其讓三種設定在這條路徑結果不一致，不如固定留著。
     private var clickAwayForcesKeep = false
 
@@ -447,9 +447,9 @@ final class MacClientSession: NSObject, CtlCandidateDelegate {
     /// controller `handle(_:client:)` 收到滑鼠按下（`leftMouseDown`／`rightMouseDown`）。永遠放行（回 `false`），點擊本身照常作用。
     ///
     /// 為什麼需要：`recognizedEvents` 含 flagsChanged（單押 Shift）時，IMK 不再在「點到組字區外」送
-    /// `commitComposition:`（標頭、spec E4）。這裡補回——(a) 作廢待判的單押 Shift（Shift＋點擊是延伸選取）
-    /// (b) 組字區有字就 commit（N14：點走一律留著注音、不照設定），跟開關關掉時的 `commitComposition` 同一條 `flushComposition(clickAway: true)`。
-    /// ⚠️ 不分點在組字區裡或外：事件座標對不上宿主的組字範圍，點組字區內也會上屏（brief N7 的規格）。
+    /// `commitComposition:`（標頭）。這裡補回——(a) 作廢待判的單押 Shift（Shift＋點擊是延伸選取）
+    /// (b) 組字區有字就 commit（點走一律留著注音、不照設定），跟開關關掉時的 `commitComposition` 同一條 `flushComposition(clickAway: true)`。
+    /// ⚠️ 不分點在組字區裡或外：事件座標對不上宿主的組字範圍，點組字區內也會上屏（既定規格）。
     @discardableResult
     func handleMouseDown(client: IMKTextInput?) -> Bool {
         if let client { self.client = client }
@@ -638,10 +638,9 @@ final class MacClientSession: NSObject, CtlCandidateDelegate {
         return consumed
     }
 
-    // MARK: - 事件 log（R1）
+    // MARK: - 事件 log
     //
-    // 由來：使用者 2026-09-21 實機原話「你這個輸入法可不可以做個 log 檔案啊，記錄一下我
-    // 每次打字發生任何情況，這樣子你就可以直接知道哪裡有問題了」。
+    // 由來：需要一份記錄每次打字發生什麼事的 log，方便事後直接看出哪裡有問題。
     // 標準：**事後能從 log 重建「他到底按了什麼、每一步發生什麼」**。
 
     /// 候選清單與引擎 keys 各自的「世代」。
@@ -669,8 +668,8 @@ final class MacClientSession: NSObject, CtlCandidateDelegate {
     /// `confirm(at:)` 時不在 `dispatch()` 內，設了值也不會被下面的 `logEvent()` 讀到，
     /// 下一次 `dispatch()` 開頭就被清掉——G2 log 驗證器因此只算鍵盤選字。
     private var lastConfirmedCandidate: String?
-    /// loop C（2026-09-30）：最近一次 `confirm(at:)` 之後**引擎有沒有真的套用**的證據。
-    /// 使用者 09-28 選「收尾」畫面仍「收委」，`confirm` 丟掉 `setHighlightedCandidate` 的結果，
+    /// 最近一次 `confirm(at:)` 之後**引擎有沒有真的套用**的證據。
+    /// 曾有選「收尾」畫面仍顯示「收委」的情形，`confirm` 丟掉 `setHighlightedCandidate` 的結果，
     /// log 只有 `chosen=` ⇒ 事後分不出是哪一步丟掉。失敗時 log 會有 `CONFIRM_NOT_APPLIED=1`。
     /// 鍵盤路徑由 `logEvent()` 讀；滑鼠路徑由 `candidatePairSelectionConfirmed` 自己寫。
     private(set) var lastConfirmApply: ConfirmApplyOutcome?
@@ -678,10 +677,10 @@ final class MacClientSession: NSObject, CtlCandidateDelegate {
     /// `getComposedText()`（在 `updateMarkedText()`）才填。提前再叫一次會改寫
     /// collapse 修復靠的 `lastKeysSnapshot`。
     private var confirmApplyPending = false
-    /// B4（`g1_commit_mismatch_20260926.md`）：`commitComposedText()` 裡實際送給
+    /// `commitComposedText()` 裡實際送給
     /// `client.insertText()` 的字串。`comp` 欄位（`lastComposedText`）是上一鍵
     /// `updateMarkedText()` 留下的快照，`.enter` 不會呼叫 `updateMarkedText()`，
-    /// 所以這個值必須另外記，不能靠 `comp` 推——這正是這一輪要補的欄位。
+    /// 所以這個值必須另外記，不能靠 `comp` 推。
     private var lastCommittedText: String?
     /// 選項 C（G1，2026-09-26 產品決策）：上一次 Enter 因為畫面≠即將送出的內容而
     /// 只更新了畫面、沒有送出時，這裡存那份「使用者剛剛看到」的字串。下一次 Enter
@@ -822,7 +821,7 @@ final class MacClientSession: NSObject, CtlCandidateDelegate {
         case .closeCandidateWindow:
             closeWindow()
         case .candidateHighlightNext:
-            // Q7 拍板「停在頭尾＋嗶」：**在轉接層先判斷**，不呼叫窗。
+            // 設計決定「停在頭尾＋嗶」：**在轉接層先判斷**，不呼叫窗。
             // 窗本身保持上游原樣（越界會環繞且回 `false`），方便日後對上游 diff。
             if MacCandidateWindow.current.highlightedIndex >= candidateSnapshot.count - 1 {
                 NSSound.beep()
@@ -844,7 +843,7 @@ final class MacClientSession: NSObject, CtlCandidateDelegate {
         case .candidatePreviousLine:
             MacCandidateWindow.current.showPreviousLine()
 
-        // MARK: 確認（Q1 拍板 (a)：確認進組字，Enter 才整句上屏）
+        // MARK: 確認（確認進組字，Enter 才整句上屏）
         case .confirmHighlightedCandidate:
             confirm(at: MacCandidateWindow.current.highlightedIndex)
         case .confirmCandidateAtSelectionKey(let labelIndex):
@@ -880,9 +879,9 @@ final class MacClientSession: NSObject, CtlCandidateDelegate {
         return true
     }
 
-    // MARK: - 左文（mac-left-context，2026-09-30）
+    // MARK: - 左文
     //
-    // 使用者原話：「跟 iPhone 一樣它就是會根據上下文重排是很基本的…兩個版本都應該是要有的」。
+    // 需求：跟 iPhone 一樣根據上下文重排，兩個版本都應該要有。
     // iPhone 每一鍵餵 `documentContextBeforeInput`；Mac 在此之前**零呼叫**，所以引擎既有的
     // KenLM 上文重排與 path-level LM 的 `initialContext` 在 Mac 上
     // 永遠是「沒有上文」。**這不是另一個功能**：只是把既有入口接上。
@@ -1111,7 +1110,7 @@ final class MacClientSession: NSObject, CtlCandidateDelegate {
         }
     }
 
-    /// Q1 (a)：套用 override → 關窗 → 用 `getComposedText()` 更新 marked text → 回 `Typing/settled`。
+    /// 套用 override → 關窗 → 用 `getComposedText()` 更新 marked text → 回 `Typing/settled`。
     /// **不是**整句上屏（那是 Enter 的事）。
     private func confirm(at index: Int) {
         guard candidateSnapshot.indices.contains(index) else {
@@ -1420,12 +1419,10 @@ final class MacClientSession: NSObject, CtlCandidateDelegate {
     // MARK: - CtlCandidateDelegate（spec §8.1 的 20 個成員）
 
     var isCandidateState: Bool { machine.state == .selecting }
-    var isVerticalCandidateWindow: Bool { false }            // Q4：橫排
+    var isVerticalCandidateWindow: Bool { false }            // 橫排
     // 候選窗形態（沿革）：
-    //   09-21 R2：使用者「選字可以一次顯示多一點比較多的行數嗎」——Q4 當初定的「橫排單行」是他沒看過
-    //     實物時的預設值 ⇒ 改成多行，一開就展開 4 行、選字鍵 9 個、字級 18。
-    //   10-01 現行：使用者看過實物後改口（00:1x 語音）：「目前這個選字的框框它太大了我需要你收窄一下
-    //     大小跟選字的方式就比照微組銀的選字框」。「微組銀」＝威注音；三個值量自使用者機器上
+    //   09-21：原本的「橫排單行」是看到實物前的預設值 ⇒ 改成多行，一開就展開 4 行、選字鍵 9 個、字級 18。
+    //   10-01 現行：看過實物後覺得選字框太大，改為比照威注音的選字框；三個值量自
     //     威注音 4.7.4 的 `defaults read org.atelierInmu.inputmethod.vChewing`：
     //       AlwaysExpandCandidateWindow=0（先 1 行，按 ↓ 才展開成 4 行）
     //       CandidateKeys=123456（選字鍵 6 個）　CandidateListTextSize=16（字級，在 `Shim/CandidateUIShim.swift`）
@@ -1441,10 +1438,10 @@ final class MacClientSession: NSObject, CtlCandidateDelegate {
     // 不翻頁**（第二下才翻）。這是威注音原樣，也是相對 09-21 版的行為變更（劇本 19e 釘住）。
     var isCandidateWindowSingleLine: Bool { false }          // ⇒ _maxLinesPerPage = 4
     var shouldAutoExpandCandidates: Bool { false }           // ⇒ isExpanded = false（開窗收合）
-    /// Q3：`123456` —— **決定一行最多幾個**（`selectionKeys.count`；上游橫排按顯示寬度排行，
+    /// `123456` —— **決定一行最多幾個**（`selectionKeys.count`；上游橫排按顯示寬度排行，
     /// 多字詞多時一行會更少）。09-21 至 09-30 是 `123456789`。
     /// 單一來源：controller 判斷「這個數字鍵是不是選字鍵」也讀它，不再各存一份。
-    /// 選字狀態按 7／8／9 不再是選字鍵：照狀態機 Q6(c)「先 Esc 再打字」（劇本 19g）。
+    /// 選字狀態按 7／8／9 不再是選字鍵：照狀態機「先 Esc 再打字」（劇本 19g）。
     /// 出貨預設。controller 與劇本在沒改偏好時讀到的就是這串。
     nonisolated static let selectionKeyLabels = "123456"
     /// 每次現讀。候選窗 `reloadData` 用它當標籤，也決定一行幾個。
@@ -1464,10 +1461,10 @@ final class MacClientSession: NSObject, CtlCandidateDelegate {
     var showCodePointForCurrentCandidate: Bool { false }
     /// **必須維持 false**：本專案沒有使用者詞庫調權，右鍵選單會叫出無法履行的動作。
     var isCandidateContextMenuEnabled: Bool { false }
-    var clientAccentColor: HSBA? { nil }                     // Q10：不跟隨
+    var clientAccentColor: HSBA? { nil }                     // 不跟隨
 
     func candidatePairs(conv _: Bool) -> [CandidateInState] {
-        // Q11 拍板：第一個 PR **不**在 `Shared/ZhuyinEngine` 加 `currentCandidatePairs`
+        // 第一版**不**在 `Shared/ZhuyinEngine` 加 `currentCandidatePairs`
         //（那要走 baseline diff，不是 Gate M）⇒ `keyArray` 先給空陣列。
         // 代價：窗的「讀音消歧」顯示退化（`segLength` 退為 1）。單字候選本來就同音，影響小。
         candidateSnapshot.map { (keyArray: [], value: $0) }
@@ -1521,7 +1518,7 @@ final class MacClientSession: NSObject, CtlCandidateDelegate {
         // `applied` 在 `updateMarkedText()` 那一次 `getComposedText()` 之後才填得準。
         updateMarkedText()
         let apply = lastConfirmApply
-        // loop C：log 改在 `updateMarkedText()` **之後**寫——G2 驗證器新口徑要看「確認後畫面
+        // log 改在 `updateMarkedText()` **之後**寫——日用 log 驗證器要看「確認後畫面
         // （disp）含不含 chosen」，之前寫的話這一行沒有確認後的畫面可記。
         if let chosen, MacIMEEventLogSink.shared.isEnabled {
             MacIMEEventLogSink.shared.append(

@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
-// Mac session 看引擎的埠（spec Q5＝(i)）。
+// Mac session 看引擎的埠。
 //
 // session 依賴這個 protocol，測試塞假引擎就能斷言「兩個 client 的字各送各的」，
 // 不必帶 KenLM。出貨實作由 `MacEngineFactory` 提供。成員是 `MacClientSession` 與

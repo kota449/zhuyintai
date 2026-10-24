@@ -68,7 +68,7 @@ final class MacEnglishIndicatorPanel: MacEnglishIndicatorPresenting {
         // （劇本 43m 讀最終 `panel.level` 釘住；第一版順序反了，實測層級是 3 而不是註解寫的值）。
         panel.isFloatingPanel = true
         // popUpMenu：高過選單列／Dock／一般浮動視窗，但低於鎖定畫面與螢幕保護（shielding）。
-        // 不比照注音浮窗用 shielding+1——那會蓋過鎖定畫面（PR #377 review ⑥）。
+        // 不比照注音浮窗用 shielding+1——那會蓋過鎖定畫面。
         panel.level = .popUpMenu
         panel.hidesOnDeactivate = false
         panel.becomesKeyOnlyIfNeeded = true

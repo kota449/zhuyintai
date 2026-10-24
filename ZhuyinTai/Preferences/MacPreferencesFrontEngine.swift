@@ -126,7 +126,7 @@ final class MacPreferencesFrontSession: MacPreferencesFrontWindowDelegate {
 
     /// 視窗 level 浮著，直到使用者接手；**既不在下一個 run loop、也不在視窗成為 key 時降回 normal**。
     ///
-    /// 維護者 2026-10-07 在使用者機器實測：視窗已開著但被別的視窗蓋住時，點「偏好設定…」第一次沒變化、
+    /// 實機測得：視窗已開著但被別的視窗蓋住時，點「偏好設定…」第一次沒變化、
     /// 第二次才到最前；兩次作用中的 app 都沒變成注音台——輸入法的 activate 實際上被系統拒絕。
     /// activate 沒用時，視窗能不能留在最前面只剩 level：改前在下一個 run loop 就降回 normal，
     /// 視窗又沉到前景 app 後面（離屏重現：activate 一律被拒時，過 1 秒左右掉到別 app 視窗後面）。

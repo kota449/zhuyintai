@@ -510,7 +510,7 @@ class TestReproAndManifest(Base):
 
 
 class TestStrictAnchoring(Base):
-    """glob 一律從 --src 根錨定（loop J 新增）。
+    """glob 一律從 --src 根錨定。
 
     Muse 版原本有「無斜線樣式比對任何深度的 basename」與右側錨定的 fallback，
     讓 `release/**` 同時擋掉 `tools/release/*`、allowlist 也可能多放行。

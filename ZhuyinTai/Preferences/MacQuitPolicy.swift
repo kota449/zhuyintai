@@ -32,7 +32,7 @@ enum MacQuitPolicy {
     }
 }
 
-/// 結束確認窗的文案。使用者 10-08 原話：「按結束的時候它會出現一個視窗說按結束的話會怎麼樣…要有這個機制才可以」。
+/// 結束確認窗的文案：按結束前先說明結束後會怎麼樣。
 enum MacQuitConfirmationCopy {
     /// 輸入法被結束後，下次打字到第一個字能組出來的秒數。**實測值**：`python3 tools/mac_cold_start/cold_start_measure.py`，
     /// 5 次全新行程，整個行程牆鐘 p50 0.42 s／max 0.43 s（取 0.4）；檔案快取熱的情況，不含系統啟動 app 與 IMK 連線。

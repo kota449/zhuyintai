@@ -76,10 +76,8 @@ final class TWKeyboardMacSpikeController: IMKInputController {
 
     /// 🔴 `-(void)inputControllerWillClose`（macOS 10.7+，`IMKInputController.h:344`）。
     ///
-    /// ⚠️ 更正：我先前對維護者說「IMKInputController 沒有 willClose 這個 override 點」——
-    /// **那是錯的**。當時的 grep 在 ISO-8859 編碼、有 829 字元長行的標頭上沒有判別力
-    ///（連確定存在的 `activateServer` 都 grep 不到），我卻把「沒結果」當成「沒有」回報。
-    /// 這次用 `LC_ALL=C grep -a` 並帶正面對照才查到。
+    /// 注意：`IMKInputController` 有 willClose 這個 override 點。標頭是 ISO-8859 編碼且含長行，
+    /// 用一般 grep 查不到（連確定存在的 `activateServer` 也查不到），要用 `LC_ALL=C grep -a` 查。
     override func inputControllerWillClose() {
         super.inputControllerWillClose()
         MacIMEEventLogSink.shared.append(
@@ -115,8 +113,8 @@ final class TWKeyboardMacSpikeController: IMKInputController {
 
     // MARK: - 焦點
 
-    /// N19 ②：系統「選取的輸入方式改變」通知，整個行程只掛一次。新輸入方式不是我們自己 ⇒ 英文模式重設成中文
-    /// （判斷在純函式 `MacInputModeState.inputSourceChanged`，有劇本 39a）。**接線本身未實機驗證**（見 PR 驗證清單）：
+    /// 系統「選取的輸入方式改變」通知，整個行程只掛一次。新輸入方式不是我們自己 ⇒ 英文模式重設成中文
+    /// （判斷在純函式 `MacInputModeState.inputSourceChanged`，有情境測試涵蓋）。**接線本身未實機驗證**：
     /// 通知沒送到＝維持現狀（跨輸入方式仍保留英文），不會更糟。
     private static let inputSourceObserver: Void = {
         DistributedNotificationCenter.default().addObserver(
@@ -208,15 +206,14 @@ final class TWKeyboardMacSpikeController: IMKInputController {
     /// 系統在切換焦點等時機要求「把現在的組字定下來」。
     ///
     /// 窗開著時先關窗再上屏：直接送 `.enter` 會被 `Selecting` 解讀成「確認目前高亮」
-    /// （Q1 (a) 是確認**進組字**，不是上屏）⇒ 使用者切個視窗就等於替他按了一個他沒選的候選。
+    /// （確認是**進組字**，不是上屏）⇒ 使用者切個視窗就等於替他按了一個他沒選的候選。
     override func commitComposition(_ sender: Any!) {
         MainActor.assumeIsolated {
             let client = sender as? IMKTextInput
             session.logLifecycle("commitComposition")
             // 窗開著先關窗再上屏、一律 `forceImmediateCommit`（選項 C 的逃生口）：
             // 邏輯在 `MacClientSession.flushComposition`，單押 Shift 切英文共用同一條；
-            // 但點走（`clickAway`）「沒拼完的注音」一律留著、不照設定（使用者 10-04 14:27 拍板：
-            // 實機證實這時宿主已不回應這個 client，『丟掉』『補一聲』落不了地）。
+            // 但點走（`clickAway`）「沒拼完的注音」一律留著、不照設定（實機證實這時宿主已不回應這個 client，『丟掉』『補一聲』落不了地）。
             session.flushComposition(client: client, clickAway: true)
             // 診斷：commit 之後宿主的 markedRange（實機驗收用，留一行）。
             session.logLifecycle("commitCompositionDone")
@@ -257,7 +254,7 @@ final class TWKeyboardMacSpikeController: IMKInputController {
         guard let client = sender as? IMKTextInput else { return false }
         let selectorName = aSelector.map { NSStringFromSelector($0) } ?? "<nil>"
         guard let event = Self.commandEvent(for: aSelector) else {
-            // 🔑 **這一筆是本輪最有診斷價值的記錄之一**：spec §4.2 說「`didCommand` 收不收得到
+            // 🔑 **這一筆是最有診斷價值的記錄之一**：spec §4.2 說「`didCommand` 收不收得到
             // 方向鍵」未經驗證。收到但我們沒對映的 selector 會在 log 裡以 `ev=UNMAPPED` 出現，
             // 一個 grep 就知道實機上到底送了哪些 selector 進來。
             MainActor.assumeIsolated {

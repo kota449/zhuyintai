@@ -1,12 +1,11 @@
 // SPDX-License-Identifier: Apache-2.0
 // G6 中英切換：切換事件 → 新的語言 ＋「切走時組字怎麼辦」的決定。純函式，不碰 IMK。
 //
-// ✅ 2026-10-04 產品決策（語音原話：「因為他們有時候會要需要打英文的功能，或許在設定裡面可以有這個東西」，
-// 維護者建議後回「先修正這些東西」）：**單押 Shift 切英文，預設開**；離開中文時組字 `.commit`
+// ✅ 產品決策（有些人需要快速切英文，設定裡應可開關）：**單押 Shift 切英文，預設開**；離開中文時組字 `.commit`
 // （完整音節照舊上屏，殘段照「沒拼完的注音」三選一，見 `MacUnfinishedZhuyin.swift`）。
 // 出貨路徑的設定在 `MacClientSession.switchLanguageFromShiftTap`；這裡仍只把「選項空間」做成資料，
 // 沒有 `default`／`recommended` 常數——預設值的唯一正本是 `MacTypingPreferences`。
-// ⚠️ Q-L1／Q-L2 其他切換鍵（controlSpace／jisEisu）與 `.discard` 仍未拍板，不要順手啟用。
+// ⚠️ 其他切換鍵（controlSpace／jisEisu）與 `.discard` 仍未定案，不要順手啟用。
 //
 // ⚠️ 要分清兩條路（都是「切到英文」，但機制不同）：
 //   • 系統層：Caps Lock（系統設定「用大寫鎖定鍵切換」）／Ctrl+Space（上一個輸入方式）**切的是輸入方式**
@@ -14,7 +13,7 @@
 //     （現行 controller 已有）。`Info.plist` 的 `TICapsLockLanguageSwitchCapable = true` 就是在申報這條路——
 //     Apple 自己的內建注音也宣告了同一個鍵。**宣告 ≠ 已驗證能用**（見 spec 實機清單）。
 //   • IME 內：IME 自己維護 `Language`，`en` 時放行所有鍵。需要處理 `flagsChanged` 事件（Shift 單押）
-//     ＝ 要走 `handle(_:client:)`，跟 `mac-ime-wiring` 的事件入口決定連動；還會多一份 per-client 狀態（G8）。
+//     ＝ 要走 `handle(_:client:)`，跟狀態機的事件入口決定連動；還會多一份 per-client 狀態（G8）。
 // 本檔的函式服務第二條路；第一條路不需要它。
 
 import Foundation

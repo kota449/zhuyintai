@@ -23,7 +23,7 @@ import Foundation
 ///
 /// 新增時的分數固定為 -6.0，介面不讓使用者填。
 /// 依據：引擎載入端註明分數必填，省略會變成 `defaultScore = 0`（絕對優先）。
-/// `tools/user_phrases/user_phrases.txt` 檔頭與 PR #260 兩檔給分裡「競爭者是亂組」那一檔
+/// `tools/user_phrases/user_phrases.txt` 檔頭與另一份評分設定裡「競爭者是亂組」那一檔
 /// 都是 -6，讓指定的詞在自己的讀音下排得上。-10 是句級會搶鄰字的詞才用的，
 /// 這個視窗在新增當下做不了那次句級判斷。
 enum UserCustomPhrasesStore {

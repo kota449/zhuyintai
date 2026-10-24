@@ -81,7 +81,7 @@ private func runSelfInstall(waitSeconds: TimeInterval) -> Int32 {
     // ComponentInputModeDict 新增輸入模式（例如再加一套鍵盤佈局）之後重跑 install」
     // 整個跳過登記：新模式永遠註冊不到，而 install 還是回 exit 0，靜默失敗。
     // 參考實作 vChewing 的 `registerInputMethod()` 有這個縫，**我們刻意不照抄**。
-    // （2026-09-19 PR #196 code review 抓到，實測重複登記安全。）
+    // （code review 抓到，實測重複登記安全。）
     //
     // ⚠️ 已登記過的 bundle 再登記一次會回什麼狀態不保證，所以**不把回傳值當致命錯誤**——
     // 真正的判準是「登記後列舉得不得到實例」。`TISRegisterInputSource` 回 noErr 也不代表

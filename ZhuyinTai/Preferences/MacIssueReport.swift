@@ -3,8 +3,7 @@ import Foundation
 
 /// 關於頁「回報問題」：組出發行 repo 的 issue form 網址，title 與版本資訊用 query 預填。
 ///
-/// 依據：2026-10-06 決定②——回報走發行 repo（`kota449/zhuyintai`）的 GitHub Issues。
-/// ⚠️ 該 repo 目前是 PRIVATE：外部使用者現在點了會 404（上線前要改公開並開 Issues）。
+/// 依據：回報走發行 repo（`kota449/zhuyintai`）的 GitHub Issues。
 ///
 /// 預填規則（GitHub 官方文件）：
 /// - `template=<檔名>` 直接開該 issue form，不經範本選單；`title` 預填標題。
