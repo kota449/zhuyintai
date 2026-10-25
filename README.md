@@ -70,7 +70,7 @@
 <sub>畫面為重現示意，組字結果由注音台引擎（與 macOS 內建注音）以同一串按鍵實際算出</sub>
 
 </td>
-<td width="54%" valign="middle" align="center"><img src="docs/images/demo-sentence.gif" width="440" alt="同一串注音連續打完三句，打字途中前面的字先出現同音錯字，後文進來就自動翻對，整句打完不用選字。「副業兼差收入還不錯」（負→副、間→兼）、「運動完記得拉筋避免抽筋」（必→避）、「加油站集點可以換衛生紙」（家→加、及→集、位→衛）"></td>
+<td width="54%" valign="middle" align="center"><img src="docs/images/demo-sentence.gif" width="100%" alt="同一串注音連續打完三句，打字途中前面的字先出現同音錯字，後文進來就自動翻對，整句打完不用選字。「副業兼差收入還不錯」（負→副、間→兼）、「運動完記得拉筋避免抽筋」（必→避）、「加油站集點可以換衛生紙」（家→加、及→集、位→衛）"></td>
 </tr>
 <tr>
 <td width="46%" valign="middle">
@@ -84,7 +84,7 @@
 <sub>畫面為重現示意，組字結果由注音台引擎（與 macOS 內建注音）以同一串按鍵實際算出；注音台一側是打開「打錯字自動修正」的結果</sub>
 
 </td>
-<td width="54%" valign="middle" align="center"><img src="docs/images/demo-typo-rescue.gif" width="440" alt="同一串按鍵，把「戲」的聲調按錯：上面注音台組出「音樂節奏遊戲的訣竅」，下面 macOS 內建注音組出「音樂節奏油洗的訣竅」"></td>
+<td width="54%" valign="middle" align="center"><img src="docs/images/demo-typo-rescue.gif" width="100%" alt="同一串按鍵，把「戲」的聲調按錯：上面注音台組出「音樂節奏遊戲的訣竅」，下面 macOS 內建注音組出「音樂節奏油洗的訣竅」"></td>
 </tr>
 <tr>
 <td width="46%" valign="middle">
@@ -98,7 +98,7 @@
 <sub>畫面為重現示意：文字編輯區是示意畫面，候選窗是注音台的實際畫面，內容由注音台引擎以同一串按鍵實際算出</sub>
 
 </td>
-<td width="54%" valign="middle" align="center"><img src="docs/images/demo-pages-dark.gif" width="440" alt="打完「祝你生日快樂」按 ↓ 打開候選窗，依序用 Option＋→ 切換：字頁、詞頁（生日快樂、快樂）、句頁（祝你生日快樂、祝妳生日快樂等整句），最後是表情頁（🎂 🥳 🎁 🎉 🎈）"></td>
+<td width="54%" valign="middle" align="center"><img src="docs/images/demo-pages-dark.gif" width="100%" alt="打完「祝你生日快樂」按 ↓ 打開候選窗，依序用 Option＋→ 切換：字頁、詞頁（生日快樂、快樂）、句頁（祝你生日快樂、祝妳生日快樂等整句），最後是表情頁（🎂 🥳 🎁 🎉 🎈）"></td>
 </tr>
 <tr>
 <td width="46%" valign="middle">
@@ -108,7 +108,7 @@
 游標下方即時顯示你打的注音。錯在哪，一眼就看到。想改單個注音嗎？Fn＋刪除（fn＋⌫）也可以讓你單改！
 
 </td>
-<td width="54%" valign="middle" align="center"><img src="docs/images/demo-reading.gif" width="440" alt="把「謝謝你」的聲調打成 ˋ，畫面上先變成「謝謝逆」；按 fn＋刪除只退掉聲調，重打 ˇ 就變回「謝謝你」"></td>
+<td width="54%" valign="middle" align="center"><img src="docs/images/demo-reading.gif" width="100%" alt="把「謝謝你」的聲調打成 ˋ，畫面上先變成「謝謝逆」；按 fn＋刪除只退掉聲調，重打 ˇ 就變回「謝謝你」"></td>
 </tr>
 <tr>
 <td width="46%" valign="middle">
@@ -120,7 +120,7 @@
 <sub>畫面為重現示意：文字編輯區是示意畫面，候選窗是注音台的實際畫面，內容由注音台引擎以同一串按鍵實際算出</sub>
 
 </td>
-<td width="54%" valign="middle" align="center"><img src="docs/images/demo-learning.gif" width="440" alt="第一次打「看公式」的注音，首選是「看公視」，打開候選窗按 2 選「公式」；第二次同樣的注音，組字區直接就是「看公式」"></td>
+<td width="54%" valign="middle" align="center"><img src="docs/images/demo-learning.gif" width="100%" alt="第一次打「看公式」的注音，首選是「看公視」，打開候選窗按 2 選「公式」；第二次同樣的注音，組字區直接就是「看公式」"></td>
 </tr>
 <tr>
 <td width="46%" valign="middle">
@@ -132,7 +132,7 @@
 <sub>畫面為重現示意，組字結果由注音台引擎（與 macOS 內建注音）以同一串按鍵實際算出</sub>
 
 </td>
-<td width="54%" valign="middle" align="center"><img src="docs/images/demo-words.gif" width="440" alt="同一串按鍵連續打三句，每句含一個新詞，打完停格。上：注音台，下：macOS 內建注音。「看太多短影音容易腦腐」「用手機直接擴圖很方便」「立法院最近討論國會職權法」；macOS 內建注音分別組出「看太多短影音容易腦斧」「用手機直接闊圖很方便」「立法院最近討論國會直拳法」"></td>
+<td width="54%" valign="middle" align="center"><img src="docs/images/demo-words.gif" width="100%" alt="同一串按鍵連續打三句，每句含一個新詞，打完停格。上：注音台，下：macOS 內建注音。「看太多短影音容易腦腐」「用手機直接擴圖很方便」「立法院最近討論國會職權法」；macOS 內建注音分別組出「看太多短影音容易腦斧」「用手機直接闊圖很方便」「立法院最近討論國會直拳法」"></td>
 </tr>
 <tr>
 <td width="46%" valign="middle">
@@ -142,7 +142,7 @@
 在詞庫頁打一個詞：已經內建？在哪個詞庫包？還是一鍵加進自訂詞？馬上知道。
 
 </td>
-<td width="54%" valign="middle" align="center"><img src="docs/images/demo-lookup.gif" width="440" alt="偏好設定的詞庫頁，在查詞框打「傻眼」，按 Return 查詢，畫面顯示「傻眼」已內建，打字時就能直接選到"></td>
+<td width="54%" valign="middle" align="center"><img src="docs/images/demo-lookup.gif" width="100%" alt="偏好設定的詞庫頁，在查詞框打「傻眼」，按 Return 查詢，畫面顯示「傻眼」已內建，打字時就能直接選到"></td>
 </tr>
 <tr>
 <td width="46%" valign="middle">
@@ -152,7 +152,7 @@
 單押 Shift 切到英文，游標旁亮起小小的「英」。不會再打完一整行，才發現模式不對。
 
 </td>
-<td width="54%" valign="middle" align="center"><img src="docs/images/demo-english.gif" width="440" alt="打好「開會議」後把游標移到「開」和「會議」之間，單押 Shift，游標旁亮起「英」，打 zoom 變成「開zoom會議」，再單押 Shift 切回中文"></td>
+<td width="54%" valign="middle" align="center"><img src="docs/images/demo-english.gif" width="100%" alt="打好「開會議」後把游標移到「開」和「會議」之間，單押 Shift，游標旁亮起「英」，打 zoom 變成「開zoom會議」，再單押 Shift 切回中文"></td>
 </tr>
 </table>
 
