@@ -127,6 +127,7 @@
 
 - 只想改一個注音：按 Fn＋刪除（fn＋⌫）單獨退掉它
 - 例：聲調打錯，只退聲調重打就好
+- 要單獨打出注音：組字時按 ⌃＋⌘＋Enter，直接送出組字區的注音（含聲調）
 
 </td>
 <td width="56%" valign="top" align="left"><img src="docs/images/demo-reading.gif" width="100%" alt="把「謝謝你」的聲調打成 ˋ，畫面上先變成「謝謝逆」；按 fn＋刪除只退掉聲調，重打 ˇ 就變回「謝謝你」"></td>
