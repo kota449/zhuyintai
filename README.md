@@ -59,23 +59,26 @@
 ・注音台為 0.1.0-beta.2；靈犀注音含神經重排；其他開源：小麥注音、威注音、新酷音、RIME、融鍵、隨便打。各家版本與量測方式見<a href="docs/BENCHMARK.md">量測方法</a>。
 </sub>
 
+### 打完就對，不用選字
+
 <table>
 <tr>
-<td width="46%" valign="middle">
-
-### 打完就對，不用選字
+<td width="44%" valign="top" align="left">
 
 透過自研語言模型引擎，輸入法會看完整句前後文才決定每一個字。打字途中，前面的字會隨後文進來自動翻對；整句打完，不用一個字一個字選。
 
 <sub>畫面為重現示意，組字結果由注音台引擎（與 macOS 內建注音）以同一串按鍵實際算出</sub>
 
 </td>
-<td width="54%" valign="middle" align="center"><img src="docs/images/demo-sentence.gif" width="100%" alt="同一串注音連續打完三句，打字途中前面的字先出現同音錯字，後文進來就自動翻對，整句打完不用選字。「副業兼差收入還不錯」（負→副、間→兼）、「運動完記得拉筋避免抽筋」（必→避）、「加油站集點可以換衛生紙」（家→加、及→集、位→衛）"></td>
+<td width="56%" valign="top" align="left"><img src="docs/images/demo-sentence.gif" width="100%" alt="同一串注音連續打完三句，打字途中前面的字先出現同音錯字，後文進來就自動翻對，整句打完不用選字。「副業兼差收入還不錯」（負→副、間→兼）、「運動完記得拉筋避免抽筋」（必→避）、「加油站集點可以換衛生紙」（家→加、及→集、位→衛）"></td>
 </tr>
-<tr>
-<td width="46%" valign="middle">
+</table>
 
 ### 按錯注音，它幫你救回來
+
+<table>
+<tr>
+<td width="44%" valign="top" align="left">
 
 按到隔壁的鍵、聲調按錯，注音台會猜你本來想打的是什麼。猜對了，整句照樣組對；猜不到，候選窗一樣讓你自己挑。常用詞（例：那裡、照樣）打對了不會被改成別的詞；按空白或 Enter 收尾的音一律當作一聲（跟小麥注音、威注音相同），不會再被猜成其他聲調。
 
@@ -84,12 +87,15 @@
 <sub>畫面為重現示意，組字結果由注音台引擎（與 macOS 內建注音）以同一串按鍵實際算出；注音台一側是打開「打錯字自動修正」的結果</sub>
 
 </td>
-<td width="54%" valign="middle" align="center"><img src="docs/images/demo-typo-rescue.gif" width="100%" alt="同一串按鍵，把「戲」的聲調按錯：上面注音台組出「音樂節奏遊戲的訣竅」，下面 macOS 內建注音組出「音樂節奏油洗的訣竅」"></td>
+<td width="56%" valign="top" align="left"><img src="docs/images/demo-typo-rescue.gif" width="100%" alt="同一串按鍵，把「戲」的聲調按錯：上面注音台組出「音樂節奏遊戲的訣竅」，下面 macOS 內建注音組出「音樂節奏油洗的訣竅」"></td>
 </tr>
-<tr>
-<td width="46%" valign="middle">
+</table>
 
 ### 字、詞、句，分頁挑
+
+<table>
+<tr>
+<td width="44%" valign="top" align="left">
 
 按 ↓ 打開的候選窗分成「字」「詞」「句」三頁：要換一個字、一個詞還是整句，用 Option＋←／→ 切過去挑。打到有對應表情符號的詞，還會多一頁「表情」。
 
@@ -98,63 +104,79 @@
 <sub>畫面為重現示意：文字編輯區是示意畫面，候選窗是注音台的實際畫面，內容由注音台引擎以同一串按鍵實際算出</sub>
 
 </td>
-<td width="54%" valign="middle" align="center"><img src="docs/images/demo-pages-dark.gif" width="100%" alt="打完「祝你生日快樂」按 ↓ 打開候選窗，依序用 Option＋→ 切換：字頁、詞頁（生日快樂、快樂）、句頁（祝你生日快樂、祝妳生日快樂等整句），最後是表情頁（🎂 🥳 🎁 🎉 🎈）"></td>
+<td width="56%" valign="top" align="left"><img src="docs/images/demo-pages-dark.gif" width="100%" alt="打完「祝你生日快樂」按 ↓ 打開候選窗，依序用 Option＋→ 切換：字頁、詞頁（生日快樂、快樂）、句頁（祝你生日快樂、祝妳生日快樂等整句），最後是表情頁（🎂 🥳 🎁 🎉 🎈）"></td>
 </tr>
-<tr>
-<td width="46%" valign="middle">
+</table>
 
 ### 拼錯的注音，看得見
+
+<table>
+<tr>
+<td width="44%" valign="top" align="left">
 
 游標下方即時顯示你打的注音。錯在哪，一眼就看到。想改單個注音嗎？Fn＋刪除（fn＋⌫）也可以讓你單改！
 
 </td>
-<td width="54%" valign="middle" align="center"><img src="docs/images/demo-reading.gif" width="100%" alt="把「謝謝你」的聲調打成 ˋ，畫面上先變成「謝謝逆」；按 fn＋刪除只退掉聲調，重打 ˇ 就變回「謝謝你」"></td>
+<td width="56%" valign="top" align="left"><img src="docs/images/demo-reading.gif" width="100%" alt="把「謝謝你」的聲調打成 ˋ，畫面上先變成「謝謝逆」；按 fn＋刪除只退掉聲調，重打 ˇ 就變回「謝謝你」"></td>
 </tr>
-<tr>
-<td width="46%" valign="middle">
+</table>
 
 ### 越用，越像你
+
+<table>
+<tr>
+<td width="44%" valign="top" align="left">
 
 改選過的字，記憶系統會在下次在同樣的地方自動排前面。記憶只留在你的 Mac，想關、想清，一鍵就好。
 
 <sub>畫面為重現示意：文字編輯區是示意畫面，候選窗是注音台的實際畫面，內容由注音台引擎以同一串按鍵實際算出</sub>
 
 </td>
-<td width="54%" valign="middle" align="center"><img src="docs/images/demo-learning.gif" width="100%" alt="第一次打「看公式」的注音，首選是「看公視」，打開候選窗按 2 選「公式」；第二次同樣的注音，組字區直接就是「看公式」"></td>
+<td width="56%" valign="top" align="left"><img src="docs/images/demo-learning.gif" width="100%" alt="第一次打「看公式」的注音，首選是「看公視」，打開候選窗按 2 選「公式」；第二次同樣的注音，組字區直接就是「看公式」"></td>
 </tr>
-<tr>
-<td width="46%" valign="middle">
+</table>
 
 ### 詞庫，說台灣的話
+
+<table>
+<tr>
+<td width="44%" valign="top" align="left">
 
 **beta.2 詞庫大改版**：專業詞庫重新整理成 6 大類 30 小類（自然科學、資訊與工程、生命與醫療、交通與軍事、人文社會、藝術與生活），**裝好就全部開著**，約 2,300 個專業詞不用設定就打得出來；用不到的小類可以到「偏好設定 → 詞庫」逐一關掉。內建詞庫與網路用語也再補進約 700 個台灣常用詞，像「健檢」「臥蠶」「即視感」「選擇障礙」。
 
 <sub>畫面為重現示意，組字結果由注音台引擎（與 macOS 內建注音）以同一串按鍵實際算出</sub>
 
 </td>
-<td width="54%" valign="middle" align="center"><img src="docs/images/demo-words.gif" width="100%" alt="同一串按鍵連續打三句，每句含一個新詞，打完停格。上：注音台，下：macOS 內建注音。「看太多短影音容易腦腐」「用手機直接擴圖很方便」「立法院最近討論國會職權法」；macOS 內建注音分別組出「看太多短影音容易腦斧」「用手機直接闊圖很方便」「立法院最近討論國會直拳法」"></td>
+<td width="56%" valign="top" align="left"><img src="docs/images/demo-words.gif" width="100%" alt="同一串按鍵連續打三句，每句含一個新詞，打完停格。上：注音台，下：macOS 內建注音。「看太多短影音容易腦腐」「用手機直接擴圖很方便」「立法院最近討論國會職權法」；macOS 內建注音分別組出「看太多短影音容易腦斧」「用手機直接闊圖很方便」「立法院最近討論國會直拳法」"></td>
 </tr>
-<tr>
-<td width="46%" valign="middle">
+</table>
 
 ### 找詞，一秒有答案
+
+<table>
+<tr>
+<td width="44%" valign="top" align="left">
 
 在詞庫頁打一個詞：已經內建？在哪個詞庫包？還是一鍵加進自訂詞？馬上知道。
 
 </td>
-<td width="54%" valign="middle" align="center"><img src="docs/images/demo-lookup.gif" width="100%" alt="偏好設定的詞庫頁，在查詞框打「傻眼」，按 Return 查詢，畫面顯示「傻眼」已內建，打字時就能直接選到"></td>
+<td width="56%" valign="top" align="left"><img src="docs/images/demo-lookup.gif" width="100%" alt="偏好設定的詞庫頁，在查詞框打「傻眼」，按 Return 查詢，畫面顯示「傻眼」已內建，打字時就能直接選到"></td>
 </tr>
-<tr>
-<td width="46%" valign="middle">
+</table>
 
 ### 中英切換，一眼就知道
+
+<table>
+<tr>
+<td width="44%" valign="top" align="left">
 
 單押 Shift 切到英文，游標旁亮起小小的「英」。不會再打完一整行，才發現模式不對。
 
 </td>
-<td width="54%" valign="middle" align="center"><img src="docs/images/demo-english.gif" width="100%" alt="打好「開會議」後把游標移到「開」和「會議」之間，單押 Shift，游標旁亮起「英」，打 zoom 變成「開zoom會議」，再單押 Shift 切回中文"></td>
+<td width="56%" valign="top" align="left"><img src="docs/images/demo-english.gif" width="100%" alt="打好「開會議」後把游標移到「開」和「會議」之間，單押 Shift，游標旁亮起「英」，打 zoom 變成「開zoom會議」，再單押 Shift 切回中文"></td>
 </tr>
 </table>
+
 
 ## 已知問題
 
