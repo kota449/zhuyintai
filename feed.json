@@ -3,7 +3,7 @@
   "releases": [
     {
       "version": "0.1.0-beta.2",
-      "build": 19,
+      "build": 20,
       "minimumMacOS": "14.0",
       "downloadURL": "https://github.com/kota449/zhuyintai/releases/download/v0.1.0-beta.2/ZhuyinTai-0.1.0-beta.2.pkg",
       "notes": "第二個 Beta。",
